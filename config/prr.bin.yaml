@@ -59,8 +59,21 @@ segments:
     align: 4
     subsegments:
       - [0x800, rodata, 800]
-      - [0x279C, asm, 279C] 
+      - [0x279C, c, praction] 
+      - [0x4CE8, c, prapp]
+      - [0x86F0, c, prcard]
+      - [0x9ADC, c, prcmenu]
+      - [0xDC90, c, prcd]
+      - [0xF714, c, prcompo]
+      - [0x21514, c, prevent]
       - [0x231A4, c, prmain]
-      - [0x231F0, asm, 231F0]
+      - [0x231F0, c, prmemory]
+      - [0x238A8, c, prmenu]
+      - [0x25AF8, c, prrap]
+      - [0x261D4, c, prstrm]
+      - [0x26C38, c, prpract]
+      - [0x27ABC, c, prvtext]
+      # - [0x????, c, prvdbg] 
+      - [0x2A02C, asm, 2A02C]
       - [0x52D38, data, 52D38] # estimated
   - [0x73000]

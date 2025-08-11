@@ -1,5 +1,15 @@
 main = 0x800329A4;
 
+MemoryInit = 0x800329F0;
+MemoryClear = 0x80032A80;
+MemoryAlloc = 0x80032B14;
+MemoryFree = 0x80032C70;
+MemoryEndAlloc = 0x80032CF8;
+MemoryGetInfo = 0x80032E18;
+MemorySetPos = 0x80032EC8;
+MemoryGetPos = 0x80032F84;
+MemoryZero = 0x80033038;
+
 __main = 0x8003982C;
 __SN_ENTRY_POINT = 0x80039834;
 FntPrint = 0x800605D4;
