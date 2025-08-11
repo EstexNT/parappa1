@@ -1,0 +1,66 @@
+name: PaRappa the Rapper (Sep 24, 1996 prototype)
+sha1: 535bc6a3b588b496aa9ffd83d8e8dc832f546b54
+options:
+  basename: prr.bin
+  target_path: disc/PRR.BIN
+  elf_path: build/prr.bin.elf
+  base_path: ../
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm/prr.bin
+  src_path: src/prr.bin
+  build_path: build
+  # create_asm_dependencies: True
+
+  ld_script_path: linker/prr.bin.ld
+  ld_dependencies: True
+
+  find_file_boundaries: False
+  gp_value: 0x80082388
+  global_vram_start: 0x80010000
+
+  o_as_suffix: False
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path: config/symbol_addrs.prr.bin.txt
+  reloc_addrs_path: config/reloc_addrs.prr.bin.txt
+
+  undefined_funcs_auto_path: linker/undefined_funcs_auto.prr.bin.txt
+  undefined_syms_auto_path: linker/undefined_syms_auto.prr.bin.txt
+
+  extensions_path: tools/splat_ext
+
+  subalign: 4
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+  ld_bss_is_noload: False
+segments:
+  - name: header
+    type: headerproto
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80010000
+    bss_size: 0x149B60
+    align: 4
+    subsegments:
+      - [0x800, rodata, 800]
+      - [0x279C, asm, 279C] 
+      - [0x231A4, c, prmain]
+      - [0x231F0, asm, 231F0]
+      - [0x52D38, data, 52D38] # estimated
+  - [0x73000]

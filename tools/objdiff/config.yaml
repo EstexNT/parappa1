@@ -1,0 +1,18 @@
+categories:
+  - id: sdk
+    name: Psy-Q SDK
+    paths:
+      - prr/psyq
+  - id: main
+    name: Main Executable
+    paths:
+      - prr
+
+expected_paths:
+  asm: expected/asm
+  src: expected/src
+
+ignored_files:
+  - prr/header
+
+output: ./objdiff.json

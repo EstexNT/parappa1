@@ -1,0 +1,14 @@
+asm/
+assets/
+disc/*
+!disc/.gitkeep
+build/
+linker/
+.vscode/
+.idea/
+__pycache__/
+permuter/
+expected/
+notes/
+.venv/
+objdiff.json
