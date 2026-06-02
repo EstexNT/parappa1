@@ -27,7 +27,7 @@ options:
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
 
-  section_order: [".rodata", ".text", ".data", ".bss"]
+  section_order: [".rodata", ".text", ".data", ".sdata", ".sbss", ".bss"]
   # auto_link_sections: [".data", ".rodata", ".bss"]
 
   symbol_addrs_path: config/symbol_addrs.prr.bin.txt
@@ -76,4 +76,10 @@ segments:
       # - [0x????, c, prvdbg] 
       - [0x2A02C, asm, 2A02C]
       - [0x52D38, data, 52D38] # estimated
+      - [0x72B88, sdata, 72B88]
+      - [0x72C8C, .sdata, prmemory]
+      - [0x72C94, sdata, 72C94]
+      - [0x72EBC, pad]
+      - { vram: 0x800826BC, type: sbss, name: sbss }
+      - { vram: 0x800827D4, type: bss, name: bss }
   - [0x73000]

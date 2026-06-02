@@ -13,3 +13,17 @@ MemoryZero = 0x80033038;
 __main = 0x8003982C;
 __SN_ENTRY_POINT = 0x80039834;
 FntPrint = 0x800605D4;
+
+// .sdata
+memoryPosEndBase = 0x8008248C;
+memoryPosIdx = 0x80082490;
+
+// .bss (maybe .scommon)
+memoryPosBase = 0x800827FC;
+memoryPosPtrEnd = 0x80082800;
+memoryPosPtr = 0x80082804;
+
+// .bss (proper)
+memoryPos = 0x8009FA0C;
+
+memoryData = 0x800A3F70;
