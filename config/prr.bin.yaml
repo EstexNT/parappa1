@@ -59,8 +59,21 @@ segments:
     align: 4
     subsegments:
       - [0x800, rodata, 800]
+      # - [0x800, .rodata, prapp]
+      # - [0x804, .rodata, prcard]
+      # - [0x9F8, .rodata, prcmenu]
+      # - [0xBBC, .rodata, prcd]
+      # - [0xD20, .rodata, prcompo]
+      # - [0xE7C, .rodata, prmenu]
+      - [0xFCC, .rodata, prrap]
+      - [0xFF4, rodata, FF4]
+      # - [0xFF4, .rodata, prstrm]
+      # - [0x1090, .rodata, prvdatal]
+      # - [0x14D8, .rodata, prvdbg]
+      # - [0x17E8, rodata, 17E8] # psy-q
+
       - [0x279C, c, praction] 
-      - [0x4CE8, c, prapp]
+      - [0x71AC, c, prapp]
       - [0x86F0, c, prcard]
       - [0x9ADC, c, prcmenu]
       - [0xDC90, c, prcd]
@@ -72,14 +85,35 @@ segments:
       - [0x25AF8, c, prrap]
       - [0x261D4, c, prstrm]
       - [0x26C38, c, prpract]
-      - [0x27ABC, c, prvtext]
-      # - [0x????, c, prvdbg] 
-      - [0x2A02C, asm, 2A02C]
-      - [0x52D38, data, 52D38] # estimated
+      - [0x27ABC, c, prvdbg]
+      - [0x28F18, c, 28F18] # tod/dat
+      - [0x2A02C, asm, 2A02C] # psy-q
+
+      - [0x52D38, data, praction]
+      - [0x52D68, data, prapp]
+      - [0x52E3C, data, prcard]
+      - [0x52E6C, data, prcmenu]
+      - [0x5319C, data, prcd]
+      - [0x53200, data, prcompo]
+      - [0x580D4, data, prevent]
+      - [0x58128, data, prmain]
+      - [0x58158, .data, prmemory]
+      - [0x58188, data, prmenu]
+      - [0x584FC, .data, prrap]
+      - [0x58538, data, prstrm]
+      - [0x585B0, data, prvdatal]
+      - [0x59278, data, prpract]
+      - [0x593AC, data, prvtext]
+      - [0x593DC, data, prvdbg]
+      - [0x595E8, data, 595E8] # psy-q
+
       - [0x72B88, sdata, 72B88]
       - [0x72C8C, .sdata, prmemory]
       - [0x72C94, sdata, 72C94]
+      - [0x72D30, .sdata, prrap]
+      - [0x72D4C, sdata, 72D4C]
       - [0x72EBC, pad]
+
       - { vram: 0x800826BC, type: sbss, name: sbss }
       - { vram: 0x800827D4, type: bss, name: bss }
   - [0x73000]

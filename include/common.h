@@ -2,7 +2,7 @@
 #define _COMMON_H_
 
 #include "include_asm.h"
-#include "psyq/sys/types.h"
+#include <sys/types.h>
 
 #ifndef NULL
 #define NULL 0

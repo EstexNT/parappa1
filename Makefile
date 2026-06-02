@@ -39,7 +39,7 @@ GET_YAML_TARGET := $(PYTHON) $(TOOLS_DIR)/get_yaml_target.py
 # Flags
 OPT_FLAGS           := -O0
 ENDIAN              := -EL
-INCLUDE_FLAGS       := -Iinclude -I $(BUILD_DIR)
+INCLUDE_FLAGS       := -Iinclude/psyq -Iinclude -I $(BUILD_DIR)
 DEFINE_FLAGS        := -D_LANGUAGE_C -DUSE_INCLUDE_ASM
 CPP_FLAGS           := $(INCLUDE_FLAGS) $(DEFINE_FLAGS) -P -MMD -MP -undef -Wall -lang-c -nostdinc
 LD_FLAGS            := $(ENDIAN) $(OPT_FLAGS) -nostdlib --no-check-sections
@@ -49,7 +49,7 @@ SPLAT_FLAGS         := --disassemble-all --make-full-disasm-for-code
 DL_FLAGS := -G8
 AS_FLAGS := $(ENDIAN) $(INCLUDE_FLAGS) $(OPT_FLAGS) $(DL_FLAGS) -march=r3000 -mtune=r3000 -no-pad-sections
 CC_FLAGS := $(OPT_FLAGS) -g3 $(DL_FLAGS) -mips1 -mcpu=3000 -w -funsigned-char -fpeephole -ffunction-cse -fpcc-struct-return -fcommon -fverbose-asm -msoft-float -mgas -fgnu-linker -quiet
-MASPSX_FLAGS := --aspsx-version=2.21 --run-assembler $(AS_FLAGS)
+MASPSX_FLAGS := --aspsx-version=2.21 --expand-div --run-assembler $(AS_FLAGS)
 
 ifeq ($(NON_MATCHING),1)
 	CPP_FLAGS := $(CPP_FLAGS) -DNON_MATCHING

@@ -1,5 +1,6 @@
 #include "prmemory.h"
-// todo: move this to header
+
+static char rcsid[] = "@(#)prmemory.c: version 01-00 95/10/10 00:00:00";
 
 #define MEMORY_DATA_SIZE 0x128000
 
@@ -68,11 +69,10 @@ void MemoryFree(void) {
 void *MemoryEndAlloc(s32 size) {
     if (&memoryPosPtr[MEMALIGNUP(size, 8)] >= memoryPosPtrEnd) {
         return NULL;
-        return; // crying
+    } else {
+        memoryPosEndBase = (memoryPosEndBase < &memoryPosPtrEnd[-MEMALIGNUP(size, 8)]) ? &memoryPosPtrEnd[-MEMALIGNUP(size, 8)] : memoryPosEndBase;
+        return &memoryPosPtrEnd[-MEMALIGNUP(size, 8)];
     }
-
-    memoryPosEndBase = (memoryPosEndBase < &memoryPosPtrEnd[-MEMALIGNUP(size, 8)]) ? &memoryPosPtrEnd[-MEMALIGNUP(size, 8)] : memoryPosEndBase;
-    return &memoryPosPtrEnd[-MEMALIGNUP(size, 8)];
 }
 
 void MemoryGetInfo(MEM_INFO *info) {
