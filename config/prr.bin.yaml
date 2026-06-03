@@ -66,8 +66,8 @@ segments:
       # - [0xD20, .rodata, prcompo]
       # - [0xE7C, .rodata, prmenu]
       - [0xFCC, .rodata, prrap]
-      - [0xFF4, rodata, FF4]
-      # - [0xFF4, .rodata, prstrm]
+      - [0xFF4, .rodata, prstrm]
+      - [0x1090, rodata, 1090]
       # - [0x1090, .rodata, prvdatal]
       # - [0x14D8, .rodata, prvdbg]
       # - [0x17E8, rodata, 17E8] # psy-q
@@ -84,6 +84,7 @@ segments:
       - [0x238A8, c, prmenu]
       - [0x25AF8, c, prrap]
       - [0x261D4, c, prstrm]
+      - [0x26AE4, c, prvdatal]
       - [0x26C38, c, prpract]
       - [0x27ABC, c, prvdbg]
       - [0x28F18, c, 28F18] # tod/dat
@@ -100,7 +101,7 @@ segments:
       - [0x58158, .data, prmemory]
       - [0x58188, data, prmenu]
       - [0x584FC, .data, prrap]
-      - [0x58538, data, prstrm]
+      - [0x58538, .data, prstrm]
       - [0x585B0, data, prvdatal]
       - [0x59278, data, prpract]
       - [0x593AC, data, prvtext]
@@ -111,9 +112,14 @@ segments:
       - [0x72C8C, .sdata, prmemory]
       - [0x72C94, sdata, 72C94]
       - [0x72D30, .sdata, prrap]
-      - [0x72D4C, sdata, 72D4C]
+      - [0x72D4C, .sdata, prstrm]
+      - [0x72D50, .sdata, prvdatal]
+      - [0x72D54, sdata, 72D54]
+      # - [0x72D4C, sdata, 72D4C]
       - [0x72EBC, pad]
 
-      - { vram: 0x800826BC, type: sbss, name: sbss }
-      - { vram: 0x800827D4, type: bss, name: bss }
+      - { vram: 0x800826BC, type: sbss }
+      - { vram: 0x800827A8, type: .sbss, name: prvdatal }
+      - { vram: 0x800827BC, type: sbss }
+      - { vram: 0x800827D4, type: bss }
   - [0x73000]

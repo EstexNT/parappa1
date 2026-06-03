@@ -10,8 +10,8 @@ typedef struct MEM_INFO {
     u8 *ptrend;
     u8 *ptr;
     u8 *endbase;
-    u32 used; // memory used 
-    u32 left; // memory left
+    s32 used; // memory used 
+    s32 left; // memory left
 } MEM_INFO;
 
 extern s32 memoryPosIdx;

@@ -63,9 +63,9 @@ s32 RapOpenHead(void *ptr) {
     rapVabId = SsVabOpenHead(ptr, -1);
     if (rapVabId < 0) {
         D_80068C24 = 0x3333;
-        return 0;
+        return FALSE;
     } else {
-        return 1;
+        return TRUE;
     }
 }
 

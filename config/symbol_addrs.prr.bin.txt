@@ -25,6 +25,19 @@ RapReset = 0x80035878;
 RapPlayFrameActive = 0x800358B0;
 RapPlayFrameMovieGuiActive = 0x80035970;
 
+func_800359d4 = 0x800359D4;
+StrmCallback = 0x80035B58;
+StrmGetSize = 0x80035B88;
+StrmAllocZero = 0x80035BB8;
+StrmInit = 0x80035C2C;
+StrmNextVlc = 0x80035DE8;
+StrmKick = 0x80035F68;
+StrmMain = 0x80035FF8;
+StrmDraw = 0x800360B4;
+StrmEnd = 0x80036250;
+func_800362b4 = 0x800362B4;
+StrmNext = 0x800362E4;
+
 // psy-q
 __main = 0x8003982c;
 __SN_ENTRY_POINT = 0x80039834;
@@ -685,6 +698,9 @@ FlushCache = 0x80062518;
 GetSp = 0x80062528;
 
 
+// .data
+strmInitInfo = 0x80067D68;
+
 // .sdata
 memoryPosEndBase = 0x8008248C;
 memoryPosIdx = 0x80082490;
@@ -700,6 +716,12 @@ rapFrameActiveTimer = 0x80082548;
 
 // .sbss
 rapInterKey = 0x800827A0; // size:0x6
+
+strmDecCtrlRec = 0x800827A8;
+strmSectorBuffer = 0x800827AC;
+strmVlcBuffer = 0x800827B0;
+strmImgBuffer = 0x800827B4;
+strmCurFrame = 0x800827B8;
 
 // .bss (maybe .scommon)
 memoryPosBase = 0x800827FC;

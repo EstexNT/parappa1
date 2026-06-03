@@ -87,13 +87,13 @@ void MemoryGetInfo(MEM_INFO *info) {
 u32 MemorySetPos(u8 *ptr, u32 pos, s32 size) {
     u8 *ptrend = ptr + size;
     if (ptrend >= memoryPosPtrEnd) {
-        return 0;
+        return FALSE;
     }
 
     memoryPos[pos] = ptr;
     memoryPosIdx = pos;
     memoryPosPtr = ptrend;
-    return 1;
+    return TRUE;
 }
 
 u32 MemoryGetPos(u8 *ptr) {

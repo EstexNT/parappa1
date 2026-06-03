@@ -49,7 +49,7 @@ SPLAT_FLAGS         := --disassemble-all --make-full-disasm-for-code
 DL_FLAGS := -G8
 AS_FLAGS := $(ENDIAN) $(INCLUDE_FLAGS) $(OPT_FLAGS) $(DL_FLAGS) -march=r3000 -mtune=r3000 -no-pad-sections
 CC_FLAGS := $(OPT_FLAGS) -g3 $(DL_FLAGS) -mips1 -mcpu=3000 -w -funsigned-char -fpeephole -ffunction-cse -fpcc-struct-return -fcommon -fverbose-asm -msoft-float -mgas -fgnu-linker -quiet
-MASPSX_FLAGS := --aspsx-version=2.21 --expand-div --run-assembler $(AS_FLAGS)
+MASPSX_FLAGS := --aspsx-version=2.21 --expand-div --use-comm-section --run-assembler $(AS_FLAGS)
 
 ifeq ($(NON_MATCHING),1)
 	CPP_FLAGS := $(CPP_FLAGS) -DNON_MATCHING
