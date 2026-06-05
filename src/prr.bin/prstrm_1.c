@@ -1,10 +1,6 @@
 #include "prstrm.h"
 #include <libcd.h>
-// TODO: 
-// Should this really be here?
-// Currently StrmNext and the prstrm variables are here only because 
-// this is required for matching prstrm and StrmNext
-// (StrmNext is the only strm function which accesses the .sbss variables via $gp)
+
 STRM_DEC_CTRL_REC *strmDecCtrlRec;
 void *strmSectorBuffer;
 void *strmVlcBuffer;

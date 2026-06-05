@@ -37,8 +37,9 @@ STRM_INIT_INFO strmInitInfo[STRM_TYPE_NUM] = {
     32, 0x10000, 0x24000, 0 },
 };
 
-void *StrmAllocZero(s32 size, char *t);
+// From prstrm_1
 void *StrmNext(void);
+
 
 void func_800359d4(char *arg0, s32 arg1) {
     MEM_INFO info;
@@ -70,21 +71,15 @@ s32 StrmGetSize(void) {
     return STRM_BSIZE + STRM_DSIZE + STRM_ISIZE + STRM_VSIZE + 0x27000;
 }
 
-#ifndef NON_MATCHING
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prstrm", StrmAllocZero);
-#else
 void *StrmAllocZero(s32 size, char *t) {
-    void *ptr;
+    u8 *ptr;
 
-    // NONMATCHING: 
-    // The if reloads `ptr` from stack instead of reusing the register
     if ((ptr = MemoryAlloc(size)) == NULL) {
         exit(1);
     }
     MemoryZero(ptr, size);
     return ptr;
 }
-#endif
 
 void StrmInit(s32 type) {
     STRM_INIT_INFO *info = &strmInitInfo[type];

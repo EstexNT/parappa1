@@ -84,7 +84,7 @@ segments:
       - [0x238A8, c, prmenu]
       - [0x25AF8, c, prrap]
       - [0x261D4, c, prstrm]
-      - [0x26AE4, c, prvdatal]
+      - [0x26AE4, c, prstrm_1]
       - [0x26C38, c, prpract]
       - [0x27ABC, c, prvdbg]
       - [0x28F18, c, 28F18] # tod/dat
@@ -113,13 +113,13 @@ segments:
       - [0x72C94, sdata, 72C94]
       - [0x72D30, .sdata, prrap]
       - [0x72D4C, .sdata, prstrm]
-      - [0x72D50, .sdata, prvdatal]
+      - [0x72D50, .sdata, prstrm_1]
       - [0x72D54, sdata, 72D54]
       # - [0x72D4C, sdata, 72D4C]
       - [0x72EBC, pad]
 
       - { vram: 0x800826BC, type: sbss }
-      - { vram: 0x800827A8, type: .sbss, name: prvdatal }
+      - { vram: 0x800827A8, type: .sbss, name: prstrm_1 }
       - { vram: 0x800827BC, type: sbss }
       - { vram: 0x800827D4, type: bss }
   - [0x73000]
