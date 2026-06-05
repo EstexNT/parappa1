@@ -1,6 +1,7 @@
+#include "prrap.h"
 #include <stdio.h>
 #include <string.h>
-#include "prrap.h"
+#include "prvdbg.h"
 
 static char rcsid[] = "@(#)prrap.c: version 01-00 95/10/10 00:00:00";
 
@@ -56,13 +57,10 @@ void RapPlayInterruptableKey(SND_INFO *key) {
     bcopy(key, &rapInterKey, sizeof(SND_INFO));
 }
 
-// TODO: dbgInfo
-extern s32 D_80068C24;
-
 s32 RapOpenHead(void *ptr) {
     rapVabId = SsVabOpenHead(ptr, -1);
     if (rapVabId < 0) {
-        D_80068C24 = 0x3333;
+        dbgInfo.err = 0x3333;
         return FALSE;
     } else {
         return TRUE;
@@ -76,8 +74,7 @@ void RapTransferPartly(void *ptr, u32 size) {
     ret = SsVabTransBodyPartly(ptr, size, rapVabId);
     if (ret != rapVabId) {
         sprintf(tmp, "TransferPartly: %d\n", ret);
-        // TODO: DbgError
-        func_800379A4(tmp);
+        DbgError(tmp);
     }
 }
 
@@ -88,8 +85,7 @@ void RapTransferAll(void *ptr) {
     ret = SsVabTransBody(ptr, rapVabId);
     if (ret < 0) {
         sprintf(tmp, "TransferAll: %d\n", ret);
-        // TODO: DbgError
-        func_800379A4(tmp);
+        DbgError(tmp);
     }
 }
 

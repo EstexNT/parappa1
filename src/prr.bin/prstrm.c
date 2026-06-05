@@ -7,6 +7,7 @@
 #include <libpress.h>
 #include <libcd.h>
 #include "prmemory.h"
+#include "prvdbg.h"
 
 static char rcsid[] = "@(#)prstrm.c: version 01-00 95/10/10 00:00:00";
 
@@ -45,7 +46,7 @@ void func_800359d4(char *arg0, s32 arg1) {
     MEM_INFO info;
 
     MemoryGetInfo(&info);
-    func_80037334(); // TODO: DbgDrawMenu
+    DbgDrawMenu();
     FntPrint("\n\n\nBSIZ:%d DSIZ:%d\nISIZ:%d VSIZ:%d TOTAL:%dk\n\n", 
                 STRM_BSIZE, STRM_DSIZE, STRM_ISIZE, STRM_VSIZE, 
                 (STRM_BSIZE + STRM_DSIZE + STRM_ISIZE + STRM_VSIZE) / 1024);
@@ -58,8 +59,8 @@ void func_800359d4(char *arg0, s32 arg1) {
         FntPrint("\n");
     }
     FntFlush(-1);
-    func_80037370(); // TODO: DbgDrawMenuOt
-    func_80037A44(); // TODO: DbgWaitPad
+    DbgDrawMenuOt();
+    DbgWaitPad();
     while (PadRead(1));
 }
 
@@ -106,10 +107,6 @@ void StrmInit(s32 type) {
     strmDecCtrlRec->y = info->y;
 }
 
-// TODO: dbgInfo
-extern s32 D_80068C14;
-extern s32 D_80068CB8;
-
 void StrmNextVlc(void) {
     void *bs = StrmNext();
 
@@ -120,7 +117,7 @@ void StrmNextVlc(void) {
 
     strmDecCtrlRec->frametaken = TRUE;
     strmDecCtrlRec->decresult = DecDCTvlc(bs, strmDecCtrlRec->vlcbuf);
-    D_80068CB8 = MAX(DecDCTBufSize(bs), D_80068CB8);
+    dbgInfo.decsize_lvlscorediff = MAX(DecDCTBufSize(bs), dbgInfo.decsize_lvlscorediff);
     StFreeRing(bs);
 
     if (strmDecCtrlRec->decresult == 0) {
@@ -141,7 +138,7 @@ void StrmKick(void) {
 }
 
 void StrmMain(void) {
-    D_80068C14 = strmDecCtrlRec->running * 100 + strmDecCtrlRec->frametaken;
+    dbgInfo.ncall = strmDecCtrlRec->running * 100 + strmDecCtrlRec->frametaken;
     if ((strmDecCtrlRec->running == FALSE) || (strmDecCtrlRec->frametaken == FALSE)) {
         StrmNextVlc();
     }

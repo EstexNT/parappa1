@@ -1,16 +1,12 @@
 #include "prstrm.h"
 #include <libcd.h>
+#include "prvdbg.h"
 
 STRM_DEC_CTRL_REC *strmDecCtrlRec;
 void *strmSectorBuffer;
 void *strmVlcBuffer;
 void *strmImgBuffer;
 u32 strmCurFrame;
-
-
-// TODO: dbgInfo
-extern s32 D_80068C2C;
-extern s32 D_80068C30;
 
 
 void *StrmNext(void) {
@@ -23,10 +19,10 @@ void *StrmNext(void) {
     }
     
     if ((D_80082550 + 1) != header->frameCount) {
-        D_80068C30++;
+        dbgInfo.fe++;
     }
     D_80082550 = header->frameCount;
-    D_80068C2C = header->frameCount;
+    dbgInfo.nf = header->frameCount;
     
     if ((strmDecCtrlRec->width != header->width) || (strmDecCtrlRec->height != header->height)) {
         strmDecCtrlRec->width = header->width;

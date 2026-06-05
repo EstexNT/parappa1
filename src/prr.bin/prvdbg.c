@@ -1,41 +1,318 @@
-#include "common.h"
+#include "prvdbg.h"
+#include <stdio.h>
+#include <libetc.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <kernel.h>
+#include "prmemory.h"
+#include "prrap.h"
+#include "prstrm.h"
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_800372BC);
+// DBG_INFO dbgInfo = {0};
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037334);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037370);
+extern u8 *dbgStackPtr;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_800373B4);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037428);
+void DbgPrintMsgInfo(void);
+void DbgDrawMenuTextWait(s32 n);
+void DbgPrintMsgDraw(void);
+void DbgPrintMsgEval(void);
+void DbgPrintMsgApp(void);
+void DbgPrintMsgDrawFace(void);
+void DbgPrintOnInput(void);
+void DbgPrintWork(void);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_8003746C);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037600);
+// TODO: .rodata
+extern char D_80010CE4[]; // "Sctr:%6d END:%6d NCALL:%6d\n"
+extern char D_80010D00[]; // "TC:%02d:%02d:%02d "
+extern char D_80010D14[]; // " DC %6d "
+extern char D_80010D20[]; // "nf %4d fe%4d\n"
+extern char D_80010D30[]; // "SECTOR:%d/%d/%d "
+extern char D_80010D44[]; // "PACKET:%d/%d"
+extern char D_80010F74[]; // "\n\n\nError: "
+extern char D_80010F80[]; // "\n\nHit Any Key To EXIT\n"
+extern char D_80010DA0[]; // "P:%d/%d "
+extern char D_80010DAC[]; // "ERROR:%x\n"
+extern char D_80010DB8[]; //
+extern char D_80010DC8[]; // 
+extern char D_80010DD4[]; // 
+extern char D_80010DF4[]; // 
+extern char D_80010F24[]; // 
+extern char D_80010F30[]; // 
+extern char D_80010F40[]; //
+extern char D_80010F54[]; // 
+extern char D_80010F64[]; // 
+extern char D_80010F98[]; // "Stack check %x\n"
+extern char D_80010FA8[]; // "STACK CHECK ERROR %x\n"
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_800377E0);
+// TODO: .sdata
+extern char D_800825E8[]; // "%s\n"
+extern char D_800825F4[]; // "SI:%d\n"
+extern char D_800825FC[]; // "VD%4d\n"
+extern char D_80082630[]; // 
+extern char D_8008263C[]; // 
+extern char D_80082640[]; // 
+extern char D_80082664[]; // 
+extern char D_8008266C[]; // 
+extern char D_8008269C[]; // 
+extern char D_800826A4[]; // 
+extern char D_800826AC[]; // 
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037880);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037904);
+void DbgInit(void) {
+    s32 id;
+    
+    FntLoad(960, 256);
+    id = FntOpen(-156, -120, 320, 200, 0, 512);
+    SetDumpFnt(id);
+    SetDispMask(1);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_800379A4);
+// TODO: sceneInfo
+typedef struct SCENE_INFO {
+    u32 unk0;
+    PARA_TIME unk4;
+    u8 pad8[0x4e - 0x08];
+    s16 unk4E;
+    u8 pad50[0x6c - 0x50];
+    s16 unk6C;
+    u8 pad6E[0x74 - 0x6E];
+    s16 unk74;
+    s16 unk76;
+} SCENE_INFO;
+extern SCENE_INFO D_801CBFF8;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037A44);
+void DbgDrawMenu(void) {
+    func_8002EA80(&D_801CBFF8, NULL); // TODO: CompoDrawMenu
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037AB8);
+void DbgDrawMenuOt(void) {
+    VSync(0);
+    func_8002EE60(0, NULL); // TODO: CompoDrawMenuOt
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037B40);
+void DbgReset(void) {
+    MemoryZero(&dbgInfo, sizeof(dbgInfo));
+    dbgInfo.unk54 = 0xffff;
+    dbgInfo.tdlargest = 0;
+    dbgInfo.tdsmallest = 100;
+    dbgInfo.tdiff = -1;
+    dbgInfo.spptr = (u8 *)-1;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037C84);
+void DbgResetRun(void) {
+    dbgInfo.runframe = 0;
+    dbgInfo.unk28 = 0;
+    dbgInfo.unk54 = 0xffff;
+    dbgInfo.unk58 = 0;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80037E00);
+// TODO: eventCurMovieSub
+extern s32 D_800827F8;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80038250);
+void DbgPrintMovie(void) {
+    u32 unused;
+    SCENE_INFO *info;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_80038270);
+    info = &D_801CBFF8;
+    
+    dbgInfo.vsyncdiffabs = VSync(-1) - dbgInfo.vsyncstart;
+    dbgInfo.vsyncdiff = dbgInfo.vsyncdiffabs - dbgInfo.runframe;
+    // TODO: CDGetCurrentSector
+    FntPrint(D_80010CE4, func_8001DE24(0), dbgInfo.end, dbgInfo.ncall);
+    FntPrint(D_80010D00, info->unk4.min, info->unk4.sec, info->unk4.frame);
+    FntPrint(D_80010D14, dbgInfo.decsize_lvlscorediff);
+    FntPrint(D_80010D20, dbgInfo.nf, dbgInfo.fe);
+    FntPrint(D_800825F4, D_800827F8);
+    FntPrint(D_80010D30, dbgInfo.seccur, dbgInfo.secfirst, dbgInfo.seclast);
+    FntPrint(D_800825FC, dbgInfo.vsyncdiff);
+    FntPrint(D_80010D44, dbgInfo.workoffs, dbgInfo.workoffsmax);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_800384C4);
+// TODO: eventInfo
+extern s16 D_8009F96C;
+extern s16 D_8009F96E;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", func_800386B8);
+// TODO: appInfo
+extern s16 D_8009F832;
+
+void DbgPrintMsgInfo(void) {
+    u8 unused[0x10];
+    MEM_INFO meminfo;
+    SCENE_INFO *info;
+    
+    info = &D_801CBFF8;
+
+    FntPrint(D_80010F24);
+    FntPrint(D_8008269C, dbgInfo.vsyncdiff);
+    if (dbgInfo.tdiff < 100) {
+        FntPrint(D_80010F30, dbgInfo.tdiff, dbgInfo.tdlargest, dbgInfo.tdsmallest);
+    }
+    FntPrint(D_80010F40, info->unk4.min, info->unk4.sec, info->unk4.frame);
+    FntPrint(D_800826A4, dbgInfo.strmdiff);
+    FntPrint(D_800826AC, info->unk4E);
+    MemoryGetInfo(&meminfo);
+    FntPrint(D_80010F54, meminfo.left, meminfo.used, StrmGetSize());
+    FntPrint(D_80010F64, D_8009F96E, D_8009F96C);
+    switch (D_8009F832) {
+        case 0: {
+            DbgPrintMsgDraw();
+            break;
+        }
+        case 1: {
+            DbgPrintMsgEval();
+            break;
+        }
+        case 2: {
+            DbgPrintMsgApp();
+            break;
+        }
+    }
+}
+
+void DbgPrintMsg(void) {
+    SCENE_INFO *info;
+    
+    info = &D_801CBFF8;
+    if (!info->unk6C) {
+        return;
+    }
+    
+    dbgInfo.vsyncdiffabs = VSync(-1) - dbgInfo.vsyncstart;
+    dbgInfo.vsyncdiff = dbgInfo.vsyncdiffabs - dbgInfo.runframe;
+    DbgPrintMsgInfo();
+}
+
+void DbgDrawMenuTextWait(s32 n) {
+    s32 i;
+    
+    for (i = n * 15; i > 0; i--) {
+        VSync(0);
+    }
+}
+
+void DbgDrawMenuText(char *text, s32 n) {
+    s32 i;
+    
+    for (i = 0; i < n; i++) {
+        DbgDrawMenu();
+        FntPrint(D_800825E8, text);
+        DbgDrawMenuOt();
+        DbgDrawMenuTextWait(1);
+    }
+}
+
+void DbgError(char *msg) {
+    DbgDrawMenu();
+    FntPrint(D_80010F74);
+    FntPrint(msg);
+    FntPrint(D_80010F80);
+    FntFlush(-1);
+    DbgDrawMenuOt();
+
+    while (PadRead(1));
+    DbgWaitPad();
+}
+
+void DbgWaitPad(void) {
+    while (PadRead(1));
+    while (!PadRead(1));
+}
+
+void DbgStackInit(u8 *ptr) {
+    s32 i;
+
+    for (i = 64, dbgStackPtr = ptr; i > 0; i--) {
+        *ptr++ = 0x69;
+    }
+}
+
+void DbgStackCheck(void) {
+    u8 *ptr;
+    s32 i;
+    s32 j;
+    char tmp[32];
+
+    for (i = 64, ptr = dbgStackPtr; i > 0; i--, ptr++) {
+        if (*ptr != 0x69) {
+            printf(D_80010F98, ptr);
+            for (j = 200; j > 0; j--) {
+                RapPlayKey(D_800A0934);
+                RapFlush();
+                VSync(0);
+            }
+            sprintf(tmp, D_80010FA8, ptr);
+            DbgError(tmp);
+        }
+    }
+}
+
+extern char *D_80068DC8[];
+
+// TODO: actionVCount
+extern s16 D_800A08E4;
+
+void DbgPrintMsgDraw(void) {
+    SCENE_INFO *info;
+    
+    info = &D_801CBFF8;
+
+    FntPrint(D_80082664, D_80068DC8[info->unk4E]);
+    FntPrint(D_80010DB8, info->unk74, info->unk76);
+    FntPrint(D_8008266C, D_800A08E4);
+    FntPrint(D_80082630);
+    FntPrint(D_80010DC8, dbgInfo.bezid);
+    FntPrint(D_80082630);
+    FntPrint(D_80010DD4, dbgInfo.paratodid, dbgInfo.paravdfid, dbgInfo.paradatid);
+    FntPrint(D_80082630);
+    FntPrint(D_80010DF4, dbgInfo.teachertodid, dbgInfo.teachervdfid, dbgInfo.teacherdatid);
+    DbgPrintMsgDrawFace();
+    FntPrint(D_80082630);
+    DbgPrintWork();
+    DbgPrintOnInput();
+}
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", DbgPrintMsgEval);
+
+void DbgPrintMsgApp(void) {
+    
+}
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", DbgPrintMsgDrawFace);
+
+// TODO: actionOnInputListBuf
+typedef struct ON_INPUT_INFO {
+    u32 pad;
+    s16 keyId;
+    s16 num; // number of inputs done
+    struct SND_INFO *snd;
+} ON_INPUT_INFO;
+
+extern ON_INPUT_INFO D_800A02C0[4][32];
+
+void DbgPrintOnInput(void) {
+    s32 i;
+    s32 j;
+
+    FntPrint(D_80082630);
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 16; j++) {
+            if (D_800A02C0[i][j].num != 0) {
+                FntPrint(D_8008263C, D_800A02C0[i][j].num);
+            } else {
+                FntPrint(D_80082640, ((j % 4) == 0) ? '+' : '.');
+            }
+        }
+        FntPrint(D_80082630);
+    }
+
+    dbgInfo.spptr = MIN(dbgInfo.spptr, GetSp());
+}
+
+void DbgPrintWork(void) {
+    FntPrint(D_80010DA0, dbgInfo.workoffs, dbgInfo.workoffsmax);
+    FntPrint(D_80010DAC, dbgInfo.err);
+}

@@ -38,4 +38,33 @@ typedef unsigned long long u64;
 
 #define NELEM(x) (sizeof(x) / sizeof(x[0]))
 
+
+// Japanese text is a s16[50] array of indexes into the font atlas
+typedef s16 PARA_JP_TEXT;
+#define JP_TEXT_NUM 50
+
+// English text is simply ASCII
+typedef char PARA_EN_TEXT;
+
+// Describes a sound inside a vab
+typedef struct SND_INFO {
+    u8 prog;
+    u8 tone;
+    u8 note;
+    u8 vol;
+    s16 time; // Doesn't do anything usually
+    // Only used to describe:
+    // - When should good->cool rank transition end (in game time)
+    // - In practice, for how long to stall when playing Kat's voice lines (in frames)
+} SND_INFO;
+
+typedef struct PARA_TIME {
+    u16 min;
+    u8 sec;
+    u8 frame;
+} PARA_TIME;
+
+// Initial information shared between scenes. TODO: Turn into a struct and move into an approriate scenecmn.h header
+extern SND_INFO *D_800A0934;
+
 #endif
