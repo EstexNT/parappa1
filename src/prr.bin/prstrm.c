@@ -181,5 +181,5 @@ void StrmEnd(void) {
 }
 
 void func_800362b4(void) {
-    func_8001DD24(); // TODO: CDStop
+    CDStop();
 }

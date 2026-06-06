@@ -120,8 +120,8 @@ void DbgPrintMovie(void) {
     
     dbgInfo.vsyncdiffabs = VSync(-1) - dbgInfo.vsyncstart;
     dbgInfo.vsyncdiff = dbgInfo.vsyncdiffabs - dbgInfo.runframe;
-    // TODO: CDGetCurrentSector
-    FntPrint(D_80010CE4, func_8001DE24(0), dbgInfo.end, dbgInfo.ncall);
+
+    FntPrint(D_80010CE4, CDGetCurrentSector(0), dbgInfo.end, dbgInfo.ncall);
     FntPrint(D_80010D00, info->unk4.min, info->unk4.sec, info->unk4.frame);
     FntPrint(D_80010D14, dbgInfo.decsize_lvlscorediff);
     FntPrint(D_80010D20, dbgInfo.nf, dbgInfo.fe);

@@ -25,6 +25,36 @@ D_80010FA8 = 0x80010FA8;
 // .text
 main = 0x800329A4;
 
+CDInit = 0x8001d490;
+CDReadStreamCallback = 0x8001d4ec;
+func_8001d590 = 0x8001d590;
+CDSyncCallback = 0x8001d5cc;
+CDSetSyncCallback = 0x8001d670;
+CDSearch = 0x8001d6a8;
+CDFileSearch = 0x8001d760;
+CDGetCurLoc = 0x8001d870;
+CDSetVol = 0x8001d8fc;
+CDToggleVol = 0x8001d944;
+CDStartStream = 0x8001d99c;
+CDSetFilter = 0x8001dc60;
+CDGetFilterChan = 0x8001dce8;
+CDStop = 0x8001dd24;
+CDPause = 0x8001dd94;
+CDGetCurrentSector = 0x8001de24;
+CDGetCurrentStreamSector = 0x8001dea8;
+CDFileEnded = 0x8001df14;
+CDReadSub = 0x8001df70;
+CDSeek = 0x8001e04c;
+func_8001e0ec = 0x8001e0ec;
+CDRead = 0x8001e39c;
+CDFileRead = 0x8001e610;
+CDFileReadBuf = 0x8001e758;
+VramBlockRead = 0x8001e8c4;
+SoundBlockRead = 0x8001ea44;
+OnMemBlockRead = 0x8001eb8c;
+VramBlockLoad = 0x8001ed58;
+SoundBlockLoad = 0x8001ee54;
+
 MemoryInit = 0x800329F0;
 MemoryClear = 0x80032A80;
 MemoryAlloc = 0x80032B14;
@@ -745,11 +775,15 @@ GetSp = 0x80062528;
 
 
 // .data
+cdInfoData = 0x800629C8;
+
 strmInitInfo = 0x80067D68;
 
 dbgInfo = 0x80068C0C; // size:0x194
 
 // .sdata
+cdInfo = 0x800823E0;
+
 memoryPosEndBase = 0x8008248C;
 memoryPosIdx = 0x80082490;
 

@@ -66,5 +66,6 @@ typedef struct PARA_TIME {
 
 // Initial information shared between scenes. TODO: Turn into a struct and move into an approriate scenecmn.h header
 extern SND_INFO *D_800A0934;
+extern SND_INFO *D_800A093C;
 
 #endif
