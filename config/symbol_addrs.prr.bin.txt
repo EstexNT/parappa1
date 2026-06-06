@@ -114,6 +114,12 @@ DbgPrintMsgDrawFace = 0x80038270;
 DbgPrintOnInput = 0x800384C4;
 DbgPrintWork = 0x800386B8;
 
+MimeTodSetPacket = 0x80038718;
+MimeTodSetFrame = 0x8003936C;
+MimeDatInit = 0x80039480;
+MimeDatGetKeyFrame = 0x800396A4;
+MimeDatSetFrame = 0x800397AC;
+
 // psy-q
 __main = 0x8003982c;
 __SN_ENTRY_POINT = 0x80039834;
