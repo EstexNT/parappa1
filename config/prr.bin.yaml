@@ -81,6 +81,7 @@ segments:
       - [0xDC90, c, prcd]
       - [0xF714, c, prcompo]
       - [0x21514, c, prevent]
+      - [0x227AC, c, prevent_1]
       - [0x231A4, c, prmain]
       - [0x231F0, c, prmemory]
       - [0x238A8, c, prmenu]

@@ -7,6 +7,8 @@
 #include "prmemory.h"
 #include "prrap.h"
 #include "prstrm.h"
+#include "prevent.h"
+#include "prscene.h"
 
 // DBG_INFO dbgInfo = {0};
 
@@ -70,22 +72,8 @@ void DbgInit(void) {
     SetDispMask(1);
 }
 
-// TODO: sceneInfo
-typedef struct SCENE_INFO {
-    u32 unk0;
-    PARA_TIME unk4;
-    u8 pad8[0x4e - 0x08];
-    s16 unk4E;
-    u8 pad50[0x6c - 0x50];
-    s16 unk6C;
-    u8 pad6E[0x74 - 0x6E];
-    s16 unk74;
-    s16 unk76;
-} SCENE_INFO;
-extern SCENE_INFO D_801CBFF8;
-
 void DbgDrawMenu(void) {
-    func_8002EA80(&D_801CBFF8, NULL); // TODO: CompoDrawMenu
+    func_8002EA80(&sceneInfo, NULL); // TODO: CompoDrawMenu
 }
 
 void DbgDrawMenuOt(void) {
@@ -116,13 +104,13 @@ void DbgPrintMovie(void) {
     u32 unused;
     SCENE_INFO *info;
 
-    info = &D_801CBFF8;
+    info = &sceneInfo;
     
     dbgInfo.vsyncdiffabs = VSync(-1) - dbgInfo.vsyncstart;
     dbgInfo.vsyncdiff = dbgInfo.vsyncdiffabs - dbgInfo.runframe;
 
     FntPrint(D_80010CE4, CDGetCurrentSector(0), dbgInfo.end, dbgInfo.ncall);
-    FntPrint(D_80010D00, info->unk4.min, info->unk4.sec, info->unk4.frame);
+    FntPrint(D_80010D00, info->gametimet.min, info->gametimet.sec, info->gametimet.frame);
     FntPrint(D_80010D14, dbgInfo.decsize_lvlscorediff);
     FntPrint(D_80010D20, dbgInfo.nf, dbgInfo.fe);
     FntPrint(D_800825F4, D_800827F8);
@@ -130,10 +118,6 @@ void DbgPrintMovie(void) {
     FntPrint(D_800825FC, dbgInfo.vsyncdiff);
     FntPrint(D_80010D44, dbgInfo.workoffs, dbgInfo.workoffsmax);
 }
-
-// TODO: eventInfo
-extern s16 D_8009F96C;
-extern s16 D_8009F96E;
 
 // TODO: appInfo
 extern s16 D_8009F832;
@@ -143,19 +127,19 @@ void DbgPrintMsgInfo(void) {
     MEM_INFO meminfo;
     SCENE_INFO *info;
     
-    info = &D_801CBFF8;
+    info = &sceneInfo;
 
     FntPrint(D_80010F24);
     FntPrint(D_8008269C, dbgInfo.vsyncdiff);
     if (dbgInfo.tdiff < 100) {
         FntPrint(D_80010F30, dbgInfo.tdiff, dbgInfo.tdlargest, dbgInfo.tdsmallest);
     }
-    FntPrint(D_80010F40, info->unk4.min, info->unk4.sec, info->unk4.frame);
+    FntPrint(D_80010F40, info->gametimet.min, info->gametimet.sec, info->gametimet.frame);
     FntPrint(D_800826A4, dbgInfo.strmdiff);
-    FntPrint(D_800826AC, info->unk4E);
+    FntPrint(D_800826AC, info->level);
     MemoryGetInfo(&meminfo);
     FntPrint(D_80010F54, meminfo.left, meminfo.used, StrmGetSize());
-    FntPrint(D_80010F64, D_8009F96E, D_8009F96C);
+    FntPrint(D_80010F64, eventInfo.controlstage, eventInfo.controldelay);
     switch (D_8009F832) {
         case 0: {
             DbgPrintMsgDraw();
@@ -175,8 +159,8 @@ void DbgPrintMsgInfo(void) {
 void DbgPrintMsg(void) {
     SCENE_INFO *info;
     
-    info = &D_801CBFF8;
-    if (!info->unk6C) {
+    info = &sceneInfo;
+    if (!info->dbgmsg) {
         return;
     }
     
@@ -257,9 +241,9 @@ extern s16 D_800A08E4;
 void DbgPrintMsgDraw(void) {
     SCENE_INFO *info;
     
-    info = &D_801CBFF8;
+    info = &sceneInfo;
 
-    FntPrint(D_80082664, D_80068DC8[info->unk4E]);
+    FntPrint(D_80082664, D_80068DC8[info->level]);
     FntPrint(D_80010DB8, info->unk74, info->unk76);
     FntPrint(D_8008266C, D_800A08E4);
     FntPrint(D_80082630);

@@ -23,8 +23,6 @@ D_80010FA8 = 0x80010FA8;
 
 
 // .text
-main = 0x800329A4;
-
 CDInit = 0x8001d490;
 CDReadStreamCallback = 0x8001d4ec;
 func_8001d590 = 0x8001d590;
@@ -54,6 +52,37 @@ SoundBlockRead = 0x8001ea44;
 OnMemBlockRead = 0x8001eb8c;
 VramBlockLoad = 0x8001ed58;
 SoundBlockLoad = 0x8001ee54;
+
+EventGetKeyIndexFromPad = 0x80030d14;
+EventGetPadFromKeyIndex = 0x80030e4c;
+EventResetEstimate = 0x80030ecc;
+EventInputsInactive = 0x80030f20;
+EventGetDispScore = 0x80031028;
+EventUpdate = 0x8003106c;
+EventSetMovieSubtitles = 0x800315a0;
+EventSetFlashHigh = 0x8003167c;
+EventCheckTextOverride = 0x800316b0;
+EventUpdateText = 0x80031704;
+EventRecordInit = 0x8003199c;
+EventReset = 0x80031a08;
+EventUpdateHigh = 0x80031b20;
+EventUpdateImmHigh = 0x80031c10;
+EventUpdatePerfomance = 0x80031d0c;
+EventUpdateScore = 0x80031e34;
+EventCheckGameOver = 0x80031ea0;
+EventGetMovieSubInfo = 0x80031fac;
+EventCheckHighEnding = 0x800320bc;
+EventCheckHighToNormal = 0x80032158;
+EventUpdateLevel = 0x800321f4;
+EventCheckPerformance = 0x800323b4;
+EventPlayScoreChange = 0x800325c4;
+EventCalcLvlEstimate = 0x80032624;
+EventTransitionLevel = 0x80032750;
+EventSetHighTransitionEnd = 0x80032878;
+EventBeginHighMode = 0x800328a8;
+EventSetHighTransitionStart = 0x8003295c;
+
+main = 0x800329A4;
 
 MemoryInit = 0x800329F0;
 MemoryClear = 0x80032A80;
@@ -785,6 +814,8 @@ cdInfoData = 0x800629C8;
 
 strmInitInfo = 0x80067D68;
 
+D_80068A3C = 0x80068A3C; // size:0x3c
+
 dbgInfo = 0x80068C0C; // size:0x194
 
 // .sdata
@@ -833,8 +864,14 @@ dbgStackPtr = 0x80082808;
 
 
 // .bss (proper)
+eventRecordInfo = 0x8009D1E0; // size:0x113c
+
+eventInfo = 0x8009F920; // size:0xc4
+
 memoryPos = 0x8009FA0C;
 
 D_800A0934 = 0x800A0934;
 
 memoryData = 0x800A3F70;
+
+sceneInfo = 0x801CBFF8; // size:0x1d8

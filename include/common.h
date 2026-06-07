@@ -42,9 +42,11 @@ typedef unsigned long long u64;
 // Japanese text is a s16[50] array of indexes into the font atlas
 typedef s16 PARA_JP_TEXT;
 #define JP_TEXT_NUM 50
+typedef PARA_JP_TEXT PARA_JP_T[JP_TEXT_NUM];
 
 // English text is simply ASCII
 typedef char PARA_EN_TEXT;
+typedef PARA_EN_TEXT *PARA_EN_T;
 
 // Describes a sound inside a vab
 typedef struct SND_INFO {
@@ -64,8 +66,50 @@ typedef struct PARA_TIME {
     u8 frame;
 } PARA_TIME;
 
-// Initial information shared between scenes. TODO: Turn into a struct and move into an approriate scenecmn.h header
+// Initial information shared between scenes. TODO: Turn into a struct and move into an approriate header
+extern struct EIGHTH_TIMES *D_800A08EC;
+extern struct INPUT_INFO_SET *D_800A08F0;
+extern s32 D_800A08F4;
+extern struct VISUAL_LINE_INFO *D_800A08FC;
+extern void (*D_800A0964)(struct SCENE_INFO *scn);
+extern SND_INFO *D_800A091C;
+extern SND_INFO *D_800A0920;
+extern SND_INFO *D_800A0924;
+extern SND_INFO *D_800A0928;
+extern SND_INFO *D_800A092C;
+extern SND_INFO *D_800A0930;
 extern SND_INFO *D_800A0934;
 extern SND_INFO *D_800A093C;
+
+// Key index
+#define PR_TAP_NONE 0
+#define PR_TAP_TRIANGLE 1
+#define PR_TAP_CIRCLE 2
+#define PR_TAP_CROSS 3
+#define PR_TAP_SQUARE 4
+#define PR_TAP_L1 5
+#define PR_TAP_L2 6
+#define PR_TAP_R1 7
+#define PR_TAP_R2 8
+#define PR_TAP_NUM 9
+#define PR_TAP_ICON_END 0xff
+
+// Key codes (Pad)
+#define PR_PAD_NONE 0
+#define PR_PAD_L2 (1 << 0)
+#define PR_PAD_R2 (1 << 1)
+#define PR_PAD_L1 (1 << 2)
+#define PR_PAD_R1 (1 << 3)
+#define PR_PAD_TRIANGLE (1 << 4)
+#define PR_PAD_CIRCLE (1 << 5)
+#define PR_PAD_CROSS (1 << 6)
+#define PR_PAD_SQUARE (1 << 7)
+
+
+#define LEVEL_HIGH  0
+#define LEVEL_NORM  1
+#define LEVEL_LOW1  2
+#define LEVEL_LOW2  3
+#define LEVEL_XTIME 4
 
 #endif
