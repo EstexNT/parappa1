@@ -54,7 +54,7 @@ void EventResetEstimate(SCENE_INFO *scn) {
     eventInfo.lvlestimate = 2;
     eventInfo.normaleval = FALSE;
     scn->flashlevel = FALSE;
-    func_80014770();
+    ActionResetPerfomanceScore();
 }
 
 // Returns TRUE if either we are at the ending or in high transition
@@ -79,10 +79,9 @@ BOOL EventInputsInactive(SCENE_INFO *scn) {
 }
 
 void EventGetDispScore(SCENE_INFO *scn) {
-    scn->dispscore = func_80014678(scn);
+    scn->dispscore = ActionGetCurScore(scn);
 }
 
-// INCLUDE_ASM("asm/prr.bin/nonmatchings/prevent", EventUpdate);
 SCENE_INFO *EventUpdate(SCENE_INFO *scn) {
     s32 linetime;
     s32 tim;
@@ -111,8 +110,8 @@ SCENE_INFO *EventUpdate(SCENE_INFO *scn) {
         sp1C = sp20;
     }
 
-    if (sp1C < D_800A08F4) {
-        scn->parappainp = &D_800A08F0[sp1C];
+    if (sp1C < sceneInitInfo.inpinfolen) {
+        scn->parappainp = &sceneInitInfo.inpinfo[sp1C];
     }
     scn->curline = sp20;
     dbgInfo.ncall = sp1C;
@@ -120,8 +119,8 @@ SCENE_INFO *EventUpdate(SCENE_INFO *scn) {
     lesson = 0;
     if (eventInfo.eighth == 0) {
         scn->flags |= PR_SCN_FLAG_2;
-        if (scn->curline < D_800A08F4) {
-            scn->teacherinp = &D_800A08F0[scn->curline];
+        if (scn->curline < sceneInitInfo.inpinfolen) {
+            scn->teacherinp = &sceneInitInfo.inpinfo[scn->curline];
             lesson = scn->teacherinp->lesson;
             eventInfo.inpflags = (scn->teacherinp != NULL) ? scn->teacherinp->sub[scn->lvlhigh].flags : 0;
         }
@@ -132,15 +131,15 @@ SCENE_INFO *EventUpdate(SCENE_INFO *scn) {
         if ((eventInfo.eighth % 8) == 0) {
             scn->flags |= PR_SCN_FLAG_4;
             if (scn->clicksound != FALSE) {
-                RapPlayKey(D_800A0930);
+                RapPlayKey(sceneInitInfo.click);
             }
         }
     }
 
-    if (eventInfo.eighth == D_800A08EC->checkfail) {
+    if (eventInfo.eighth == sceneInitInfo.times->checkfail) {
         EventCheckGameOver(scn);
         if (eventInfo.inpflags & PR_INP_FLAG_80) {
-            func_800159BC(scn);
+            ActionResetKeyInfo(scn);
         }
         if ((scn->lesson != lesson) && (lesson != 0)) {
             scn->lesson = lesson;
@@ -152,7 +151,7 @@ SCENE_INFO *EventUpdate(SCENE_INFO *scn) {
         }
     }
 
-    if (eventInfo.eighth == D_800A08EC->checkperf) {
+    if (eventInfo.eighth == sceneInitInfo.times->checkperf) {
         if (EventInputsInactive(scn) == FALSE) {
             EventUpdateScore(scn);
             EventUpdatePerfomance(scn);
@@ -163,10 +162,10 @@ SCENE_INFO *EventUpdate(SCENE_INFO *scn) {
     }
 
     if (eventInfo.eighth == ((8 * 4) - 1)) {
-        func_800155E4(scn->curline);
+        ActionClearOnInputList(scn->curline);
     }
 
-    if (eventInfo.eighth == D_800A08EC->checkhigh) {
+    if (eventInfo.eighth == sceneInitInfo.times->checkhigh) {
         EventUpdateImmHigh(scn);
     }
     return scn;
@@ -264,8 +263,8 @@ void EventReset(void) {
     sceneInfo.penalty = TRUE;
     sceneInfo.drawbuttons = TRUE;
     sceneInfo.teacherline.num = 0;
-    sceneInfo.teacherline.keyid[0] = D_800A08FC->first;
-    sceneInfo.teacherline.keyid[1] = D_800A08FC->second;
+    sceneInfo.teacherline.keyid[0] = sceneInitInfo.visline->first;
+    sceneInfo.teacherline.keyid[1] = sceneInitInfo.visline->second;
     sceneInfo.teacherline.enabled = FALSE;
     sceneInfo.parappaline.enabled = FALSE;
     sceneInfo.drawtext = TRUE;
@@ -307,11 +306,11 @@ void EventUpdateImmHigh(register SCENE_INFO *scn) {
         eventInfo.coolstate = PR_COOLSTATE_COOL;
     } else if (eventInfo.coolstate == PR_COOLSTATE_IMMNOTCOOL) {
         eventInfo.coolstate = PR_COOLSTATE_NOTCOOL;
-        RapPlayKey(&D_800A0928[0]);
+        RapPlayKey(&sceneInitInfo.lvlchange[0]);
     }
     scn->flags |= PR_SCN_FLAG_200;
-    func_800146B4();
-    func_8001564C(scn);
+    ActionResetStats();
+    ActionRestartTap(scn);
     EventResetEstimate(scn);
 }
 
@@ -325,16 +324,16 @@ void EventUpdatePerfomance(register SCENE_INFO *scn) {
     dir = EventCheckPerformance(scn);
     if ((eventInfo.coolstate == PR_COOLSTATE_COOL) || (eventInfo.coolstate == PR_COOLSTATE_LOSTCOOL)) {
         EventPlayScoreChange(dir);
-        func_8001564C(scn);
+        ActionRestartTap(scn);
     } else if (eventInfo.coolstate == PR_COOLSTATE_NOTCOOL) {
         if (EventUpdateLevel(scn, dir) == TRUE) {
             return;
         }
         EventPlayScoreChange(dir);
-        func_8001564C(scn);
+        ActionRestartTap(scn);
     }
     if (dir == PR_DIR_UP) {
-        D_800A0964(scn);
+        sceneInitInfo.perfup(scn);
     }
 }
 
@@ -342,8 +341,8 @@ void EventUpdateScore(register SCENE_INFO *scn) {
     if ((eventInfo.inpflags & (PR_INP_FLAG_1 | PR_INP_FLAG_2)) == 0) {
         return;
     }
-    func_800158B8(scn);
-    func_8001471C(scn);
+    ActionCalcScore(scn);
+    ActionUpdateNoTapNum(scn);
 }
 
 void EventCheckGameOver(register SCENE_INFO *scn) {
@@ -355,7 +354,7 @@ void EventCheckGameOver(register SCENE_INFO *scn) {
         scn->flags |= PR_SCN_FLAG_40;
         scn->unk74 = TRUE;
         scn->drawtext = TRUE;
-    } else if ((eventInfo.inpflags & PR_INP_FLAG_8) && (func_800147B4(scn) == TRUE)) {
+    } else if ((eventInfo.inpflags & PR_INP_FLAG_8) && (ActionCheckGameOver(scn) == TRUE)) {
         // PSP: "GAMEOVER at judge point"
         scn->flags |= PR_SCN_FLAG_40;
         scn->unk74 = TRUE;

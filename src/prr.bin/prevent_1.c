@@ -33,7 +33,7 @@ void EventCheckHighEnding(register SCENE_INFO *scn) {
     if ((eventInfo.inpflags & PR_INP_FLAG_20) == 0) {
         return;
     }
-    if (func_8001490C(scn) == FALSE) {
+    if (ActionGetHighEnded(scn) == FALSE) {
         return;
     }
     eventInfo.coolstate = PR_COOLSTATE_LOSTCOOL;
@@ -43,7 +43,7 @@ BOOL EventCheckHighToNormal(register SCENE_INFO *scn) {
     if ((eventInfo.inpflags & PR_INP_FLAG_20) == 0) {
         return FALSE;
     }
-    RapPlayKey(D_800A091C);
+    RapPlayKey(sceneInitInfo.hightonorm);
     scn->flags |= PR_SCN_FLAG_4000;
     EventSetHighTransitionEnd(scn);
     eventInfo.coolstate = PR_COOLSTATE_TRANSCOOL;
@@ -76,7 +76,7 @@ BOOL EventUpdateLevel(register SCENE_INFO *scn, register s32 dir) {
             }
         }
     }
-    RapPlayKey(&D_800A0928[est]);
+    RapPlayKey(&sceneInitInfo.lvlchange[est]);
     if ((scn->level == LEVEL_NORM) && (est == PR_DIR_UP)) {
         EventBeginHighMode(scn);
         scn->lvlhigh = TRUE;
@@ -105,7 +105,7 @@ s32 EventCheckPerformance(register SCENE_INFO *scn) {
     s32 highcheck;
 
     if (scn->level == LEVEL_HIGH) {
-        highcheck = func_800156FC(scn);
+        highcheck = ActionCheckPerformanceHigh(scn);
         if (highcheck == 0) {
             dir = PR_DIR_UP;
             scn->flashlevel = FALSE;
@@ -119,7 +119,7 @@ s32 EventCheckPerformance(register SCENE_INFO *scn) {
             scn->flashlevel = TRUE;
         }
     } else {
-        dir = func_80015838(scn);
+        dir = ActionCheckPerformanceNormal(scn);
         if (eventInfo.normaleval == 0) {
             tmp = ((scn->level == LEVEL_NORM) && (dir == PR_DIR_UP) && (eventInfo.flashhigh == FALSE));
             if (!tmp) {
@@ -141,13 +141,13 @@ s32 EventCheckPerformance(register SCENE_INFO *scn) {
 }
 
 void EventPlayScoreChange(register s32 dir) {
-    RapPlayKey(&D_800A092C[dir]);
+    RapPlayKey(&sceneInitInfo.scorechange[dir]);
 }
 
 s32 EventCalcLvlEstimate(register SCENE_INFO *scn) {
     if (eventInfo.lvlestimate == PR_DIR_UP) {
         if (scn->level == LEVEL_NORM) {
-            if (func_80014948(scn) == PR_DIR_UP) {
+            if (ActionCalcScoreLvlEstimate(scn) == PR_DIR_UP) {
                 return PR_DIR_UP;
             } else {
                 return PR_DIR_IDLE;
@@ -157,7 +157,7 @@ s32 EventCalcLvlEstimate(register SCENE_INFO *scn) {
         }
     } else if (eventInfo.lvlestimate == PR_DIR_DOWN) {
         if (scn->level == LEVEL_LOW2) {
-            if (func_80014948(scn) == PR_DIR_DOWN) {
+            if (ActionCalcScoreLvlEstimate(scn) == PR_DIR_DOWN) {
                 return PR_DIR_DOWN;
             } else {
                 return PR_DIR_IDLE;
@@ -219,7 +219,7 @@ void EventBeginHighMode(register SCENE_INFO *scn) {
     scn->flags |= PR_SCN_FLAG_2000;
     scn->highcnt++;
 
-    snd = (scn->highcnt < 2) ? D_800A0920 : D_800A0924;
+    snd = (scn->highcnt < 2) ? sceneInitInfo.tohighfirst : sceneInitInfo.tohigh;
     RapPlayKey(snd);
     EventSetHighTransitionStart(scn, snd->time);
 }

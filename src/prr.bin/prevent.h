@@ -33,23 +33,6 @@ typedef struct RECORD_DATA {
 } RECORD_DATA;
 
 
-// Describes at which point which subtitle should play and for how long 
-typedef struct MOVIE_SUBTITLES_INFO {
-    PARA_TIME start;
-    s16 seljp;
-    s16 selen;
-    s16 texttime;
-} MOVIE_SUBTITLES_INFO;
-
-// Describes lists of things needed for subtitles
-typedef struct MOVIE_SUBTITLES {
-    PARA_JP_TEXT **jp;
-    PARA_EN_TEXT **en;
-    struct MOVIE_SUBTITLES_INFO *info;
-    u32 num; // How many subtitles we have to display
-} MOVIE_SUBTITLES;
-
-
 // Model texture animation
 // Determines when to apply a new texture for i.e. faces and hands on character models
 typedef struct FACE_SET_INFO {

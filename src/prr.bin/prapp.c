@@ -1,5 +1,7 @@
 #include "common.h"
 
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prapp", func_80016920);
+
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prapp", func_800169AC);
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prapp", func_80016A00);

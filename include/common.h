@@ -66,20 +66,6 @@ typedef struct PARA_TIME {
     u8 frame;
 } PARA_TIME;
 
-// Initial information shared between scenes. TODO: Turn into a struct and move into an approriate header
-extern struct EIGHTH_TIMES *D_800A08EC;
-extern struct INPUT_INFO_SET *D_800A08F0;
-extern s32 D_800A08F4;
-extern struct VISUAL_LINE_INFO *D_800A08FC;
-extern void (*D_800A0964)(struct SCENE_INFO *scn);
-extern SND_INFO *D_800A091C;
-extern SND_INFO *D_800A0920;
-extern SND_INFO *D_800A0924;
-extern SND_INFO *D_800A0928;
-extern SND_INFO *D_800A092C;
-extern SND_INFO *D_800A0930;
-extern SND_INFO *D_800A0934;
-extern SND_INFO *D_800A093C;
 
 // Key index
 #define PR_TAP_NONE 0

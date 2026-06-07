@@ -223,7 +223,7 @@ void DbgStackCheck(void) {
         if (*ptr != 0x69) {
             printf(D_80010F98, ptr);
             for (j = 200; j > 0; j--) {
-                RapPlayKey(D_800A0934);
+                RapPlayKey(sceneInitInfo.dbgstackcheck);
                 RapFlush();
                 VSync(0);
             }

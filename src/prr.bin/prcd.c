@@ -8,6 +8,8 @@
 #include "prrap.h"
 #include "prvdbg.h"
 #include "prmemory.h"
+#include "prscene.h"
+#include "print.h"
 
 static char rcsid[] = "@(#)prcd.c: version 01-00 95/10/10 00:00:00";
 
@@ -299,24 +301,6 @@ s32 OnMemBlockRead(void *ptr, s32 mode);
 const char D_800104EC[] = "Alloc OnMemBlockRead";
 
 
-// TODO: Separate header for this?
-#define INT_BLOCK_TYPE_VRAM 1
-#define INT_BLOCK_TYPE_SND  2
-#define INT_BLOCK_TYPE_MEM  3
-#define INT_BLOCK_TYPE_END  -1
-typedef struct INT_BLOCK_HEADER {
-    s32 type;
-    s32 filenum;
-    s32 size; // In sectors
-    s32 bytesize; // In bytes
-} INT_BLOCK_HEADER;
-
-typedef struct INT_FILE_HEADER {
-    s32 size;
-    char name[16];
-} INT_FILE_HEADER;
-
-
 BOOL CDRead(CdlFILE *file, s32 mode, BOOL snd) {
     u8 *buf;
     INT_BLOCK_HEADER *hdr;
@@ -352,7 +336,7 @@ BOOL CDRead(CdlFILE *file, s32 mode, BOOL snd) {
             }
             if (snd == TRUE) {
                 RapStopSeq();
-                RapPlayKey(D_800A093C);
+                RapPlayKey(sceneInitInfo.intermission);
                 RapFlush();
             }
         } else if (hdr->type == INT_BLOCK_TYPE_MEM) {

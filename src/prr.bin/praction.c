@@ -1,87 +1,85 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80011F9C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionInitView);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80011FEC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetBez);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_8001222C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionStartBez);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800122DC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionFollowBez);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013528);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionBezInterpolate);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013670);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetTmdInfo);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013934);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSaveOriginalVtx);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013AFC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetVdf);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013CC8);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionInitModel);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013F38);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetVdfData);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80013FDC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionResetMimeVdf);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014038);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionVtxMime);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800140EC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetVdfForTmd);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014174);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionResetMimeVtx);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014320);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetMimeVtx);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800144E8);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionInit);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014644);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionSetHighEnabled);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014678);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionGetCurScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800146B4);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionResetStats);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_8001471C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionUpdateNoTapNum);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014770);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionResetPerfomanceScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800147B4);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCheckGameOver);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_8001490C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionGetHighEnded);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014948);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcScoreLvlEstimate);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80014BA0);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionUpdateInput);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015094);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcOrigScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800155E4);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionClearOnInputList);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_8001564C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionRestartTap);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800156AC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionAddScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800156FC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCheckPerformanceHigh);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015838);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCheckPerformanceNormal);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800158B8);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_800159BC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionResetKeyInfo);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015AC4);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionUpdateVcount);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015B1C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionRemapLR);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015B8C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcTapStats);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015C80);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionRegisterTap);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80015F08);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcScoreNormal);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80016354);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcScoreHigh);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80016590);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionRecordTap);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80016654);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionCalcActScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_8001685C);
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", func_80016920);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionGetOnInput);

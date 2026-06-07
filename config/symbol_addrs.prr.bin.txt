@@ -23,6 +23,49 @@ D_80010FA8 = 0x80010FA8;
 
 
 // .text
+ActionInitView = 0x80011f9c;
+ActionSetBez = 0x80011fec;
+ActionStartBez = 0x8001222c;
+ActionFollowBez = 0x800122dc;
+ActionBezInterpolate = 0x80013528;
+ActionSetTmdInfo = 0x80013670;
+ActionSaveOriginalVtx = 0x80013934;
+ActionSetVdf = 0x80013afc;
+ActionInitModel = 0x80013cc8;
+ActionSetVdfData = 0x80013f38;
+ActionResetMimeVdf = 0x80013fdc;
+ActionVtxMime = 0x80014038;
+ActionSetVdfForTmd = 0x800140ec;
+ActionResetMimeVtx = 0x80014174;
+ActionSetMimeVtx = 0x80014320;
+ActionInit = 0x800144e8;
+ActionSetHighEnabled = 0x80014644;
+ActionGetCurScore = 0x80014678;
+ActionResetStats = 0x800146b4;
+ActionUpdateNoTapNum = 0x8001471c;
+ActionResetPerfomanceScore = 0x80014770;
+ActionCheckGameOver = 0x800147b4;
+ActionGetHighEnded = 0x8001490c;
+ActionCalcScoreLvlEstimate = 0x80014948;
+ActionUpdateInput = 0x80014ba0;
+ActionCalcOrigScore = 0x80015094;
+ActionClearOnInputList = 0x800155e4;
+ActionRestartTap = 0x8001564c;
+ActionAddScore = 0x800156ac;
+ActionCheckPerformanceHigh = 0x800156fc;
+ActionCheckPerformanceNormal = 0x80015838;
+ActionCalcScore = 0x800158b8;
+ActionResetKeyInfo = 0x800159bc;
+ActionUpdateVcount = 0x80015ac4;
+ActionRemapLR = 0x80015b1c;
+ActionCalcTapStats = 0x80015b8c;
+ActionRegisterTap = 0x80015c80;
+ActionCalcScoreNormal = 0x80015f08;
+ActionCalcScoreHigh = 0x80016354;
+ActionRecordTap = 0x80016590;
+ActionCalcActScore = 0x80016654;
+ActionGetOnInput = 0x8001685c;
+
 CDInit = 0x8001d490;
 CDReadStreamCallback = 0x8001d4ec;
 func_8001d590 = 0x8001d590;
@@ -870,7 +913,7 @@ eventInfo = 0x8009F920; // size:0xc4
 
 memoryPos = 0x8009FA0C;
 
-D_800A0934 = 0x800A0934;
+sceneInitInfo = 0x800A08EC; // size:0x84
 
 memoryData = 0x800A3F70;
 
