@@ -76,6 +76,7 @@ segments:
       - [0x17E8, rodata, 17E8] # psy-q
 
       - [0x279C, c, praction] 
+      - [0x3D28, c, praction_1]
       - [0x7120, c, prapp]
       - [0x86F0, c, prcard]
       - [0x9ADC, c, prcmenu]
@@ -113,6 +114,7 @@ segments:
       - [0x595E8, data, 595E8] # psy-q
 
       - [0x72B88, .sdata, praction]
+      - [0x72B9C, .sdata, praction_1]
       - [0x72BA8, .sdata, prcard]
       - [0x72BB0, sdata, 72BB0]
       - [0x72BE0, .sdata, prcd]

@@ -49,7 +49,7 @@ typedef struct MOVIE_SUBTITLES_INFO {
 typedef struct MOVIE_SUBTITLES {
     PARA_JP_TEXT **jp;
     PARA_EN_TEXT **en;
-    struct MOVIE_SUBTITLES_INFO *info;
+    MOVIE_SUBTITLES_INFO *info;
     u32 num; // How many subtitles we have to display
 } MOVIE_SUBTITLES;
 
