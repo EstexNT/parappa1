@@ -9,6 +9,7 @@
 #include "prstrm.h"
 #include "prevent.h"
 #include "prscene.h"
+#include "praction.h"
 
 // DBG_INFO dbgInfo = {0};
 
@@ -235,9 +236,6 @@ void DbgStackCheck(void) {
 
 extern char *D_80068DC8[];
 
-// TODO: actionVCount
-extern s16 D_800A08E4;
-
 void DbgPrintMsgDraw(void) {
     SCENE_INFO *info;
     
@@ -245,7 +243,7 @@ void DbgPrintMsgDraw(void) {
 
     FntPrint(D_80082664, D_80068DC8[info->level]);
     FntPrint(D_80010DB8, info->unk74, info->unk76);
-    FntPrint(D_8008266C, D_800A08E4);
+    FntPrint(D_8008266C, actionInfo.sub.vcount);
     FntPrint(D_80082630);
     FntPrint(D_80010DC8, dbgInfo.bezid);
     FntPrint(D_80082630);
@@ -266,16 +264,6 @@ void DbgPrintMsgApp(void) {
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", DbgPrintMsgDrawFace);
 
-// TODO: actionOnInputListBuf
-typedef struct ON_INPUT_INFO {
-    u32 pad;
-    s16 keyId;
-    s16 num; // number of inputs done
-    struct SND_INFO *snd;
-} ON_INPUT_INFO;
-
-extern ON_INPUT_INFO D_800A02C0[4][32];
-
 void DbgPrintOnInput(void) {
     s32 i;
     s32 j;
@@ -284,8 +272,8 @@ void DbgPrintOnInput(void) {
 
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 16; j++) {
-            if (D_800A02C0[i][j].num != 0) {
-                FntPrint(D_8008263C, D_800A02C0[i][j].num);
+            if (actionInfo.onlist[i][j].num != 0) {
+                FntPrint(D_8008263C, actionInfo.onlist[i][j].num);
             } else {
                 FntPrint(D_80082640, ((j % 4) == 0) ? '+' : '.');
             }

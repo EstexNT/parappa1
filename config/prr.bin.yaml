@@ -112,7 +112,7 @@ segments:
       - [0x593DC, data, prvdbg]
       - [0x595E8, data, 595E8] # psy-q
 
-      - [0x72B88, sdata, 72B88]
+      - [0x72B88, .sdata, praction]
       - [0x72BA8, .sdata, prcard]
       - [0x72BB0, sdata, 72BB0]
       - [0x72BE0, .sdata, prcd]

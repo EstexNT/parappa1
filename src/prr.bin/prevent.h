@@ -5,10 +5,6 @@
 #include "prscene.h"
 
 
-#define PR_DIR_DOWN 0
-#define PR_DIR_UP   1
-#define PR_DIR_IDLE 2
-
 // Not in cool
 #define PR_COOLSTATE_NOTCOOL 0
 // In cool

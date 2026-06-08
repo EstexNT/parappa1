@@ -1,4 +1,5 @@
 #include "prevent.h"
+#include "praction.h"
 
 
 s32 D_800827D8;
@@ -50,8 +51,6 @@ BOOL EventCheckHighToNormal(register SCENE_INFO *scn) {
     return TRUE;
 }
 
-extern s16 D_800A08EA;
-
 BOOL EventUpdateLevel(register SCENE_INFO *scn, register s32 dir) {
     s32 est;
 
@@ -71,7 +70,7 @@ BOOL EventUpdateLevel(register SCENE_INFO *scn, register s32 dir) {
     }
     if (scn->level == LEVEL_NORM) {
         if (est == PR_DIR_UP) {
-            if (D_800A08EA == FALSE) {
+            if (actionInfo.sub.highenabled == FALSE) {
                 return FALSE;
             }
         }

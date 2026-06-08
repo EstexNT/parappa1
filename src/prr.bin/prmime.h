@@ -6,6 +6,24 @@
 #include <libgpu.h>
 #include <libgs.h>
 
+// .tmd
+// Model data
+typedef struct PARA_TMD_OBJECT {
+    SVECTOR *vtxtop;
+    u32 vtxtotal;
+    SVECTOR *nrmtop;
+    u32 nrmtotal;
+    u32 *prmtop;
+    u32 prmtotal;
+    u32 scale;
+} PARA_TMD_OBJECT;
+
+typedef struct PARA_TMD_DATA {
+    s32 objnum;
+    SVECTOR *orgvtx;
+    PARA_TMD_OBJECT *obj;
+} PARA_TMD_DATA;
+
 // .tod
 // Model animation (Movement/Rotation)
 // Packet types

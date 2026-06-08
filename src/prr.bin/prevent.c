@@ -2,6 +2,7 @@
 #include "prmemory.h"
 #include "prrap.h"
 #include "prvdbg.h"
+#include "praction.h"
 
 extern BOOL D_80082784;
 extern BOOL D_80082788;
@@ -44,7 +45,7 @@ s32 EventGetKeyIndexFromPad(u32 pad) {
     }
 }
 
-extern int D_80067904[];
+extern u32 D_80067904[];
 
 u32 EventGetPadFromKeyIndex(s32 keyid) {
     return ((keyid > PR_TAP_NONE) && (keyid < PR_TAP_NUM)) ? D_80067904[keyid] : PR_PAD_NONE;
@@ -258,8 +259,8 @@ void EventReset(void) {
     MemoryZero(&sceneInfo, sizeof(sceneInfo));
     sceneInfo.leniency = 8;
     sceneInfo.level = LEVEL_NORM;
-    sceneInfo.lvlhigh = 0;
-    sceneInfo.notplayer = 0;
+    sceneInfo.lvlhigh = FALSE;
+    sceneInfo.notplayer = FALSE;
     sceneInfo.penalty = TRUE;
     sceneInfo.drawbuttons = TRUE;
     sceneInfo.teacherline.num = 0;

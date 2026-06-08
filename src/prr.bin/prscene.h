@@ -3,6 +3,10 @@
 
 #include "common.h"
 
+#define PR_DIR_DOWN 0
+#define PR_DIR_UP   1
+#define PR_DIR_IDLE 2
+
 #define PR_INP_FLAG_1  (1 << 0)
 #define PR_INP_FLAG_2  (1 << 1)
 #define PR_INP_FLAG_4  (1 << 2)
@@ -113,7 +117,7 @@ typedef struct INPUT_KEY_INFO {
     u32 unk8;
 } INPUT_KEY_INFO;
 
-typedef INPUT_KEY_INFO INPUT_KEY_INFO_LIST[9];
+typedef INPUT_KEY_INFO *INPUT_KEY_INFO_LIST[9];
 typedef u8 KEY_CTRL[16];
 
 typedef struct SCENE_INIT_INFO {

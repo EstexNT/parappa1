@@ -933,13 +933,20 @@ dbgStackPtr = 0x80082808;
 
 
 // .bss (proper)
+D_80082858 = 0x80082858; // size:0x370
+D_80082BC8 = 0x80082BC8; // size:0x370
+
 eventRecordInfo = 0x8009D1E0; // size:0x113c
 
 eventInfo = 0x8009F920; // size:0xc4
 
 memoryPos = 0x8009FA0C;
 
+actionInfo = 0x800A02C0; // size:0x62c
+
 sceneInitInfo = 0x800A08EC; // size:0x84
+
+D_800A3620 = 0x800A3620; // size:0x20
 
 memoryData = 0x800A3F70;
 
