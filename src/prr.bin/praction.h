@@ -49,6 +49,7 @@ typedef struct ACTION_INFO {
 extern ACTION_INFO actionInfo;
 extern GsRVIEW2 actionView;
 extern BOOL D_800823A4;
+extern u32 actionMimeList[10][128];
 
 
 void ActionInitView(SVECTOR *sf);

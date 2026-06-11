@@ -10,6 +10,7 @@
 #include "prevent.h"
 #include "prscene.h"
 #include "praction.h"
+// #include "prcompo.h"
 
 // DBG_INFO dbgInfo = {0};
 
@@ -74,12 +75,12 @@ void DbgInit(void) {
 }
 
 void DbgDrawMenu(void) {
-    func_8002EA80(&sceneInfo, NULL); // TODO: CompoDrawMenu
+    CompoDrawMenu(&sceneInfo, NULL);
 }
 
 void DbgDrawMenuOt(void) {
     VSync(0);
-    func_8002EE60(0, NULL); // TODO: CompoDrawMenuOt
+    CompoDrawMenuOt(0, NULL);
 }
 
 void DbgReset(void) {

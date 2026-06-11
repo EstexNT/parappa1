@@ -746,6 +746,7 @@ extern u_long DrawSyncCallback(void (*func)());
 extern u_short GetClut(int x, int y) ;
 extern u_short GetTPage(int tp, int abr, int x, int y) ;
 extern u_short LoadClut(u_long *clut, int x, int y);
+extern u_short LoadClut2(u_long *clut, int x, int y);
 extern u_short LoadTPage(u_long *pix, int tp, int abr, int x, int y, int w, int h);
 extern void *NextPrim(void *p) ;
 extern void AddPrim(void *ot, void *p) ;

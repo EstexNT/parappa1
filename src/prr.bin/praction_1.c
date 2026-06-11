@@ -31,7 +31,6 @@ extern PARA_TMD_OBJECT actionTmdObj[10][4];
 extern PARA_VDF_OBJECT actionVdfObj[10][128];
 extern PARA_TMD_DATA actionTmdData[10];
 extern PARA_VDF_DATA actionVdfData[10];
-extern u32 actionMimeList[10][128];
 
 
 void ActionBezInterpolate(register s32 sf, register MATRIX *refmtx, register SVECTOR *ref, register VECTOR *view) {

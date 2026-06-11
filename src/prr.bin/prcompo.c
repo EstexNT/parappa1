@@ -1,233 +1,601 @@
-#include "common.h"
+#include "prcompo.h"
+#include <libetc.h>
+#include "prvdbg.h"
+#include "prmime.h"
+#include "praction.h"
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001EF14);
+// static char rcsid[] = "@(#)prcompo.c: version 01-00 95/12/10 00:00:00";
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001EF9C);
+// TODO: Perhaps put all of data into a separate file
+extern COMPO_SPRITE D_80062A30;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F070);
+void CompoUpdateWorkOfs(PACKET *packet) {
+    s32 diff;
+    static s32 tmpoffs = 0;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F128);
+    diff = GsGetWorkBase() - packet;
+    if (diff > tmpoffs) {
+        tmpoffs = diff;
+    }
+    dbgInfo.workoffs = diff;
+    dbgInfo.workoffsmax = tmpoffs;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F2B4);
+void CompoLoadTimClut(register u32 *timdata, register BOOL clut) {
+    RECT r;
+    GsIMAGE img;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F43C);
+    timdata++;
+    GsGetTimInfo(timdata, &img);
+    r.x = img.px;
+    r.y = img.py;
+    r.w = img.pw;
+    r.h = img.ph;
+    LoadImage(&r, img.pixel);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F498);
+    if ((clut != FALSE) && ((img.pmode >> 3) & 1)) {
+        LoadClut2(img.clut, img.cx, img.cy);
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F584);
+void CompoInitGs(void) {
+    RECT r;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F668);
+    ResetGraph(1);
+    PadInit(0);
+    GsInitGraph(320, 240, 4, 0, 0);
+    GsDefDispBuff(0, 0, 0, 240);
+    GsInit3D();
+    GsSetProjection(440);
+    r.x = r.y = 0;
+    r.w = 320;
+    r.h = 480;
+    ClearImage(&r, 0, 0, 0);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F810);
+s32 CompoInitTmd(u32 *tmd, GsDOBJ2 *obj, GsCOORDINATE2 *coord) {
+    GsDOBJ2 *iobj;
+    u32 *tmdp;
+    u32 unused;
+    s32 i;
+    s32 num;
+    
+    tmdp = ++tmd;
+    GsMapModelingData(tmdp);
+    
+    tmdp++;
+    num = *tmdp;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001F938);
+    tmdp++;
+    for (i = 0; i < num; i++) {
+        GsLinkObject4(tmdp, &obj[i], i);
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FA40);
+    for (i = 0, iobj = obj; i < num; iobj++, i++) {
+        iobj->coord2 = coord;
+        iobj->attribute = 0;
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FB40);
+    return num;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FC14);
+s32 CompoInitTmdAttr(u32 *tmd, u32 attr, GsDOBJ2 *obj, GsCOORDINATE2 *coord) {
+    GsDOBJ2 *iobj;
+    u32 *tmdp;
+    u32 unused;
+    s32 i;
+    s32 num;
+    
+    tmdp = ++tmd;
+    GsMapModelingData(tmdp);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FCF8);
+    // BUG: Loading flag as number of objects
+    // tmdp++;
+    
+    num = *tmdp++;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FDC8);
+    tmdp++;
+    for (i = 0; i < num; i++) {
+        GsLinkObject4(tmdp, &obj[i], i);
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FEAC);
+    for (i = 0, iobj = obj; i < num; iobj++, i++) {
+        iobj->coord2 = coord;
+        iobj->attribute = attr;
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8001FFA4);
+    return num;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80020038);
+void CompoInitTod(register u32 *tod, register u32 **otod, register s32 *oframes) {
+    *otod = ++tod;
+    *oframes = **otod;
+    (*otod)++;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800200C0);
+s32 CompoSetTod(register s32 frame, register s32 *framenum, register u32 **todp, register GsDOBJ2 *obj) {
+    u32 *prevtod;
+    
+    if (*todp == NULL) {
+        return -1;
+    }
+    if (*framenum < 1) {
+        return -1;
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002043C);
+    prevtod = *todp;
+    *todp = MimeTodSetFrame(frame, *todp, obj, 0);
+    if (prevtod != *todp) {
+        (*framenum)--;
+    }
+    return *framenum;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002053C);
+void CompoRegisterDObj(GsDOBJ2 *dobj, s32 len, GsOT *ot, s32 shift) {
+    MATRIX mtx;
+    GsDOBJ2 *iobj;
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800205F0);
+    for (i = 0, iobj = dobj; i < len; iobj++, i++) {
+        GsGetLs(iobj->coord2, &mtx);
+        GsSetLsMatrix(&mtx);
+        GsSortObject4(iobj, ot, 14 - shift, getScratchAddr(0));
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800206C0);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80020700);
+void CompoSetSpr(register GsSPRITE *gspr, register COMPO_SPRITE *spr, register s32 shift, register BOOL shiftpal) {
+    s32 u;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80020740);
+    gspr->attribute = spr->attr;
+    gspr->w = spr->w;
+    gspr->h = spr->h;
+    if (spr->tp == 1) {
+        u = (spr->tx << 1) + shift * spr->w;
+        gspr->tpage = GetTPage(spr->tp, 1, (u & 0xff00) >> 1, (spr->ty & 0xff00) >> 0);
+        gspr->u = u;
+    } else {
+        u = (spr->tx << 2) + shift * spr->w;
+        gspr->tpage = GetTPage(spr->tp, 1, (u & 0xff00) >> 2, (spr->ty & 0xff00) >> 0);
+        gspr->u = u;
+    }
+    gspr->v = spr->ty;
+    gspr->cx = spr->px;
+    if (shiftpal != FALSE) {
+        gspr->cy = spr->py + shift;
+    } else {
+        gspr->cy = spr->py;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80020E94);
+void CompoSetSprScale(register GsSPRITE *gspr, register COMPO_SPRITE *spr, register s32 sx, register s32 sy) {
+    s32 u;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80020EE8);
+    gspr->w = spr->w;
+    gspr->h = spr->h;
+    u = (spr->tx << 2);
+    gspr->tpage = GetTPage(spr->tp, 1, (u & 0xff00) >> 2, (spr->ty & 0xff00) >> 0);
+    gspr->u = u;
+    gspr->v = spr->ty;
+    gspr->cx = spr->px;
+    gspr->cy = spr->py;
+    gspr->scalex = sx;
+    gspr->scaley = sy;
+    gspr->mx = spr->w / 2;
+    gspr->my = spr->h / 2;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800211A4);
+void CompoSetSprSimple(register GsSPRITE *gspr, register COMPO_SPRITE *spr, register BOOL adj) {
+    s32 u;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80021264);
+    gspr->attribute = spr->attr;
+    gspr->w = spr->w;
+    gspr->h = spr->h;
+    u = (spr->tx << 2);
+    gspr->tpage = GetTPage(spr->tp, 1, (u & 0xff00) >> 2, (spr->ty & 0xff00) >> 0);
+    gspr->u = u;
+    gspr->v = spr->ty;
+    gspr->cx = spr->px;
+    if (adj != FALSE) {
+        gspr->cy = spr->py;
+    } else {
+        gspr->cy = spr->py + 1;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80021324);
+void CompoSetSprSliding(register GsSPRITE *gspr, register COMPO_SPRITE *spr, register s32 txoff, register s32 w, register s32 cyoff) {
+    s32 u;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800214E8);
+    gspr->attribute = spr->attr;
+    gspr->w = w;
+    gspr->h = spr->h;
+    u = (spr->tx << 2) + txoff;
+    gspr->tpage = GetTPage(spr->tp, 1, (u & 0xff00) >> 2, (spr->ty & 0xff00) >> 0);
+    gspr->u = u;
+    gspr->v = spr->ty;
+    gspr->cx = spr->px;
+    gspr->cy = spr->py + cyoff;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800216AC);
+void CompoFastSpr(register s16 x, register s16 y, register COMPO_SPRITE *spr, register s32 shift, register BOOL shiftpal, register s32 pri, register GsOT *ot) {
+    GsSPRITE gspr;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80021924);
+    gspr.x = x - (320 / 2);
+    gspr.y = y - (240 / 2);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800219E0);
+    CompoSetSpr(&gspr, spr, shift, shiftpal);
+    GsSortFastSprite(&gspr, ot, pri);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80021AA4);
+void CompoSprScaled(register s16 x, register s16 y, register s32 sx, register s32 sy, register COMPO_SPRITE *spr, register s32 pri, register GsOT *ot) {
+    GsSPRITE gspr;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80021B64);
+    gspr.x = x - (320 / 2);
+    gspr.y = y - (240 / 2);
+    gspr.attribute = spr->attr;
+    gspr.rotate = 0;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002215C);
+    CompoSetSprScale(&gspr, spr, sx, sy);
+    GsSortSprite(&gspr, ot, pri);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80022754);
+void CompoSimpleFastSpr(register s16 x, register s16 y, register COMPO_SPRITE *spr, register u32 arg3, register BOOL adj, register s32 pri, register GsOT *ot) {
+    GsSPRITE gspr;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80022E88);
+    gspr.x = x - (320 / 2);
+    gspr.y = y - (240 / 2);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80022EAC);
+    CompoSetSprSimple(&gspr, spr, adj);
+    GsSortFastSprite(&gspr, ot, pri);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80022FC0);
+void CompoSlidingFastSpr(register s16 x, register s16 y, register COMPO_SPRITE *spr, register s32 txoff, register s32 w, register s32 cyoff, register s32 pri, register GsOT *ot) {
+    GsSPRITE gspr;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800230B8);
+    gspr.x = x - (320 / 2);
+    gspr.y = y - (240 / 2);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800233F8);
+    CompoSetSprSliding(&gspr, spr, txoff, w, cyoff);
+    GsSortFastSprite(&gspr, ot, pri);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80023754);
+void CompoBox(register s32 x, register s32 y, register s32 w, register s32 h, u32 attr, s32 pri, GsOT *ot) {
+    RECT r;
+    GsBOXF box;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80023B60);
+    r.x = x;
+    r.y = y;
+    r.w = w;
+    r.h = h;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80023D90);
+    box.attribute = attr & 0xff000000;
+    box.x = r.x - (320 / 2);
+    box.y = r.y - (240 / 2);
+    box.w = r.w;
+    box.h = r.h;
+    box.r = (attr >> 0x10);
+    box.g = (attr >> 8);
+    box.b = (attr >> 0);
+    GsSortBoxFill(&box, ot, pri);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002412C);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002419C);
+extern s32 D_80082748;
+extern u16 D_8008274C;
+extern u16 D_80082750;
+extern u16 D_80082754;
+extern u16 D_80082758;
+extern u16 D_8008275C;
+extern u16 D_80082760;
+extern s32 D_80082764;
+extern s32 D_80082768;
+extern s32 D_8008276C;
+extern s32 D_80082770;
+extern GsSPRITE D_80092B60;
+
+void CompoSetTextBox(s32 x, s32 y, s32 cx, s32 cy) {
+    D_80082754 = x;
+    D_80082758 = y;
+    D_80092B60.cx = D_8008275C = cx;
+    D_80092B60.cy = D_80082760 = cy;
+    D_80092B60.attribute = D_80062A30.attr;
+}
+
+void CompoSetFontJp(s32 x, s32 y, s32 sx, s32 sy) {
+    D_80082764 = x;
+    D_80082768 = y;
+    D_8008276C = sx;
+    D_80082770 = sy;
+    D_80092B60.w = 12;
+    D_80092B60.h = 12;
+}
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTextJp);
+
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetScoreSprite);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawScoreSprite);
+
+
+// TODO: .sdata
+static s32 D_800823EC = 0;
+static s32 D_800823F0 = 0;
+static s32 D_800823F4 = 0;
+static s32 D_800823F8 = 0;
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSet);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameResetActive);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameResetInactive);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawText);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameFinished);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawCounterClockwiseImmediate);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetAnimInactive);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetAnimActive);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawAnim);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawAnimMovie);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMovieGuiNoTextNoBorder);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetType);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMake);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiMake);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMovieGuiNoText);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMovieGui);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMenuGui);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80022e88);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMovieTextEn);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMovieTextJp);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawStageTextJp);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawStageTextEn);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLesson);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawHand);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawScore);
+
+extern RECT D_80082774;
+
+void CompoClutModSetRect(s32 x, s32 y, s32 w, s32 h) {
+    D_80082774.x = x;
+    D_80082774.y = y;
+    D_80082774.w = w;
+    D_80082774.h = h;
+}
+
+void CompoClutModDraw(s32 n, u16 *clut) {
+    u16 tmp[256];
+    s32 i;
+
+    for (i = 0; i < n; i++) {
+        tmp[i] = *clut++;
+    }
+    LoadImage(&D_80082774, (u_long *)tmp);
+    DrawSync(0);
+}
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80024264);
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80024310);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800243BC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800243bc);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800244E8);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800244e8);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002464C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002464c);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800246B4);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoRemoveLevelGrayTextBorder);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002471C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002471c);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002480C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonApplyScalingTeacher);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80024C34);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonApplyScalingPara);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002505C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonInitScalingTeacher);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025194);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonInitScalingPara);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800252CC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoResetLineButton);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025308);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLineButton);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025420);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLineDots);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800257C4);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTeacherIcon);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025920);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawParaIcon);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025A5C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetTurnIcon);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025B5C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLine);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025F0C);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80025FE4);
+void CompoResetMime(void) {
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026078);
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 128; j++) {
+            actionMimeList[i][j] = 0;
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800261B8);
+void CompoResetMimeSpecific(register s32 i) {
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026308);
+    for (j = 0; j < 128; j++) {
+        actionMimeList[i][j] = 0;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026380);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoApplyDat);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026418);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoApplyDatForVdf);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026498);
+void CompoSetModelAnim(s32 i, void *dat, void *vdf, PARA_DAT_DATA *data, PARA_DAT_OBJECT *obj, s32 *arg5) {
+    *arg5 = 0;
+    ActionSetVdfData(i, vdf);
+    MimeDatInit(data, obj, dat, FALSE);
+    CompoResetMimeSpecific(i);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026520);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetMainModelAnim);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026554);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoInitMainModelSet);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026668);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoApplyMainDat);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800268F0);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoResetFirstTmdVdf);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80026BA8);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800284C0);
+void CompoFlip(BOOL flip) {
+    RECT r;
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800287CC);
+    i = GsGetActiveBuff();
+    r.x = 0;
+    r.w = 320;
+    r.h = 240;
+    if (flip != FALSE) {
+        r.y = (i == 0) ? 240 : 0;
+        MoveImage(&r, 0, (i == 0) ? 0 : 240);
+    } else {
+        r.y = (i == 0) ? 0 : 240;
+        MoveImage(&r, 0, (i == 0) ? 240 : 0);
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002A0C8);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002AA04);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTryAgainText);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002B11C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTitleScreen);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002C4E0);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawStageSelect);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002D154);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawSavingText);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002D488);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawNameEnter);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E3EC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawSlotSelect);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E434);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawHighScore);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E474);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMainMenu);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E4D8);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawSaveDialog);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E534);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawPracticeBar);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E574);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawPractice);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E69C);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E70C);
+extern PACKET *D_800827E0[2];
+extern PACKET D_8008C528[2][13000];
+extern GsOT D_80092AB8[2];
+extern GsOT_TAG D_80092AE0[2][16];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E758);
+void CompoSetPacket(PACKET *p0, PACKET *p1) {
+    D_800827E0[0] = p0;
+    D_800827E0[1] = p1;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E8E8);
+void CompoResetPacket(void) {
+    CompoSetPacket(D_8008C528[0], D_8008C528[1]);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002E968);
+void CompoClear(s32 i) {
+    GsClearOt(0, 0, &D_80092AB8[i]);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002EA80);
+void CompoDrawOt(s32 i) {
+    GsDrawOt(&D_80092AB8[i]);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002EE60);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002EF1C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTitleScreenSel);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F3BC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyFade);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F458);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyDrawFade);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F768);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyLoad);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F804);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyDraw);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F83C);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonySwap);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F8A8);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002F9C0);
+void CompoInitOt(void) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002FA2C);
+    for (i = 0; i < 2; i++) {
+        D_80092AB8[i].length = 4;
+        D_80092AB8[i].org = D_80092AE0[i];
+        D_80092AB8[i].offset = 0;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002FAD4);
+    }
+    CompoSetPacket(D_8008C528[0], D_8008C528[1]);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002FDA8);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80030264);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMenu);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80030A38);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMenuOt);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80030B00);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDraw);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80030BBC);
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSwap);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiDraw);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiSwap);
+
+
+void CompoInit(void) {
+    CompoInitGs();
+    CompoInitOt();
+}
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002f83c);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawThoughtBubble);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawOtThoughtBubble);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002fa2c);
+
+// TODO: Uses gp. Split
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTextSaveTitle);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTextEn);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetAnim);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMakeLast);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiMakeLast);
+
+INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFadeColor);

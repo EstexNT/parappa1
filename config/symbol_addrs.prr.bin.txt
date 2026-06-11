@@ -122,6 +122,123 @@ OnMemBlockRead = 0x8001eb8c;
 VramBlockLoad = 0x8001ed58;
 SoundBlockLoad = 0x8001ee54;
 
+CompoUpdateWorkOfs = 0x8001ef14;
+CompoLoadTimClut = 0x8001ef9c;
+CompoInitGs = 0x8001f070;
+CompoInitTmd = 0x8001f128;
+CompoInitTmdAttr = 0x8001f2b4;
+CompoInitTod = 0x8001f43c;
+CompoSetTod = 0x8001f498;
+CompoRegisterDObj = 0x8001f584;
+CompoSetSpr = 0x8001f668;
+CompoSetSprScale = 0x8001f810;
+CompoSetSprSimple = 0x8001f938;
+CompoSetSprSliding = 0x8001fa40;
+CompoFastSpr = 0x8001fb40;
+CompoSprScaled = 0x8001fc14;
+CompoSimpleFastSpr = 0x8001fcf8;
+CompoSlidingFastSpr = 0x8001fdc8;
+CompoBox = 0x8001feac;
+CompoSetTextBox = 0x8001ffa4;
+CompoSetFontJp = 0x80020038;
+CompoDrawTextJp = 0x800200c0;
+CompoSetScoreSprite = 0x8002043c;
+CompoDrawScoreSprite = 0x8002053c;
+CompoFrameSet = 0x800205f0;
+CompoFrameResetActive = 0x800206c0;
+CompoFrameResetInactive = 0x80020700;
+CompoFrameDrawText = 0x80020740;
+CompoFrameFinished = 0x80020e94;
+CompoFrameDrawCounterClockwiseImmediate = 0x80020ee8;
+CompoFrameSetAnimInactive = 0x800211a4;
+CompoFrameSetAnimActive = 0x80021264;
+CompoFrameDrawAnim = 0x80021324;
+CompoFrameDrawAnimMovie = 0x800214e8;
+CompoDrawFrameMovieGuiNoTextNoBorder = 0x800216ac;
+CompoFrameSetType = 0x80021924;
+CompoFrameMake = 0x800219e0;
+CompoFrameMovieGuiMake = 0x80021aa4;
+CompoDrawFrameMovieGuiNoText = 0x80021b64;
+CompoDrawFrameMovieGui = 0x8002215c;
+CompoDrawFrameMenuGui = 0x80022754;
+func_80022e88 = 0x80022e88;
+CompoDrawMovieTextEn = 0x80022eac;
+CompoDrawMovieTextJp = 0x80022fc0;
+CompoDrawStageTextJp = 0x800230b8;
+CompoDrawStageTextEn = 0x800233f8;
+CompoDrawLesson = 0x80023754;
+CompoDrawHand = 0x80023b60;
+CompoDrawScore = 0x80023d90;
+CompoClutModSetRect = 0x8002412c;
+CompoClutModDraw = 0x8002419c;
+func_80024264 = 0x80024264;
+func_80024310 = 0x80024310;
+func_800243bc = 0x800243bc;
+func_800244e8 = 0x800244e8;
+func_8002464c = 0x8002464c;
+CompoRemoveLevelGrayTextBorder = 0x800246b4;
+func_8002471c = 0x8002471c;
+CompoLineButtonApplyScalingTeacher = 0x8002480c;
+CompoLineButtonApplyScalingPara = 0x80024c34;
+CompoLineButtonInitScalingTeacher = 0x8002505c;
+CompoLineButtonInitScalingPara = 0x80025194;
+CompoResetLineButton = 0x800252cc;
+CompoDrawLineButton = 0x80025308;
+CompoDrawLineDots = 0x80025420;
+CompoDrawTeacherIcon = 0x800257c4;
+CompoDrawParaIcon = 0x80025920;
+CompoSetTurnIcon = 0x80025a5c;
+CompoDrawLine = 0x80025b5c;
+CompoResetMime = 0x80025f0c;
+CompoResetMimeSpecific = 0x80025fe4;
+CompoApplyDat = 0x80026078;
+CompoApplyDatForVdf = 0x800261b8;
+CompoSetModelAnim = 0x80026308;
+CompoSetMainModelAnim = 0x80026380;
+CompoInitMainModelSet = 0x80026418;
+CompoApplyMainDat = 0x80026498;
+CompoResetFirstTmdVdf = 0x80026520;
+CompoFlip = 0x80026554;
+CompoDrawTryAgainText = 0x80026668;
+CompoDrawTitleScreen = 0x800268f0;
+CompoDrawStageSelect = 0x80026ba8;
+CompoDrawSavingText = 0x800284c0;
+CompoDrawNameEnter = 0x800287cc;
+CompoDrawSlotSelect = 0x8002a0c8;
+CompoDrawHighScore = 0x8002aa04;
+CompoDrawMainMenu = 0x8002b11c;
+CompoDrawSaveDialog = 0x8002c4e0;
+CompoDrawPracticeBar = 0x8002d154;
+CompoDrawPractice = 0x8002d488;
+CompoSetPacket = 0x8002e3ec;
+CompoResetPacket = 0x8002e434;
+CompoClear = 0x8002e474;
+CompoDrawOt = 0x8002e4d8;
+CompoDrawTitleScreenSel = 0x8002e534;
+CompoSonyFade = 0x8002e574;
+CompoSonyDrawFade = 0x8002e69c;
+CompoSonyLoad = 0x8002e70c;
+CompoSonyDraw = 0x8002e758;
+CompoSonySwap = 0x8002e8e8;
+CompoInitOt = 0x8002e968;
+CompoDrawMenu = 0x8002ea80;
+CompoDrawMenuOt = 0x8002ee60;
+CompoFrameDraw = 0x8002ef1c;
+CompoFrameSwap = 0x8002f3bc;
+CompoFrameMovieGuiDraw = 0x8002f458;
+CompoFrameMovieGuiSwap = 0x8002f768;
+CompoInit = 0x8002f804;
+func_8002f83c = 0x8002f83c;
+CompoDrawThoughtBubble = 0x8002f8a8;
+CompoDrawOtThoughtBubble = 0x8002f9c0;
+func_8002fa2c = 0x8002fa2c;
+CompoDrawTextSaveTitle = 0x8002fad4;
+CompoDrawTextEn = 0x8002fda8;
+CompoFrameSetAnim = 0x80030264;
+CompoFrameMakeLast = 0x80030a38;
+CompoFrameMovieGuiMakeLast = 0x80030b00;
+CompoFadeColor = 0x80030bbc;
+
 EventGetKeyIndexFromPad = 0x80030d14;
 EventGetPadFromKeyIndex = 0x80030e4c;
 EventResetEstimate = 0x80030ecc;
@@ -932,6 +1049,8 @@ cdFailed = 0x8008273C;
 D_80082740 = 0x80082740;
 D_80082744 = 0x80082744;
 
+D_80082774 = 0x80082774; // size:0x8
+
 rapInterKey = 0x800827A0; // size:0x6
 
 strmDecCtrlRec = 0x800827A8;
@@ -939,6 +1058,7 @@ strmSectorBuffer = 0x800827AC;
 strmVlcBuffer = 0x800827B0;
 strmImgBuffer = 0x800827B4;
 strmCurFrame = 0x800827B8;
+
 
 // .bss (maybe .scommon)
 memoryPosBase = 0x800827FC;
@@ -948,7 +1068,6 @@ memoryPosPtr = 0x80082804;
 dbgStackPtr = 0x80082808;
 
 
-
 // .bss (proper)
 eventOverridenLang = 0x80082784;
 eventOverridenLangPrev = 0x80082788;
@@ -956,11 +1075,12 @@ eventOverridenLangPrev = 0x80082788;
 eventMovieSubNum = 0x800827D8;
 eventMovieSubInfo = 0x800827DC;
 
+D_800827E0 = 0x800827E0; // size:0x8
+
 eventMovieSubEn = 0x800827E8;
 eventMovieSubJp = 0x800827EC;
 
 eventCurMovieSub = 0x800827F8;
-
 
 cdStrmFrameSect = 0x8008280C;
 
@@ -975,6 +1095,11 @@ actionTmdData = 0x80088550; // size:0x78
 actionVdfData = 0x800885C8; // size:0x78
 
 cardDirEntry = 0x8008994C; // size:0x258
+
+D_8008C528 = 0x8008C528; // size:0x6590
+D_80092AB8 = 0x80092AB8; // size:0x28
+D_80092AE0 = 0x80092AE0; // size:0x80
+D_80092B60 = 0x80092B60; // size:0x24
 
 eventRecordInfo = 0x8009D1E0; // size:0x113c
 

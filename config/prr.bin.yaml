@@ -118,7 +118,8 @@ segments:
       - [0x72BA8, .sdata, prcard]
       - [0x72BB0, sdata, 72BB0]
       - [0x72BE0, .sdata, prcd]
-      - [0x72BE8, sdata, prcompo]
+      - [0x72BE8, .sdata, prcompo]
+      - [0x72BFC, sdata, 72BFC] # temporary
       - [0x72C8C, .sdata, prmemory]
       - [0x72C94, sdata, 72C94]
       - [0x72D30, .sdata, prrap]
