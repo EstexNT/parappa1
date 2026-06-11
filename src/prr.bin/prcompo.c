@@ -9,6 +9,10 @@
 // TODO: Perhaps put all of data into a separate file
 extern COMPO_SPRITE D_80062A30;
 
+extern RECT D_800678C4[];
+
+
+
 void CompoUpdateWorkOfs(PACKET *packet) {
     s32 diff;
     static s32 tmpoffs = 0;
@@ -310,7 +314,46 @@ void CompoSetFontJp(s32 x, s32 y, s32 sx, s32 sy) {
     D_80092B60.h = 12;
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTextJp);
+void CompoDrawTextJp(register PARA_JP_TEXT *text, register GsOT *ot) {
+    s32 i;
+    s32 ch;
+    s16 u;
+    s16 v;
+    s32 dx;
+    s32 dy;
+
+    dx = 0;
+    dy = 0;
+    if ((text == NULL) || (*text == 0)) {
+        return;
+    }
+
+    for (i = 0; text[i] != 0; i++) {
+        if (text[i] == -1) {
+            dy++;
+            dx = 0;
+            i++;
+            if (text[i] == 0) {
+                return;
+            }
+        } else if (text[i] == 1) {
+            dx++;
+            continue;
+        }
+        ch = text[i] - 1;
+        D_80092B60.x = D_80082754 + dx * 12 - (320 / 2);
+        dx++;
+        D_80092B60.y = D_80082758 + dy * 12 - (240 / 2);
+
+        v = D_80082768 + (ch / D_8008276C) * 12;
+        u = (D_80082764 << 2) + (ch % D_8008276C) * D_80092B60.w;
+
+        D_80092B60.tpage = GetTPage(0, 1, (u & 0xff00) >> 2, (v & 0xff00));
+        D_80092B60.u = u;
+        D_80092B60.v = v;
+        GsSortFastSprite(&D_80092B60, ot, 0);
+    }
+}
 
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetScoreSprite);
@@ -374,6 +417,7 @@ INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawHand);
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawScore);
 
+
 extern RECT D_80082774;
 
 void CompoClutModSetRect(s32 x, s32 y, s32 w, s32 h) {
@@ -394,17 +438,84 @@ void CompoClutModDraw(s32 n, u16 *clut) {
     DrawSync(0);
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80024264);
+void func_80024264(register s32 arg0, s32 arg1) {
+    u16 c;
+    u16 tmp[16];
+    u32 unused[6];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80024310);
+    c = arg0;
+    CompoClutModSetRect(80, 492, 16, 1);
+    StoreImage(&D_80082774, (u_long *)tmp);
+    tmp[arg1] = c;
+    CompoClutModDraw(16, tmp);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800243bc);
+void func_80024310(register s32 arg0, s32 arg1) {
+    u16 c;
+    u16 tmp[16];
+    u32 unused[6];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_800244e8);
+    c = arg0;
+    CompoClutModSetRect(272, 480, 16, 1);
+    StoreImage(&D_80082774, (u_long *)tmp);
+    tmp[arg1] = c;
+    CompoClutModDraw(16, tmp);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002464c);
+void func_800243bc(void) {
+    u16 tmp[16];
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoRemoveLevelGrayTextBorder);
+    CompoClutModSetRect(48, 493, 16, 1);
+    StoreImage(&D_80082774, (u_long *)tmp);
+    DrawSync(0);
+    for (i = 0; i < 16; i++) {
+        if (tmp[i] != 0) {
+            tmp[i] |= 0x8000;
+        }
+    }
+    CompoClutModDraw(16, tmp);
+    DrawSync(0);
+}
+
+void func_800244e8(s32 t) {
+    u16 tmp[16];
+    s32 i;
+
+    for (i = 480; i < 486; i++) {
+        CompoClutModSetRect(32, i, 16, 1);
+        StoreImage(&D_80082774, (u_long *)tmp);
+        DrawSync(0);
+        tmp[15] = (t == FALSE) ? 0x8000 : 0x0000;
+        LoadClut2((u_long *)tmp, 32, i);
+        DrawSync(0);
+    }
+    CompoClutModSetRect(32, 490, 16, 1);
+    StoreImage(&D_80082774, (u_long *)tmp);
+    DrawSync(0);
+    tmp[15] = (t == FALSE) ? 0x8000 : 0x0000;
+    LoadClut2((u_long *)tmp, 32, 490);
+    DrawSync(0);
+}
+
+void func_8002464c(void) {
+    u16 tmp[16];
+
+    CompoClutModSetRect(128, 492, 16, 1);
+    StoreImage(&D_80082774, (u_long *)tmp);
+    tmp[14] = 0;
+    CompoClutModDraw(16, tmp);
+}
+
+void CompoRemoveLevelGrayTextBorder(void) {
+    u16 tmp[16];
+
+    CompoClutModSetRect(304, 491, 16, 1);
+    StoreImage(&D_80082774, (u_long *)tmp);
+    tmp[3] = 0;
+    CompoClutModDraw(16, tmp);
+}
+
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002471c);
 
@@ -578,13 +689,27 @@ void CompoInit(void) {
     CompoInitOt();
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002f83c);
+void func_8002f83c(s32 r, s32 g, s32 b) {
+    RECT rect;
+
+    rect.x = rect.y = 0;
+    rect.w = 320;
+    rect.h = 480;
+    ClearImage(&rect, r, g, b);
+}
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawThoughtBubble);
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawOtThoughtBubble);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002fa2c);
+void func_8002fa2c(void) {
+    u32 i;
+
+    for (i = 0; i < 2; i++) {
+        ClearImage(&D_800678C4[i], 0, 0, 0);
+        DrawSync(0);
+    }
+}
 
 // TODO: Uses gp. Split
 
@@ -598,4 +723,29 @@ INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMakeLast);
 
 INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiMakeLast);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFadeColor);
+u16 CompoFadeColor(register u16 color, register s32 i) {
+    u32 sp0;
+    u32 sp4;
+    u32 sp8;
+    u32 spC;
+    u32 sp10;
+    u32 sp14;
+    u32 sp18;
+    u16 sp1C;
+
+    if ((color & 0xffff) == 0) {
+        return color;
+    }
+
+    sp0 = ((color >> 0) & 0x1f);
+    sp4 = ((color >> 5) & 0x1f);
+    sp8 = ((color >> 10) & 0x1f);
+
+    spC = 0x8000;
+    sp10 = (sp0 * i) / 30;
+    sp14 = (sp4 * i) / 30;
+    sp18 = (sp8 * i) / 30;
+
+    sp1C = spC | (sp18 << 10) | (sp14 << 5) | (sp10 << 0);
+    return sp1C;
+}
