@@ -14,11 +14,12 @@
 static char rcsid[] = "@(#)prcd.c: version 01-00 95/10/10 00:00:00";
 
 // Should be type CdlCB...
-extern void (*D_80082734)();
-extern s32 D_80082738;
-extern BOOL D_8008273C;
+extern void (*cdStrmPrevCb)();
+extern s32 cdStrmSectorCount;
+extern BOOL cdFailed;
+
 extern s32 D_800827F0;
-extern s32 D_8008280C;
+extern s32 cdStrmFrameSect;
 extern s32 D_80082814;
 
 static CD_INFO cdInfoData = {0};
@@ -44,10 +45,10 @@ void CDInit(void) {
 }
 
 void CDReadStreamCallback(u_char status, u_char *result) {
-    D_80082734();
+    cdStrmPrevCb();
     if (status == CdlDataReady) {
         D_80082814++;
-        D_8008280C += D_80082738;
+        cdStrmFrameSect += cdStrmSectorCount;
     }
 }
 
@@ -161,16 +162,16 @@ void CDStartStream(CD_FILE *cdf, BOOL fast, BOOL arg2) {
         }
         if (fast == TRUE) {
             mode |= CdlModeSpeed;
-            D_80082738 = 16;
+            cdStrmSectorCount = 16;
         } else {
-            D_80082738 = 4;
+            cdStrmSectorCount = 4;
         }
 
         while (CdRead2(mode) == 0);
     } while (CdSync(0, NULL) != CdlComplete);
     D_80082814 = 0;
-    D_8008280C = 0 - D_80082738;
-    D_80082734 = CdReadyCallback(CDReadStreamCallback);
+    cdStrmFrameSect = 0 - cdStrmSectorCount;
+    cdStrmPrevCb = CdReadyCallback(CDReadStreamCallback);
     cdInfo->unk28 = TRUE;
 }
 
@@ -209,10 +210,10 @@ s32 CDGetCurrentSector(s32 pos) {
 
 s32 CDGetCurrentStreamSector(s32 pos) {
     // Absolute sector value (Skip the header lasting 2 seconds)
-    cdInfo->cursec = D_8008280C + 150;
+    cdInfo->cursec = cdStrmFrameSect + 150;
     // Relative sector value
     cdInfo->relsec = cdInfo->cursec - pos;
-    return D_8008280C;
+    return cdStrmFrameSect;
 }
 
 BOOL CDFileEnded(CD_FILE *cdf) {
@@ -346,7 +347,7 @@ BOOL CDRead(CdlFILE *file, s32 mode, BOOL snd) {
         } else if (hdr->type == INT_BLOCK_TYPE_END) {
             break;
         } else {
-            D_8008273C = TRUE;
+            cdFailed = TRUE;
             return FALSE;
         }
         CDSeek(&file->pos, next);

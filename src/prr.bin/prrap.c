@@ -120,7 +120,7 @@ void RapPlayFrameActive(s32 freq) {
     rapFrameActiveTimer++;
 }
 
-static SND_INFO D_80067D2C[2] = {
+static SND_INFO rapSndInfoMovieGuiActive[2] = {
     { 
       0, 10, 34, 90,
       0
@@ -135,6 +135,6 @@ static SND_INFO D_80067D2C[2] = {
 // 0 = text box
 // 1 = screen
 void RapPlayFrameMovieGuiActive(s32 snd) {
-    RapPlayKey(D_80067D2C + snd);
+    RapPlayKey(rapSndInfoMovieGuiActive + snd);
     RapFlush();
 }

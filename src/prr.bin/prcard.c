@@ -4,6 +4,8 @@
 #include <string.h>
 #include <libetc.h>
 
+static char rcsid[] = "@(#)prcard.c: version 01-00 96/08/01 00:00:00";
+
 s32 CardTestEvent(void);
 s32 CardTestEventOnce(void);
 void CardClearEvent(void);
@@ -21,17 +23,19 @@ s32 CardFormatAt(s32 slot, s32 ext);
 void CardInitHeader(CARD_HEADER *p, char *title);
 
 
-extern long D_800826DC;
-extern long D_800826E0;
-extern long D_800826E4;
-extern long D_800826E8;
-extern long D_800826EC;
-extern long D_800826F0;
-extern long D_800826F4;
-extern long D_800826F8;
-extern long D_80082700;
+extern long cardEv0;
+extern long cardEv1;
+extern long cardEv2;
+extern long cardEv3;
+extern long cardEv10;
+extern long cardEv11;
+extern long cardEv12;
+extern long cardEv13;
+extern u32 D_800826FC;
+extern long cardFdTmp;
+extern u32 D_80082704;
 
-extern struct DIRENTRY D_8008994C[15];
+extern struct DIRENTRY cardDirEntry[15];
 
 static s32 cardExt = 0;
 static s32 cardSlot = 0;
@@ -102,66 +106,66 @@ s32 CardTestEvent(void) {
     u32 unused;
 
     while (TRUE) {
-        if (TestEvent(D_800826DC) == TRUE) {
+        if (TestEvent(cardEv0) == TRUE) {
             return CARD_EVENT_IOE;
         }
-        if (TestEvent(D_800826E0) == TRUE) {
+        if (TestEvent(cardEv1) == TRUE) {
             return CARD_EVENT_ERROR;
         }
-        if (TestEvent(D_800826E4) == TRUE) {
+        if (TestEvent(cardEv2) == TRUE) {
             return CARD_EVENT_TIMEOUT;
         }
-        if (TestEvent(D_800826E8) == TRUE) {
+        if (TestEvent(cardEv3) == TRUE) {
             return CARD_EVENT_NEWCARD;
         }
     }
 }
 
 s32 CardTestEventOnce(void) {
-    if (TestEvent(D_800826DC) == TRUE) {
+    if (TestEvent(cardEv0) == TRUE) {
         return CARD_EVENT_IOE;
     }
-    if (TestEvent(D_800826E0) == TRUE) {
+    if (TestEvent(cardEv1) == TRUE) {
         return CARD_EVENT_ERROR;
     }
-    if (TestEvent(D_800826E4) == TRUE) {
+    if (TestEvent(cardEv2) == TRUE) {
         return CARD_EVENT_TIMEOUT;
     }
-    if (TestEvent(D_800826E8) == TRUE) {
+    if (TestEvent(cardEv3) == TRUE) {
         return CARD_EVENT_NEWCARD;
     }
     return 0;
 }
 
 void CardClearEvent(void) {
-    TestEvent(D_800826DC);
-    TestEvent(D_800826E0);
-    TestEvent(D_800826E4);
-    TestEvent(D_800826E8);
+    TestEvent(cardEv0);
+    TestEvent(cardEv1);
+    TestEvent(cardEv2);
+    TestEvent(cardEv3);
 }
 
 s32 CardTestEventX(void) {
     while (TRUE) {
-        if (TestEvent(D_800826EC) == TRUE) {
+        if (TestEvent(cardEv10) == TRUE) {
             return CARD_EVENT_IOE;
         }
-        if (TestEvent(D_800826F0) == TRUE) {
+        if (TestEvent(cardEv11) == TRUE) {
             return CARD_EVENT_ERROR;
         }
-        if (TestEvent(D_800826F4) == TRUE) {
+        if (TestEvent(cardEv12) == TRUE) {
             return CARD_EVENT_TIMEOUT;
         }
-        if (TestEvent(D_800826F8) == TRUE) {
+        if (TestEvent(cardEv13) == TRUE) {
             return CARD_EVENT_NEWCARD;
         }
     }
 }
 
 void CardClearEventX(void) {
-    TestEvent(D_800826EC);
-    TestEvent(D_800826F0);
-    TestEvent(D_800826F4);
-    TestEvent(D_800826F8);
+    TestEvent(cardEv10);
+    TestEvent(cardEv11);
+    TestEvent(cardEv12);
+    TestEvent(cardEv13);
 }
 
 void CardInit(s32 val) {
@@ -171,36 +175,36 @@ void CardInit(s32 val) {
     ChangeClearPAD(0);
 
     EnterCriticalSection();
-    D_800826DC = OpenEvent(SwCARD, EvSpIOE, EvMdNOINTR, NULL);
-    D_800826E0 = OpenEvent(SwCARD, EvSpERROR, EvMdNOINTR, NULL);
-    D_800826E4 = OpenEvent(SwCARD, EvSpTIMOUT, EvMdNOINTR, NULL);
-    D_800826E8 = OpenEvent(SwCARD, EvSpNEW, EvMdNOINTR, NULL);
-    D_800826EC = OpenEvent(HwCARD, EvSpIOE, EvMdNOINTR, NULL);
-    D_800826F0 = OpenEvent(HwCARD, EvSpERROR, EvMdNOINTR, NULL);
-    D_800826F4 = OpenEvent(HwCARD, EvSpTIMOUT, EvMdNOINTR, NULL);
-    D_800826F8 = OpenEvent(HwCARD, EvSpNEW, EvMdNOINTR, NULL);
+    cardEv0 = OpenEvent(SwCARD, EvSpIOE, EvMdNOINTR, NULL);
+    cardEv1 = OpenEvent(SwCARD, EvSpERROR, EvMdNOINTR, NULL);
+    cardEv2 = OpenEvent(SwCARD, EvSpTIMOUT, EvMdNOINTR, NULL);
+    cardEv3 = OpenEvent(SwCARD, EvSpNEW, EvMdNOINTR, NULL);
+    cardEv10 = OpenEvent(HwCARD, EvSpIOE, EvMdNOINTR, NULL);
+    cardEv11 = OpenEvent(HwCARD, EvSpERROR, EvMdNOINTR, NULL);
+    cardEv12 = OpenEvent(HwCARD, EvSpTIMOUT, EvMdNOINTR, NULL);
+    cardEv13 = OpenEvent(HwCARD, EvSpNEW, EvMdNOINTR, NULL);
     ExitCriticalSection();
     
-    EnableEvent(D_800826DC);
-    EnableEvent(D_800826E0);
-    EnableEvent(D_800826E4);
-    EnableEvent(D_800826E8);
-    EnableEvent(D_800826EC);
-    EnableEvent(D_800826F0);
-    EnableEvent(D_800826F4);
-    EnableEvent(D_800826F8);
+    EnableEvent(cardEv0);
+    EnableEvent(cardEv1);
+    EnableEvent(cardEv2);
+    EnableEvent(cardEv3);
+    EnableEvent(cardEv10);
+    EnableEvent(cardEv11);
+    EnableEvent(cardEv12);
+    EnableEvent(cardEv13);
 }
 
 void CardClose(void) {
     EnterCriticalSection();
-    CloseEvent(D_800826DC);
-    CloseEvent(D_800826E0);
-    CloseEvent(D_800826E4);
-    CloseEvent(D_800826E8);
-    CloseEvent(D_800826EC);
-    CloseEvent(D_800826F0);
-    CloseEvent(D_800826F4);
-    CloseEvent(D_800826F8);
+    CloseEvent(cardEv0);
+    CloseEvent(cardEv1);
+    CloseEvent(cardEv2);
+    CloseEvent(cardEv3);
+    CloseEvent(cardEv10);
+    CloseEvent(cardEv11);
+    CloseEvent(cardEv12);
+    CloseEvent(cardEv13);
     ExitCriticalSection();
 }
 
@@ -211,7 +215,7 @@ s32 CardGetFreeIdAt(s32 slot, s32 ext) {
     
     i = 0;
     sprintf(tmp, "bu%1d%1d:*", slot, ext);
-    d = &D_8008994C[0];
+    d = &cardDirEntry[0];
     if (firstfile(tmp, d) == d) {
         do {
             i++;
@@ -228,7 +232,7 @@ s32 CardGetTotalSize(s32 num) {
     struct DIRENTRY *ent;
     
     size = 0;
-    ent = &D_8008994C[0];
+    ent = &cardDirEntry[0];
     for (i = 0; i < num; i++) {
         size += ent[i].size;
     }
@@ -251,7 +255,7 @@ s32 CardReadAt(s32 slot, s32 ext, char *fname, void *buf, s32 size) {
     sizeb = size * 0x2000;
     fd = open(tmp, O_RDONLY | O_NOWAIT);
     if (fd != -1) {
-        D_80082700 = fd;
+        cardFdTmp = fd;
         CardClearEvent();
         read(fd, buf, sizeb);
         ret = 0;
@@ -283,7 +287,7 @@ s32 CardWriteAt(s32 slot, s32 ext, char *fname, void *buf, s32 size, BOOL newf) 
     sizeb = size * 0x2000;
     fd = open(tmp, O_WRONLY | O_NOWAIT);
     if (fd != -1) {
-        D_80082700 = fd;
+        cardFdTmp = fd;
         CardClearEvent();
         write(fd, buf, sizeb);
         ret = 0;
@@ -354,7 +358,7 @@ s32 CardGetStatus(void) {
 }
 
 s32 CardGetFirstFreeId(void) {
-    bzero(D_8008994C, sizeof(D_8008994C));
+    bzero(cardDirEntry, sizeof(cardDirEntry));
     return CardGetFreeIdAt(cardSlot, cardExt);
 }
 
@@ -364,7 +368,7 @@ BOOL CardFileExists(char *fname) {
     s32 j;
     char dpname[32];
 
-    ent = &D_8008994C[0];
+    ent = &cardDirEntry[0];
 
     for (i = 0; i < 15; i++) {
         for (j = 0; (j < 21) && (ent[i].name[j] != '\0'); j++) {
@@ -385,7 +389,7 @@ s32 CardRead(char *fname, void *buf, s32 size) {
 
     CardReadAt(cardSlot, cardExt, fname, buf, size);
     event = CardTestEvent();
-    close(D_80082700);
+    close(cardFdTmp);
     if (event == CARD_EVENT_IOE) {
         return 0;
     } else {
@@ -400,7 +404,7 @@ s32 CardWrite(char *fname, void *buf, s32 size) {
     newf = CardFileExists(fname) != TRUE;
     CardWriteAt(cardSlot, cardExt, fname, buf, size, newf);
     event = CardTestEvent();
-    close(D_80082700);
+    close(cardFdTmp);
     if (event == CARD_EVENT_IOE) {
         return 0;
     } else {
@@ -417,7 +421,7 @@ void CardDeleteFile(char *fname) {
 }
 
 struct DIRENTRY *CardGetFiles(void) {
-    return D_8008994C;
+    return cardDirEntry;
 }
 
 BOOL CardGetInfo(s32 *firstfree, s32 *size) {

@@ -47,7 +47,7 @@ typedef struct ACTION_INFO {
 
 
 extern ACTION_INFO actionInfo;
-extern GsRVIEW2 D_800A3620;
+extern GsRVIEW2 actionView;
 extern BOOL D_800823A4;
 
 

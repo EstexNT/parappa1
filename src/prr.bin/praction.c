@@ -3,6 +3,8 @@
 #include "prvdbg.h"
 // #include "prmemory.h"
 
+static char rcsid[] = "@(#)praction.c: version 01-00 95/10/10 00:00:00";
+
 void ActionBezInterpolate(s32 sf, MATRIX *refmtx, SVECTOR *ref, VECTOR *view);
 void ActionSetTmdInfo(void *tmd, PARA_TMD_DATA *data);
 void ActionSaveOriginalVtx(PARA_TMD_DATA *tmd, SVECTOR *orgvtx);
@@ -20,179 +22,179 @@ s32 ActionCalcActScore(ON_INPUT_INFO *oninp[], s32 type, u32 validpad);
 void ActionGetOnInput(ON_INPUT_INFO *oninp[], s32 type, u32 ncall);
 
 
-extern SVECTOR *D_800826D4;
+extern SVECTOR *actionViewSubframe;
 
-extern MATRIX D_80082818;
-extern MATRIX D_80082838;
-extern SVECTOR D_80082858[110];
-extern SVECTOR D_80082BC8[110];
-extern s32 D_80082F38[110];
-extern PARA_TMD_OBJECT D_800830F0[10][4];
-extern PARA_VDF_OBJECT D_80083550[10][128];
-extern PARA_TMD_DATA D_80088550[10];
-extern PARA_VDF_DATA D_800885C8[10];
+extern MATRIX actionBezPosMtx;
+extern MATRIX actionBezRefMtx;
+extern SVECTOR actionBezPos[110];
+extern SVECTOR actionBezRef[110];
+extern s32 actionBezInt[110];
+extern PARA_TMD_OBJECT actionTmdObj[10][4];
+extern PARA_VDF_OBJECT actionVdfObj[10][128];
+extern PARA_TMD_DATA actionTmdData[10];
+extern PARA_VDF_DATA actionVdfData[10];
 
 
 void ActionInitView(SVECTOR *sf) {
-    D_800826D4 = sf;
-    GsInitCoordinate2(NULL, D_800A3620.super);
+    actionViewSubframe = sf;
+    GsInitCoordinate2(NULL, actionView.super);
 }
 
-static u32 D_80082388 = 0;
-static s32 D_8008238C = 0;
-static s32 D_80082390 = 11;
+static u32 actionBezLen = 0;
+static s32 actionBezCur = 0;
+static s32 actionBezDiv = 11;
 
 void ActionSetBez(u32 *bezdata, s32 divisor) {
     s32 i;
     s16 *p;
     s32 *data;
 
-    D_80082390 = divisor;
-    D_8008238C = 0;
+    actionBezDiv = divisor;
+    actionBezCur = 0;
 
     data = bezdata;
-    D_80082388 = *data++;
-    for (i = 0; i < D_80082388; i++) {
+    actionBezLen = *data++;
+    for (i = 0; i < actionBezLen; i++) {
         p = (s16 *)data;
-        D_80082858[i].vx = p[0];
-        D_80082858[i].vy = p[1];
-        D_80082858[i].vz = p[2];
-        D_80082BC8[i].vx = p[3];
-        D_80082BC8[i].vy = p[4];
-        D_80082BC8[i].vz = p[5];
+        actionBezPos[i].vx = p[0];
+        actionBezPos[i].vy = p[1];
+        actionBezPos[i].vz = p[2];
+        actionBezRef[i].vx = p[3];
+        actionBezRef[i].vy = p[4];
+        actionBezRef[i].vz = p[5];
         data = (u8 *)data + sizeof(s16) * 6;
-        D_80082F38[i] = *data++;
+        actionBezInt[i] = *data++;
     }
 }
 
 void ActionStartBez(void) {
-    D_800A3620.vpx = D_80082858[0].vx;
-    D_800A3620.vpy = D_80082858[0].vy;
-    D_800A3620.vpz = D_80082858[0].vz;
-    D_800A3620.vrx = D_80082BC8[0].vx;
-    D_800A3620.vry = D_80082BC8[0].vy;
-    D_800A3620.vrz = D_80082BC8[0].vz;
-    GsSetRefView2(&D_800A3620);
+    actionView.vpx = actionBezPos[0].vx;
+    actionView.vpy = actionBezPos[0].vy;
+    actionView.vpz = actionBezPos[0].vz;
+    actionView.vrx = actionBezRef[0].vx;
+    actionView.vry = actionBezRef[0].vy;
+    actionView.vrz = actionBezRef[0].vz;
+    GsSetRefView2(&actionView);
 }
 
-static s32 D_80082394 = 0;
-static s32 D_80082398 = 0;
+static s32 actionBezPosState = 0;
+static s32 actionBezRefState = 0;
 
-s32 D_800826BC;
-s32 D_800826C0;
-s32 D_800826C4;
-s32 D_800826C8;
-s32 D_800826CC;
-s32 D_800826D0;
+s32 actionBezAddPx;
+s32 actionBezAddPy;
+s32 actionBezAddPz;
+s32 actionBezAddRx;
+s32 actionBezAddRy;
+s32 actionBezAddRz;
 
 s32 ActionFollowBez(s32 frame) {
     VECTOR view;
     s32 framediv;
     s32 curm;
 
-    if (D_8008238C < 0) {
+    if (actionBezCur < 0) {
         // BUG: No return value
         return;
     }
 
-    framediv = frame % D_80082390;
+    framediv = frame % actionBezDiv;
     if (framediv == 0) {
-        if (((((D_80082388 + 2) / 3) - 2) > D_8008238C)) {
+        if (((((actionBezLen + 2) / 3) - 2) > actionBezCur)) {
             if (frame != 0) {
-                D_8008238C++;
+                actionBezCur++;
             }
         } else {
-            D_8008238C = -1;
+            actionBezCur = -1;
             // BUG: No return value
             return;
         }
-        curm = D_8008238C * 3;
+        curm = actionBezCur * 3;
 
         // Pos
-        if (((D_80082858[curm].vx == D_80082858[curm + 3].vx) && (D_80082858[curm + 1].vx == 0) && (D_80082858[curm + 2].vx == 0)) && 
-            ((D_80082858[curm].vy == D_80082858[curm + 3].vy) && (D_80082858[curm + 1].vy == 0) && (D_80082858[curm + 2].vy == 0)) &&
-            ((D_80082858[curm].vz == D_80082858[curm + 3].vz) && (D_80082858[curm + 1].vz == 0) && (D_80082858[curm + 2].vz == 0))) {
-            D_80082394 = 1;
+        if (((actionBezPos[curm].vx == actionBezPos[curm + 3].vx) && (actionBezPos[curm + 1].vx == 0) && (actionBezPos[curm + 2].vx == 0)) && 
+            ((actionBezPos[curm].vy == actionBezPos[curm + 3].vy) && (actionBezPos[curm + 1].vy == 0) && (actionBezPos[curm + 2].vy == 0)) &&
+            ((actionBezPos[curm].vz == actionBezPos[curm + 3].vz) && (actionBezPos[curm + 1].vz == 0) && (actionBezPos[curm + 2].vz == 0))) {
+            actionBezPosState = 1;
         } else
-        if (((D_80082858[curm + 1].vx == 0) && (D_80082858[curm + 1].vy == 0) && (D_80082858[curm + 1].vz == 0)) ||
-            ((D_80082858[curm + 2].vx == 0) && (D_80082858[curm + 2].vy == 0) && (D_80082858[curm + 2].vz == 0))) {
-            D_800826BC = (D_80082858[curm + 3].vx - D_80082858[curm].vx) / D_80082390;
-            D_800826C0 = (D_80082858[curm + 3].vy - D_80082858[curm].vy) / D_80082390;
-            D_800826C4 = (D_80082858[curm + 3].vz - D_80082858[curm].vz) / D_80082390;
-            D_80082394 = 2;
+        if (((actionBezPos[curm + 1].vx == 0) && (actionBezPos[curm + 1].vy == 0) && (actionBezPos[curm + 1].vz == 0)) ||
+            ((actionBezPos[curm + 2].vx == 0) && (actionBezPos[curm + 2].vy == 0) && (actionBezPos[curm + 2].vz == 0))) {
+            actionBezAddPx = (actionBezPos[curm + 3].vx - actionBezPos[curm].vx) / actionBezDiv;
+            actionBezAddPy = (actionBezPos[curm + 3].vy - actionBezPos[curm].vy) / actionBezDiv;
+            actionBezAddPz = (actionBezPos[curm + 3].vz - actionBezPos[curm].vz) / actionBezDiv;
+            actionBezPosState = 2;
         } else {
-            D_80082818.m[0][0] = D_80082858[curm + 0].vx;
-            D_80082818.m[0][1] = D_80082858[curm + 1].vx;
-            D_80082818.m[0][2] = D_80082858[curm + 2].vx;
-            D_80082818.m[1][0] = D_80082858[curm + 0].vy;
-            D_80082818.m[1][1] = D_80082858[curm + 1].vy;
-            D_80082818.m[1][2] = D_80082858[curm + 2].vy;
-            D_80082818.m[2][0] = D_80082858[curm + 0].vz;
-            D_80082818.m[2][1] = D_80082858[curm + 1].vz;
-            D_80082818.m[2][2] = D_80082858[curm + 2].vz;
-            D_80082394 = 0;
+            actionBezPosMtx.m[0][0] = actionBezPos[curm + 0].vx;
+            actionBezPosMtx.m[0][1] = actionBezPos[curm + 1].vx;
+            actionBezPosMtx.m[0][2] = actionBezPos[curm + 2].vx;
+            actionBezPosMtx.m[1][0] = actionBezPos[curm + 0].vy;
+            actionBezPosMtx.m[1][1] = actionBezPos[curm + 1].vy;
+            actionBezPosMtx.m[1][2] = actionBezPos[curm + 2].vy;
+            actionBezPosMtx.m[2][0] = actionBezPos[curm + 0].vz;
+            actionBezPosMtx.m[2][1] = actionBezPos[curm + 1].vz;
+            actionBezPosMtx.m[2][2] = actionBezPos[curm + 2].vz;
+            actionBezPosState = 0;
         }
 
         // Ref
-        if (((D_80082BC8[curm].vx == D_80082BC8[curm + 3].vx) && (D_80082BC8[curm + 1].vx == 0) && (D_80082BC8[curm + 2].vx == 0)) && 
-            ((D_80082BC8[curm].vy == D_80082BC8[curm + 3].vy) && (D_80082BC8[curm + 1].vy == 0) && (D_80082BC8[curm + 2].vy == 0)) &&
-            ((D_80082BC8[curm].vz == D_80082BC8[curm + 3].vz) && (D_80082BC8[curm + 1].vz == 0) && (D_80082BC8[curm + 2].vz == 0))) {
-            D_80082398 = 1;
+        if (((actionBezRef[curm].vx == actionBezRef[curm + 3].vx) && (actionBezRef[curm + 1].vx == 0) && (actionBezRef[curm + 2].vx == 0)) && 
+            ((actionBezRef[curm].vy == actionBezRef[curm + 3].vy) && (actionBezRef[curm + 1].vy == 0) && (actionBezRef[curm + 2].vy == 0)) &&
+            ((actionBezRef[curm].vz == actionBezRef[curm + 3].vz) && (actionBezRef[curm + 1].vz == 0) && (actionBezRef[curm + 2].vz == 0))) {
+            actionBezRefState = 1;
         } else
-        if (((D_80082BC8[curm + 1].vx == 0) && (D_80082BC8[curm + 1].vy == 0) && (D_80082BC8[curm + 1].vz == 0)) ||
-            ((D_80082BC8[curm + 2].vx == 0) && (D_80082BC8[curm + 2].vy == 0) && (D_80082BC8[curm + 2].vz == 0))) {
-            D_800826C8 = (D_80082BC8[curm + 3].vx - D_80082BC8[curm].vx) / D_80082390;
-            D_800826CC = (D_80082BC8[curm + 3].vy - D_80082BC8[curm].vy) / D_80082390;
-            D_800826D0 = (D_80082BC8[curm + 3].vz - D_80082BC8[curm].vz) / D_80082390;
-            D_80082398 = 2;
+        if (((actionBezRef[curm + 1].vx == 0) && (actionBezRef[curm + 1].vy == 0) && (actionBezRef[curm + 1].vz == 0)) ||
+            ((actionBezRef[curm + 2].vx == 0) && (actionBezRef[curm + 2].vy == 0) && (actionBezRef[curm + 2].vz == 0))) {
+            actionBezAddRx = (actionBezRef[curm + 3].vx - actionBezRef[curm].vx) / actionBezDiv;
+            actionBezAddRy = (actionBezRef[curm + 3].vy - actionBezRef[curm].vy) / actionBezDiv;
+            actionBezAddRz = (actionBezRef[curm + 3].vz - actionBezRef[curm].vz) / actionBezDiv;
+            actionBezRefState = 2;
         } else {
-            D_80082838.m[0][0] = D_80082BC8[curm + 0].vx;
-            D_80082838.m[0][1] = D_80082BC8[curm + 1].vx;
-            D_80082838.m[0][2] = D_80082BC8[curm + 2].vx;
-            D_80082838.m[1][0] = D_80082BC8[curm + 0].vy;
-            D_80082838.m[1][1] = D_80082BC8[curm + 1].vy;
-            D_80082838.m[1][2] = D_80082BC8[curm + 2].vy;
-            D_80082838.m[2][0] = D_80082BC8[curm + 0].vz;
-            D_80082838.m[2][1] = D_80082BC8[curm + 1].vz;
-            D_80082838.m[2][2] = D_80082BC8[curm + 2].vz;
-            D_80082398 = 0;
+            actionBezRefMtx.m[0][0] = actionBezRef[curm + 0].vx;
+            actionBezRefMtx.m[0][1] = actionBezRef[curm + 1].vx;
+            actionBezRefMtx.m[0][2] = actionBezRef[curm + 2].vx;
+            actionBezRefMtx.m[1][0] = actionBezRef[curm + 0].vy;
+            actionBezRefMtx.m[1][1] = actionBezRef[curm + 1].vy;
+            actionBezRefMtx.m[1][2] = actionBezRef[curm + 2].vy;
+            actionBezRefMtx.m[2][0] = actionBezRef[curm + 0].vz;
+            actionBezRefMtx.m[2][1] = actionBezRef[curm + 1].vz;
+            actionBezRefMtx.m[2][2] = actionBezRef[curm + 2].vz;
+            actionBezRefState = 0;
         }
     }
     // e48
-    curm = D_8008238C * 3;
+    curm = actionBezCur * 3;
 
     // Pos
-    if (D_80082394 == 1) {
-        D_800A3620.vpx = D_80082858[curm].vx;
-        D_800A3620.vpy = D_80082858[curm].vy;
-        D_800A3620.vpz = D_80082858[curm].vz;
-    } else if (D_80082394 == 2) {
-        D_800A3620.vpx = D_80082858[curm].vx + D_800826BC * framediv;
-        D_800A3620.vpy = D_80082858[curm].vy + D_800826C0 * framediv;
-        D_800A3620.vpz = D_80082858[curm].vz + D_800826C4 * framediv;
+    if (actionBezPosState == 1) {
+        actionView.vpx = actionBezPos[curm].vx;
+        actionView.vpy = actionBezPos[curm].vy;
+        actionView.vpz = actionBezPos[curm].vz;
+    } else if (actionBezPosState == 2) {
+        actionView.vpx = actionBezPos[curm].vx + actionBezAddPx * framediv;
+        actionView.vpy = actionBezPos[curm].vy + actionBezAddPy * framediv;
+        actionView.vpz = actionBezPos[curm].vz + actionBezAddPz * framediv;
     } else {
-        ActionBezInterpolate(framediv, &D_80082818, &D_80082858[curm + 3], &view);
-        D_800A3620.vpx = view.vx;
-        D_800A3620.vpy = view.vy;
-        D_800A3620.vpz = view.vz;
+        ActionBezInterpolate(framediv, &actionBezPosMtx, &actionBezPos[curm + 3], &view);
+        actionView.vpx = view.vx;
+        actionView.vpy = view.vy;
+        actionView.vpz = view.vz;
     }
 
     // Ref
-    if (D_80082398 == 1) {
-        D_800A3620.vrx = D_80082BC8[curm].vx;
-        D_800A3620.vry = D_80082BC8[curm].vy;
-        D_800A3620.vrz = D_80082BC8[curm].vz;
-    } else if (D_80082398 == 2) {
-        D_800A3620.vrx = D_80082BC8[curm].vx + D_800826C8 * framediv;
-        D_800A3620.vry = D_80082BC8[curm].vy + D_800826CC * framediv;
-        D_800A3620.vrz = D_80082BC8[curm].vz + D_800826D0 * framediv;
+    if (actionBezRefState == 1) {
+        actionView.vrx = actionBezRef[curm].vx;
+        actionView.vry = actionBezRef[curm].vy;
+        actionView.vrz = actionBezRef[curm].vz;
+    } else if (actionBezRefState == 2) {
+        actionView.vrx = actionBezRef[curm].vx + actionBezAddRx * framediv;
+        actionView.vry = actionBezRef[curm].vy + actionBezAddRy * framediv;
+        actionView.vrz = actionBezRef[curm].vz + actionBezAddRz * framediv;
     } else {
-        ActionBezInterpolate(framediv, &D_80082838, &D_80082BC8[curm + 3], &view);
-        D_800A3620.vrx = view.vx;
-        D_800A3620.vry = view.vy;
-        D_800A3620.vrz = view.vz;
+        ActionBezInterpolate(framediv, &actionBezRefMtx, &actionBezRef[curm + 3], &view);
+        actionView.vrx = view.vx;
+        actionView.vry = view.vy;
+        actionView.vrz = view.vz;
     }
 
-    GsSetRefView2(&D_800A3620);
-    return D_8008238C;
+    GsSetRefView2(&actionView);
+    return actionBezCur;
 }

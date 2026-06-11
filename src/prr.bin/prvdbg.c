@@ -111,7 +111,7 @@ void DbgPrintMovie(void) {
     FntPrint(D_80010D00, info->gametimet.min, info->gametimet.sec, info->gametimet.frame);
     FntPrint(D_80010D14, dbgInfo.decsize_lvlscorediff);
     FntPrint(D_80010D20, dbgInfo.nf, dbgInfo.fe);
-    FntPrint(D_800825F4, D_800827F8);
+    FntPrint(D_800825F4, eventCurMovieSub);
     FntPrint(D_80010D30, dbgInfo.seccur, dbgInfo.secfirst, dbgInfo.seclast);
     FntPrint(D_800825FC, dbgInfo.vsyncdiff);
     FntPrint(D_80010D44, dbgInfo.workoffs, dbgInfo.workoffsmax);

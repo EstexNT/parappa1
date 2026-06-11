@@ -4,13 +4,15 @@
 #include "prvdbg.h"
 #include "praction.h"
 
-extern BOOL D_80082784;
-extern BOOL D_80082788;
+static char rcsid[] = "@(#)prevent.c: version 01-00 95/10/10 00:00:00";
 
-extern s32 D_800827D8;
-extern MOVIE_SUBTITLES_INFO *D_800827DC;
-extern PARA_EN_T *D_800827E8;
-extern PARA_JP_T *D_800827EC;
+extern BOOL eventOverridenLang;
+extern BOOL eventOverridenLangPrev;
+
+extern s32 eventMovieSubNum;
+extern MOVIE_SUBTITLES_INFO *eventMovieSubInfo;
+extern PARA_EN_T *eventMovieSubEn;
+extern PARA_JP_T *eventMovieSubJp;
 
 extern EVENT_RECORD_INFO eventRecordInfo;
 
@@ -44,10 +46,20 @@ s32 EventGetKeyIndexFromPad(u32 pad) {
     }
 }
 
-extern u32 D_80067904[];
+static u32 keyIdxToPad[PR_TAP_NUM] = {
+    [PR_TAP_NONE] = PR_PAD_NONE,
+    [PR_TAP_TRIANGLE] = PR_PAD_TRIANGLE,
+    [PR_TAP_CIRCLE] = PR_PAD_CIRCLE,
+    [PR_TAP_CROSS] = PR_PAD_CROSS,
+    [PR_TAP_SQUARE] = PR_PAD_SQUARE,
+    [PR_TAP_L1] = PR_PAD_L1,
+    [PR_TAP_L2] = PR_PAD_L1,
+    [PR_TAP_R1] = PR_PAD_R1,
+    [PR_TAP_R2] = PR_PAD_R1,
+};
 
 u32 EventGetPadFromKeyIndex(s32 keyid) {
-    return ((keyid > PR_TAP_NONE) && (keyid < PR_TAP_NUM)) ? D_80067904[keyid] : PR_PAD_NONE;
+    return ((keyid > PR_TAP_NONE) && (keyid < PR_TAP_NUM)) ? keyIdxToPad[keyid] : PR_PAD_NONE;
 }
 
 void EventResetEstimate(SCENE_INFO *scn) {
@@ -176,16 +188,16 @@ void EventSetMovieSubtitles(MOVIE_SUBTITLES *sub) {
     eventInfo.entexttimer = 0;
     eventInfo.jptext = NULL;
     eventInfo.entext = NULL;
-    D_800827F8 = 0;
+    eventCurMovieSub = 0;
     if (sub != NULL) {
-        D_800827D8 = sub->num;
-        D_800827DC = sub->info;
-        D_800827EC = sub->jp;
-        D_800827E8 = sub->en;
+        eventMovieSubNum = sub->num;
+        eventMovieSubInfo = sub->info;
+        eventMovieSubJp = sub->jp;
+        eventMovieSubEn = sub->en;
     } else {
-        D_800827D8 = 0;
-        D_800827DC = NULL;
-        D_800827EC = NULL;
+        eventMovieSubNum = 0;
+        eventMovieSubInfo = NULL;
+        eventMovieSubJp = NULL;
     }
 }
 
@@ -194,9 +206,9 @@ void EventSetFlashHigh(BOOL flashhigh) {
 }
 
 void EventCheckTextOverride(SCENE_INFO *scn) {
-    if (D_80082784 == 1) {
-        D_80082784 = 0;
-        scn->drawtextlang = D_80082788;
+    if (eventOverridenLang == 1) {
+        eventOverridenLang = 0;
+        scn->drawtextlang = eventOverridenLangPrev;
     }
 }
 
@@ -220,19 +232,19 @@ SCENE_INFO *EventUpdateText(SCENE_INFO *scn) {
     }
 
     if (info->seljp >= 1) {
-        eventInfo.jptext = D_800827EC[info->seljp];
+        eventInfo.jptext = eventMovieSubJp[info->seljp];
         eventInfo.jptexttimer = info->texttime / 2;
     } else {
-        if ((info->seljp == -1) && (D_80082784 == FALSE)) {
-            D_80082784 = TRUE;
-            D_80082788 = scn->drawtextlang;
+        if ((info->seljp == -1) && (eventOverridenLang == FALSE)) {
+            eventOverridenLang = TRUE;
+            eventOverridenLangPrev = scn->drawtextlang;
             scn->drawtextlang = TRUE;
         }
     }
     scn->jptext = eventInfo.jptext;
 
     if (info->selen > 0) {
-        eventInfo.entext = D_800827E8[info->selen];
+        eventInfo.entext = eventMovieSubEn[info->selen];
         eventInfo.entexttimer = info->texttime / 2;
     }
     scn->entext = eventInfo.entext;

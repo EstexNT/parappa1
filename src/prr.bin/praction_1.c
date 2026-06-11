@@ -20,18 +20,18 @@ void ActionRecordTap(u32 pad, s32 nth, s32 time);
 s32 ActionCalcActScore(ON_INPUT_INFO *oninp[], s32 type, u32 validPad);
 void ActionGetOnInput(ON_INPUT_INFO *oninp[], s32 type, u32 ncall);
 
-SVECTOR *D_800826D4;
+SVECTOR *actionViewSubframe;
 
-extern MATRIX D_80082818;
-extern MATRIX D_80082838;
-extern SVECTOR D_80082858[110];
-extern SVECTOR D_80082BC8[110];
-extern s32 D_80082F38[110];
-extern PARA_TMD_OBJECT D_800830F0[10][4];
-extern PARA_VDF_OBJECT D_80083550[10][128];
-extern PARA_TMD_DATA D_80088550[10];
-extern PARA_VDF_DATA D_800885C8[10];
-extern u32 D_8009E394[10][128];
+extern MATRIX actionBezPosMtx;
+extern MATRIX actionBezRefMtx;
+extern SVECTOR actionBezPos[110];
+extern SVECTOR actionBezRef[110];
+extern s32 actionBezInt[110];
+extern PARA_TMD_OBJECT actionTmdObj[10][4];
+extern PARA_VDF_OBJECT actionVdfObj[10][128];
+extern PARA_TMD_DATA actionTmdData[10];
+extern PARA_VDF_DATA actionVdfData[10];
+extern u32 actionMimeList[10][128];
 
 
 void ActionBezInterpolate(register s32 sf, register MATRIX *refmtx, register SVECTOR *ref, register VECTOR *view) {
@@ -39,9 +39,9 @@ void ActionBezInterpolate(register s32 sf, register MATRIX *refmtx, register SVE
     VECTOR interp1;
     MATRIX mtx;
 
-    ApplyMatrix(refmtx, &D_800826D4[sf], &interp1);
+    ApplyMatrix(refmtx, &actionViewSubframe[sf], &interp1);
     interp2.vx = ONE;
-    interp2.vy = D_800826D4[sf].pad; // Hmm
+    interp2.vy = actionViewSubframe[sf].pad; // Hmm
     interp2.vz = 0;
 
     mtx.m[0][0] = interp1.vx;
@@ -123,40 +123,40 @@ void ActionSetVdf(void *vdf, PARA_VDF_DATA *data) {
 s32 ActionInitModel(s32 i, void *tmd, void *vdf, SVECTOR *orgvtx) {
     s32 n;
 
-    D_80088550[i].objnum = 1;
-    D_80088550[i].orgvtx = orgvtx;
-    D_80088550[i].obj = D_800830F0[i];
+    actionTmdData[i].objnum = 1;
+    actionTmdData[i].orgvtx = orgvtx;
+    actionTmdData[i].obj = actionTmdObj[i];
 
-    D_800885C8[i].objnum = 1;
-    D_800885C8[i].obj = D_80083550[i];
-    D_800885C8[i].mime = D_8009E394[i];
-    ActionSetTmdInfo(tmd, &D_80088550[i]);
+    actionVdfData[i].objnum = 1;
+    actionVdfData[i].obj = actionVdfObj[i];
+    actionVdfData[i].mime = actionMimeList[i];
+    ActionSetTmdInfo(tmd, &actionTmdData[i]);
     if (vdf != NULL) {
-        ActionSaveOriginalVtx(&D_80088550[i], orgvtx);
-        ActionSetVdf(vdf, &D_800885C8[i]);
+        ActionSaveOriginalVtx(&actionTmdData[i], orgvtx);
+        ActionSetVdf(vdf, &actionVdfData[i]);
     }
-    return D_800885C8[i].objnum;
+    return actionVdfData[i].objnum;
 }
 
 s32 ActionSetVdfData(s32 i, void *vdf) {
     if (vdf != NULL) {
-        ActionSetVdf(vdf, &D_800885C8[i]);
+        ActionSetVdf(vdf, &actionVdfData[i]);
     }
-    return D_800885C8[i].objnum;
+    return actionVdfData[i].objnum;
 }
 
 void ActionResetMimeVdf(s32 i) {
-    ActionResetMimeVtx(&D_80088550[i]);
+    ActionResetMimeVtx(&actionTmdData[i]);
 }
 
 void ActionVtxMime(s32 i) {
-    ActionResetMimeVtx(&D_80088550[i]);
-    ActionSetMimeVtx(&D_80088550[i], &D_800885C8[i]);
+    ActionResetMimeVtx(&actionTmdData[i]);
+    ActionSetMimeVtx(&actionTmdData[i], &actionVdfData[i]);
 
 }
 
 void ActionSetVdfForTmd(s32 tmd, s32 vdf) {
-    ActionSetMimeVtx(&D_80088550[tmd], &D_800885C8[vdf]);
+    ActionSetMimeVtx(&actionTmdData[tmd], &actionVdfData[vdf]);
 }
 
 void ActionResetMimeVtx(register PARA_TMD_DATA *data) {
@@ -199,14 +199,14 @@ void ActionSetMimeVtx(register PARA_TMD_DATA *tmd, register PARA_VDF_DATA *vdf) 
 }
 
 typedef ON_INPUT_INFO ON_INPUT_INFO_LIST[32];
-static ON_INPUT_INFO_LIST *D_8008239C = actionInfo.onlist;
+static ON_INPUT_INFO_LIST *actionOnInputList = actionInfo.onlist;
 static BOOL D_800823A0 = FALSE;
 BOOL D_800823A4 = FALSE;
 
 void ActionInit(void) {
     s32 i;
 
-    D_8008239C = actionInfo.onlist;
+    actionOnInputList = actionInfo.onlist;
     for (i = 0; i < 4; i++) {
         MemoryZero(&actionInfo.onlist[i], sizeof(actionInfo.onlist[i]));
     }
@@ -481,8 +481,8 @@ s32 ActionCalcOrigScore(ON_INPUT_INFO *oninp, s32 start, s32 end) {
 }
 
 void ActionClearOnInputList(u32 i) {
-    D_8008239C = actionInfo.onlist[i % 4];
-    MemoryZero(D_8008239C, sizeof(*D_8008239C));
+    actionOnInputList = actionInfo.onlist[i % 4];
+    MemoryZero(actionOnInputList, sizeof(*actionOnInputList));
 }
 
 void ActionRestartTap(SCENE_INFO *scn) {
@@ -563,7 +563,7 @@ void ActionResetKeyInfo(SCENE_INFO *scn) {
     INPUT_KEY_INFO *keyinfo;
 
     for (i = 0; i < sceneInitInfo.keyinfolen; i++) {
-        for (j = 0; j < 9; j++) {
+        for (j = 0; j < PR_TAP_NUM; j++) {
             if ((keyinfo = sceneInitInfo.keyinfo[i].info[j]) != NULL) {
                 keyinfo->mapnum = 0;
             }
@@ -609,10 +609,10 @@ BOOL ActionRegisterTap(register SND_INFO *snd, register SCENE_INFO *scn, registe
         ActionRecordTap(pad, nth, scn->taptime);
     }
     if (on == TRUE) {
-        D_8008239C[0][nth].pad = pad;
-        D_8008239C[0][nth].keyid = EventGetKeyIndexFromPad(pad);
-        D_8008239C[0][nth].num++;
-        D_8008239C[0][nth].snd = snd;
+        actionOnInputList[0][nth].pad = pad;
+        actionOnInputList[0][nth].keyid = EventGetKeyIndexFromPad(pad);
+        actionOnInputList[0][nth].num++;
+        actionOnInputList[0][nth].snd = snd;
         tapok = TRUE;
         actionInfo.sub.taponnum++;
     } else {

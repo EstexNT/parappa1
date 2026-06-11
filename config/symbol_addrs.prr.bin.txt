@@ -888,18 +888,7 @@ D_80068A3C = 0x80068A3C; // size:0x3c
 dbgInfo = 0x80068C0C; // size:0x194
 
 // .sdata
-cdInfo = 0x800823E0;
 
-memoryPosEndBase = 0x8008248C;
-memoryPosIdx = 0x80082490;
-
-rapVabId = 0x80082530;
-rapInterVoiceNum = 0x80082532;
-rapVoiceNum = 0x80082534;
-rapNoFlush = 0x80082538;
-rapFrameActiveFrames = 0x8008253C;
-rapSndInfoFrameCreate = 0x80082540;
-rapFrameActiveTimer = 0x80082548;
 
 D_800825E8 = 0x800825E8;
 D_800825F4 = 0x800825F4;
@@ -915,6 +904,34 @@ D_800826AC = 0x800826AC;
 
 
 // .sbss
+actionBezAddPx = 0x800826BC;
+actionBezAddPy = 0x800826C0;
+actionBezAddPz = 0x800826C4;
+actionBezAddRx = 0x800826C8;
+actionBezAddRy = 0x800826CC;
+actionBezAddRz = 0x800826D0;
+actionViewSubframe = 0x800826D4;
+
+D_800826D8 = 0x800826D8;
+
+cardEv0 = 0x800826DC;
+cardEv1 = 0x800826E0;
+cardEv2 = 0x800826E4;
+cardEv3 = 0x800826E8;
+cardEv10 = 0x800826EC;
+cardEv11 = 0x800826F0;
+cardEv12 = 0x800826F4;
+cardEv13 = 0x800826F8;
+D_800826FC = 0x800826FC;
+cardFdTmp = 0x80082700;
+D_80082704 = 0x80082704;
+
+cdStrmPrevCb = 0x80082734;
+cdStrmSectorCount = 0x80082738;
+cdFailed = 0x8008273C;
+D_80082740 = 0x80082740;
+D_80082744 = 0x80082744;
+
 rapInterKey = 0x800827A0; // size:0x6
 
 strmDecCtrlRec = 0x800827A8;
@@ -933,15 +950,35 @@ dbgStackPtr = 0x80082808;
 
 
 // .bss (proper)
-D_80082818 = 0x80082818; // size:0x20
-D_80082838 = 0x80082838; // size:0x20
-D_80082858 = 0x80082858; // size:0x370
-D_80082BC8 = 0x80082BC8; // size:0x370
+eventOverridenLang = 0x80082784;
+eventOverridenLangPrev = 0x80082788;
 
-D_80088550 = 0x80088550; // size:0x78
-D_800885C8 = 0x800885C8; // size:0x78
+eventMovieSubNum = 0x800827D8;
+eventMovieSubInfo = 0x800827DC;
+
+eventMovieSubEn = 0x800827E8;
+eventMovieSubJp = 0x800827EC;
+
+eventCurMovieSub = 0x800827F8;
+
+
+cdStrmFrameSect = 0x8008280C;
+
+actionBezPosMtx = 0x80082818; // size:0x20
+actionBezRefMtx = 0x80082838; // size:0x20
+actionBezPos = 0x80082858; // size:0x370
+actionBezRef = 0x80082BC8; // size:0x370
+actionBezInt = 0x80082F38; // size:0x1b8
+actionTmdObj = 0x800830F0; // size:0x460
+actionVdfObj = 0x80083550; // size:0x5000
+actionTmdData = 0x80088550; // size:0x78
+actionVdfData = 0x800885C8; // size:0x78
+
+cardDirEntry = 0x8008994C; // size:0x258
 
 eventRecordInfo = 0x8009D1E0; // size:0x113c
+
+actionMimeList = 0x8009E394; // size:0x1400
 
 eventInfo = 0x8009F920; // size:0xc4
 
@@ -951,7 +988,7 @@ actionInfo = 0x800A02C0; // size:0x62c
 
 sceneInitInfo = 0x800A08EC; // size:0x84
 
-D_800A3620 = 0x800A3620; // size:0x20
+actionView = 0x800A3620; // size:0x20
 
 memoryData = 0x800A3F70;
 

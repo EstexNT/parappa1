@@ -16,9 +16,9 @@ u32 *MimeTodSetPacket(u32 *packet, GsDOBJ2 *obj, s32 mode) {
     MATRIX dummyObjCoord;
     GsCOORD2PARAM dummyObjParam;
 
-    static u16 D_800826B0 = 700;
-    static s32 D_800826B4 = 1;
-    static s32 D_800826B8 = 10000;
+    static u16 unkclip = 700;
+    static s32 nearclip = 1;
+    static s32 farclip = 10000;
 
 
     p = packet;
@@ -173,19 +173,19 @@ u32 *MimeTodSetPacket(u32 *packet, GsDOBJ2 *obj, s32 mode) {
             s32 cliptmp;
 
             cliptmp = *(s32 *)(p + 0);
-            if ((cliptmp > 0) && (cliptmp != D_800826B0)) {
+            if ((cliptmp > 0) && (cliptmp != unkclip)) {
 
             }
 
             cliptmp = *(s32 *)(p + 1);
-            if ((cliptmp > 0) && (cliptmp != D_800826B4)) {
-                D_800826B4 = cliptmp;
-                GsSetNearClip(D_800826B4);
+            if ((cliptmp > 0) && (cliptmp != nearclip)) {
+                nearclip = cliptmp;
+                GsSetNearClip(nearclip);
             }
             cliptmp = *(s32 *)(p + 2);
-            if ((cliptmp > 0) && (cliptmp != D_800826B8)) {
-                D_800826B8 = cliptmp;
-                GsSetFarClip(D_800826B8);
+            if ((cliptmp > 0) && (cliptmp != farclip)) {
+                farclip = cliptmp;
+                GsSetFarClip(farclip);
             }
             p += len - 1;
             break;

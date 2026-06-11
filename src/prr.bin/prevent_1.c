@@ -1,21 +1,22 @@
 #include "prevent.h"
 #include "praction.h"
+#include "prvdatal.h"
 
 
-s32 D_800827D8;
-MOVIE_SUBTITLES_INFO *D_800827DC;
-PARA_EN_T *D_800827E8;
-PARA_JP_T *D_800827EC;
-s32 D_800827F8;
+s32 eventMovieSubNum;
+MOVIE_SUBTITLES_INFO *eventMovieSubInfo;
+PARA_EN_T *eventMovieSubEn;
+PARA_JP_T *eventMovieSubJp;
+s32 eventCurMovieSub;
 
 
 MOVIE_SUBTITLES_INFO *EventGetMovieSubInfo(register PARA_TIME *t) {
     MOVIE_SUBTITLES_INFO *p;
 
-    if (D_800827F8 >= D_800827D8) {
+    if (eventCurMovieSub >= eventMovieSubNum) {
         return NULL;
     }
-    p = D_800827DC + D_800827F8;
+    p = eventMovieSubInfo + eventCurMovieSub;
     if (
         (((p->start.min << 0x10) + (p->start.sec << 0x08) + p->start.frame) -
         ((t->min << 0x10) + (t->sec << 0x08) + t->frame))
@@ -23,7 +24,7 @@ MOVIE_SUBTITLES_INFO *EventGetMovieSubInfo(register PARA_TIME *t) {
     ) {
         return NULL;
     }
-    D_800827F8++;
+    eventCurMovieSub++;
     return p;
 }
 
@@ -89,14 +90,6 @@ BOOL EventUpdateLevel(register SCENE_INFO *scn, register s32 dir) {
     EventTransitionLevel(scn, est);
     return TRUE;
 }
-
-typedef struct LVL_INFO {
-    char *title;
-    u32 channel;
-    s16 neighbours[2];
-} LVL_INFO;
-
-extern LVL_INFO D_80068A3C[];
 
 s32 EventCheckPerformance(register SCENE_INFO *scn) {
     s32 dir;

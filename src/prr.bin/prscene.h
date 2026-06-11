@@ -118,7 +118,7 @@ typedef struct INPUT_KEY_INFO {
 } INPUT_KEY_INFO;
 
 typedef struct INPUT_KEY_INFO_LIST {
-    INPUT_KEY_INFO *info[9];
+    INPUT_KEY_INFO *info[PR_TAP_NUM];
 } INPUT_KEY_INFO_LIST;
 
 typedef struct KEY_CTRL_S {

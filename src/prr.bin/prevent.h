@@ -92,7 +92,7 @@ typedef struct EVENT_INFO {
 extern EVENT_RECORD_INFO eventRecordInfo;
 extern EVENT_INFO eventInfo;
 
-extern s32 D_800827F8;
+extern s32 eventCurMovieSub;
 
 
 s32 EventGetKeyIndexFromPad(u32 pad);
