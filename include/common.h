@@ -90,6 +90,12 @@ typedef struct PARA_TIME {
 #define PR_PAD_CIRCLE (1 << 5)
 #define PR_PAD_CROSS (1 << 6)
 #define PR_PAD_SQUARE (1 << 7)
+#define PR_PAD_SELECT (1 << 8)
+#define PR_PAD_START (1 << 11)
+#define PR_PAD_UP (1 << 12)
+#define PR_PAD_RIGHT (1 << 13)
+#define PR_PAD_DOWN (1 << 14)
+#define PR_PAD_LEFT (1 << 15)
 
 
 #define LEVEL_HIGH  0

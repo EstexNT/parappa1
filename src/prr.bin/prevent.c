@@ -11,7 +11,6 @@ extern s32 D_800827D8;
 extern MOVIE_SUBTITLES_INFO *D_800827DC;
 extern PARA_EN_T *D_800827E8;
 extern PARA_JP_T *D_800827EC;
-extern s32 D_800827F8;
 
 extern EVENT_RECORD_INFO eventRecordInfo;
 
@@ -253,7 +252,7 @@ void EventReset(void) {
     MemoryZero(&eventInfo, sizeof(eventInfo));
     eventInfo.gameover = FALSE;
     eventInfo.coolstate = PR_COOLSTATE_NOTCOOL;
-    eventInfo.controlstage = 1;
+    eventInfo.controlstage = TRUE;
     eventInfo.controldelay = 0;
 
     MemoryZero(&sceneInfo, sizeof(sceneInfo));

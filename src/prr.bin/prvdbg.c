@@ -98,9 +98,6 @@ void DbgResetRun(void) {
     dbgInfo.unk58 = 0;
 }
 
-// TODO: eventCurMovieSub
-extern s32 D_800827F8;
-
 void DbgPrintMovie(void) {
     u32 unused;
     SCENE_INFO *info;

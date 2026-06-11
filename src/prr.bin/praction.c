@@ -8,7 +8,7 @@ void ActionSetTmdInfo(void *tmd, PARA_TMD_DATA *data);
 void ActionSaveOriginalVtx(PARA_TMD_DATA *tmd, SVECTOR *orgvtx);
 void ActionSetVdf(void *vdf, PARA_VDF_DATA *data);
 void ActionResetMimeVtx(PARA_TMD_DATA *data);
-void ActionSetMimeVtx(PARA_TMD_DATA *tmd, PARA_VDF_DATA *mdf);
+void ActionSetMimeVtx(PARA_TMD_DATA *tmd, PARA_VDF_DATA *vdf);
 s32 ActionCalcOrigScore(ON_INPUT_INFO *oninp, s32 start, s32 end);
 u32 ActionRemapLR(u32 pad);
 BOOL ActionCalcTapStats(s32 taptime, s32 window, s32 *nth);
@@ -16,7 +16,7 @@ BOOL ActionRegisterTap(SND_INFO *snd, SCENE_INFO *scn, s32 nth, BOOL on);
 s32 ActionCalcScoreNormal(SCENE_INFO *scn);
 s32 ActionCalcScoreHigh(SCENE_INFO *scn);
 void ActionRecordTap(u32 pad, s32 nth, s32 time);
-s32 ActionCalcActScore(ON_INPUT_INFO *oninp[], s32 type, u32 validPad);
+s32 ActionCalcActScore(ON_INPUT_INFO *oninp[], s32 type, u32 validpad);
 void ActionGetOnInput(ON_INPUT_INFO *oninp[], s32 type, u32 ncall);
 
 
@@ -78,4 +78,121 @@ void ActionStartBez(void) {
 static s32 D_80082394 = 0;
 static s32 D_80082398 = 0;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/praction", ActionFollowBez);
+s32 D_800826BC;
+s32 D_800826C0;
+s32 D_800826C4;
+s32 D_800826C8;
+s32 D_800826CC;
+s32 D_800826D0;
+
+s32 ActionFollowBez(s32 frame) {
+    VECTOR view;
+    s32 framediv;
+    s32 curm;
+
+    if (D_8008238C < 0) {
+        // BUG: No return value
+        return;
+    }
+
+    framediv = frame % D_80082390;
+    if (framediv == 0) {
+        if (((((D_80082388 + 2) / 3) - 2) > D_8008238C)) {
+            if (frame != 0) {
+                D_8008238C++;
+            }
+        } else {
+            D_8008238C = -1;
+            // BUG: No return value
+            return;
+        }
+        curm = D_8008238C * 3;
+
+        // Pos
+        if (((D_80082858[curm].vx == D_80082858[curm + 3].vx) && (D_80082858[curm + 1].vx == 0) && (D_80082858[curm + 2].vx == 0)) && 
+            ((D_80082858[curm].vy == D_80082858[curm + 3].vy) && (D_80082858[curm + 1].vy == 0) && (D_80082858[curm + 2].vy == 0)) &&
+            ((D_80082858[curm].vz == D_80082858[curm + 3].vz) && (D_80082858[curm + 1].vz == 0) && (D_80082858[curm + 2].vz == 0))) {
+            D_80082394 = 1;
+        } else
+        if (((D_80082858[curm + 1].vx == 0) && (D_80082858[curm + 1].vy == 0) && (D_80082858[curm + 1].vz == 0)) ||
+            ((D_80082858[curm + 2].vx == 0) && (D_80082858[curm + 2].vy == 0) && (D_80082858[curm + 2].vz == 0))) {
+            D_800826BC = (D_80082858[curm + 3].vx - D_80082858[curm].vx) / D_80082390;
+            D_800826C0 = (D_80082858[curm + 3].vy - D_80082858[curm].vy) / D_80082390;
+            D_800826C4 = (D_80082858[curm + 3].vz - D_80082858[curm].vz) / D_80082390;
+            D_80082394 = 2;
+        } else {
+            D_80082818.m[0][0] = D_80082858[curm + 0].vx;
+            D_80082818.m[0][1] = D_80082858[curm + 1].vx;
+            D_80082818.m[0][2] = D_80082858[curm + 2].vx;
+            D_80082818.m[1][0] = D_80082858[curm + 0].vy;
+            D_80082818.m[1][1] = D_80082858[curm + 1].vy;
+            D_80082818.m[1][2] = D_80082858[curm + 2].vy;
+            D_80082818.m[2][0] = D_80082858[curm + 0].vz;
+            D_80082818.m[2][1] = D_80082858[curm + 1].vz;
+            D_80082818.m[2][2] = D_80082858[curm + 2].vz;
+            D_80082394 = 0;
+        }
+
+        // Ref
+        if (((D_80082BC8[curm].vx == D_80082BC8[curm + 3].vx) && (D_80082BC8[curm + 1].vx == 0) && (D_80082BC8[curm + 2].vx == 0)) && 
+            ((D_80082BC8[curm].vy == D_80082BC8[curm + 3].vy) && (D_80082BC8[curm + 1].vy == 0) && (D_80082BC8[curm + 2].vy == 0)) &&
+            ((D_80082BC8[curm].vz == D_80082BC8[curm + 3].vz) && (D_80082BC8[curm + 1].vz == 0) && (D_80082BC8[curm + 2].vz == 0))) {
+            D_80082398 = 1;
+        } else
+        if (((D_80082BC8[curm + 1].vx == 0) && (D_80082BC8[curm + 1].vy == 0) && (D_80082BC8[curm + 1].vz == 0)) ||
+            ((D_80082BC8[curm + 2].vx == 0) && (D_80082BC8[curm + 2].vy == 0) && (D_80082BC8[curm + 2].vz == 0))) {
+            D_800826C8 = (D_80082BC8[curm + 3].vx - D_80082BC8[curm].vx) / D_80082390;
+            D_800826CC = (D_80082BC8[curm + 3].vy - D_80082BC8[curm].vy) / D_80082390;
+            D_800826D0 = (D_80082BC8[curm + 3].vz - D_80082BC8[curm].vz) / D_80082390;
+            D_80082398 = 2;
+        } else {
+            D_80082838.m[0][0] = D_80082BC8[curm + 0].vx;
+            D_80082838.m[0][1] = D_80082BC8[curm + 1].vx;
+            D_80082838.m[0][2] = D_80082BC8[curm + 2].vx;
+            D_80082838.m[1][0] = D_80082BC8[curm + 0].vy;
+            D_80082838.m[1][1] = D_80082BC8[curm + 1].vy;
+            D_80082838.m[1][2] = D_80082BC8[curm + 2].vy;
+            D_80082838.m[2][0] = D_80082BC8[curm + 0].vz;
+            D_80082838.m[2][1] = D_80082BC8[curm + 1].vz;
+            D_80082838.m[2][2] = D_80082BC8[curm + 2].vz;
+            D_80082398 = 0;
+        }
+    }
+    // e48
+    curm = D_8008238C * 3;
+
+    // Pos
+    if (D_80082394 == 1) {
+        D_800A3620.vpx = D_80082858[curm].vx;
+        D_800A3620.vpy = D_80082858[curm].vy;
+        D_800A3620.vpz = D_80082858[curm].vz;
+    } else if (D_80082394 == 2) {
+        D_800A3620.vpx = D_80082858[curm].vx + D_800826BC * framediv;
+        D_800A3620.vpy = D_80082858[curm].vy + D_800826C0 * framediv;
+        D_800A3620.vpz = D_80082858[curm].vz + D_800826C4 * framediv;
+    } else {
+        ActionBezInterpolate(framediv, &D_80082818, &D_80082858[curm + 3], &view);
+        D_800A3620.vpx = view.vx;
+        D_800A3620.vpy = view.vy;
+        D_800A3620.vpz = view.vz;
+    }
+
+    // Ref
+    if (D_80082398 == 1) {
+        D_800A3620.vrx = D_80082BC8[curm].vx;
+        D_800A3620.vry = D_80082BC8[curm].vy;
+        D_800A3620.vrz = D_80082BC8[curm].vz;
+    } else if (D_80082398 == 2) {
+        D_800A3620.vrx = D_80082BC8[curm].vx + D_800826C8 * framediv;
+        D_800A3620.vry = D_80082BC8[curm].vy + D_800826CC * framediv;
+        D_800A3620.vrz = D_80082BC8[curm].vz + D_800826D0 * framediv;
+    } else {
+        ActionBezInterpolate(framediv, &D_80082838, &D_80082BC8[curm + 3], &view);
+        D_800A3620.vrx = view.vx;
+        D_800A3620.vry = view.vy;
+        D_800A3620.vrz = view.vz;
+    }
+
+    GsSetRefView2(&D_800A3620);
+    return D_8008238C;
+}

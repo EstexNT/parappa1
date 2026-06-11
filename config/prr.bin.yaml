@@ -129,7 +129,9 @@ segments:
 
       - [0x72EBC, pad]
 
-      - { vram: 0x800826BC, type: sbss }
+      - { vram: 0x800826BC, type: .sbss, name: praction }
+      - { vram: 0x800826D4, type: .sbss, name: praction_1 }
+      - { vram: 0x800826D8, type: sbss }
       - { vram: 0x80082734, type: sbss, name: prcd }
       - { vram: 0x80082748, type: sbss }
       - { vram: 0x800827A8, type: .sbss, name: prstrm_1 }

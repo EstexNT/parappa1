@@ -85,8 +85,8 @@ typedef struct DEMO_INPUT {
 
 // Describes which input key and key control to use (In addition to some other stuff)
 typedef struct INPUT_INFO_SET_SUB {
-    s8 infoid;
-    s8 ctrlid;
+    u8 infoid;
+    u8 ctrlid;
     s16 type;
     u16 flags;
 } INPUT_INFO_SET_SUB;
@@ -94,9 +94,9 @@ typedef struct INPUT_INFO_SET_SUB {
 // Describes input information for the bar (First key, activated keys etc)
 typedef struct INPUT_INFO_SET {
     u8 lesson;
-    s8 unk1;
-    s8 firstinput;
-    s8 teacherinputnum;
+    u8 unk1;
+    u8 firstinput;
+    u8 teacherinputnum;
     s16 highthreshold;
     s32 validpad;
     INPUT_INFO_SET_SUB sub[2];
@@ -117,8 +117,13 @@ typedef struct INPUT_KEY_INFO {
     u32 unk8;
 } INPUT_KEY_INFO;
 
-typedef INPUT_KEY_INFO *INPUT_KEY_INFO_LIST[9];
-typedef u8 KEY_CTRL[16];
+typedef struct INPUT_KEY_INFO_LIST {
+    INPUT_KEY_INFO *info[9];
+} INPUT_KEY_INFO_LIST;
+
+typedef struct KEY_CTRL_S {
+    u8 ctrl[16];
+} KEY_CTRL_S;
 
 typedef struct SCENE_INIT_INFO {
     EIGHTH_TIMES *times;
@@ -129,7 +134,7 @@ typedef struct SCENE_INIT_INFO {
     s32 vislinelen;
     INPUT_KEY_INFO_LIST *keyinfo;
     s32 keyinfolen;
-    KEY_CTRL *keyctrl;
+    KEY_CTRL_S *keyctrl;
     DEMO_INPUT *demoinp;
     s32 demoinplen;
     SND_INFO *endlow;
@@ -149,7 +154,7 @@ typedef struct SCENE_INIT_INFO {
     SND_INFO *menucross;
     SND_INFO *menucircle;
     SND_INFO *menuselect;
-    void *keypressed;
+    void (*keypressed)(struct SCENE_INFO *scn, s32 keyid);
     void *onkeypressed;
     void (*perfup)(struct SCENE_INFO *scn);
     void *anykeypressed;

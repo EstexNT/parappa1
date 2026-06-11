@@ -933,8 +933,13 @@ dbgStackPtr = 0x80082808;
 
 
 // .bss (proper)
+D_80082818 = 0x80082818; // size:0x20
+D_80082838 = 0x80082838; // size:0x20
 D_80082858 = 0x80082858; // size:0x370
 D_80082BC8 = 0x80082BC8; // size:0x370
+
+D_80088550 = 0x80088550; // size:0x78
+D_800885C8 = 0x800885C8; // size:0x78
 
 eventRecordInfo = 0x8009D1E0; // size:0x113c
 
