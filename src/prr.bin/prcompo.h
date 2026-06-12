@@ -9,6 +9,41 @@
 #include "prmime.h"
 
 
+// LibGS object attribute bits
+
+#define PARA_SPRITE_BRIGHT_OFF (1 << 6)
+
+#define PARA_SPRITE_VFLIP (1 << 22)
+
+#define PARA_SPRITE_HFLIP (1 << 23)
+
+#define PARA_SPRITE_COLOR4BPP (0 << 24)
+#define PARA_SPRITE_COLOR8BPP (1 << 24)
+#define PARA_SPRITE_COLOR16BPP (2 << 24)
+
+#define PARA_SPRITE_ROTATION (1 << 27)
+
+#define PARA_SPRITE_TRANS_NORM (0 << 28)
+#define PARA_SPRITE_TRANS_PADD (1 << 28)
+#define PARA_SPRITE_TRANS_50ADD (2 << 28)
+#define PARA_SPRITE_TRANS_PSUB (3 << 28)
+
+#define PARA_SPRITE_TRANS_ON (1 << 30)
+#define PARA_SPRITE_DISP_OFF (1 << 31)
+
+
+typedef struct FONT_INFO {
+    s16 tx;
+    s16 ty;
+    u8 w;
+    u8 h;
+} FONT_INFO;
+
+typedef struct FRAME_POINT {
+    s32 x;
+    s32 y;
+} FRAME_POINT;
+
 typedef struct COMPO_SPRITE {
     u32 attr;
     s16 tx;
