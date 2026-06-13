@@ -104,4 +104,8 @@ typedef struct PARA_TIME {
 #define LEVEL_LOW2  3
 #define LEVEL_XTIME 4
 
+
+#define PARA_LANG_JP 0
+#define PARA_LANG_EN 1
+
 #endif

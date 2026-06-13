@@ -1,377 +1,20 @@
 #include "prcompo.h"
+#include <stdio.h>
 #include <libetc.h>
 #include "prvdbg.h"
-#include "prmime.h"
 #include "praction.h"
+#include "prrap.h"
+#include "prcompo_data.h"
 
 static char rcsid[] = "@(#)prcompo.c: version 01-00 95/12/10 00:00:00";
 
-extern COMPO_SPRITE D_80062A30;
-extern COMPO_SPRITE D_80062A44;
-extern COMPO_SPRITE D_80062A58;
-extern COMPO_SPRITE D_80062A6C;
-extern COMPO_SPRITE D_80062A80;
-extern COMPO_SPRITE D_80062A94;
-extern COMPO_SPRITE D_80062AA8;
-extern COMPO_SPRITE D_80062ABC;
-extern COMPO_SPRITE D_80062AD0;
-extern COMPO_SPRITE D_80062AE4;
-extern COMPO_SPRITE D_80062AF8;
-extern COMPO_SPRITE D_80062B0C;
-extern COMPO_SPRITE D_80062B20;
-extern COMPO_SPRITE D_80062B34;
-extern COMPO_SPRITE D_80062B48;
-extern COMPO_SPRITE D_80062B5C;
-extern COMPO_SPRITE D_80062B70;
-extern COMPO_SPRITE D_80062B84;
-extern COMPO_SPRITE D_80062B98;
-extern COMPO_SPRITE D_80062BAC;
-extern COMPO_SPRITE D_80062BC0;
-extern COMPO_SPRITE D_80062BD4;
-extern COMPO_SPRITE D_80062BE8;
-extern COMPO_SPRITE D_80062BFC;
-extern COMPO_SPRITE D_80062C10;
-extern COMPO_SPRITE D_80062C24;
-extern COMPO_SPRITE D_80062C38;
-extern COMPO_SPRITE D_80062C4C;
-extern COMPO_SPRITE D_80062C60;
-extern COMPO_SPRITE D_80062C74;
-extern COMPO_SPRITE D_80062C88;
-extern COMPO_SPRITE D_80062C9C;
-extern COMPO_SPRITE D_80062CB0;
-extern COMPO_SPRITE D_80062CC4;
-extern COMPO_SPRITE D_80062CD8;
-extern COMPO_SPRITE D_80062CEC;
-extern COMPO_SPRITE D_80062D00;
-extern COMPO_SPRITE D_80062D14;
-extern COMPO_SPRITE D_80062D28;
-extern COMPO_SPRITE D_80062D3C;
-extern COMPO_SPRITE D_80062D50;
-extern COMPO_SPRITE D_80062D64;
-extern COMPO_SPRITE D_80062D78;
-extern COMPO_SPRITE D_80062D8C;
-extern COMPO_SPRITE D_80062DA0;
-extern COMPO_SPRITE D_80062DB4;
-extern COMPO_SPRITE D_80062DC8;
-extern COMPO_SPRITE D_80062DDC;
-extern COMPO_SPRITE D_80062DF0;
-extern COMPO_SPRITE D_80062E04;
-extern COMPO_SPRITE D_80062E18;
-extern COMPO_SPRITE D_80062E2C;
-extern COMPO_SPRITE D_80062E40;
-extern COMPO_SPRITE D_80062E54;
-extern COMPO_SPRITE D_80062E68;
-extern COMPO_SPRITE D_80062E7C;
-extern COMPO_SPRITE D_80062E90;
-extern COMPO_SPRITE D_80062EA4;
-extern COMPO_SPRITE D_80062EB8;
-extern COMPO_SPRITE D_80062ECC;
-extern COMPO_SPRITE D_80062EE0;
-extern COMPO_SPRITE D_80062EF4;
-extern COMPO_SPRITE D_80062F08;
-extern COMPO_SPRITE D_80062F1C;
-extern COMPO_SPRITE D_80062F30;
-extern COMPO_SPRITE D_80062F44;
-extern COMPO_SPRITE D_80062F58;
-extern COMPO_SPRITE D_80062F6C;
-extern COMPO_SPRITE D_80062F80;
-extern COMPO_SPRITE D_80062F94;
-extern COMPO_SPRITE D_80062FA8;
-extern COMPO_SPRITE D_80062FBC;
-extern COMPO_SPRITE D_80062FD0;
-extern COMPO_SPRITE D_80062FE4;
-extern COMPO_SPRITE D_80062FF8;
-extern COMPO_SPRITE D_8006300C;
-extern COMPO_SPRITE D_80063020;
-extern COMPO_SPRITE D_80063034;
-extern COMPO_SPRITE D_80063048;
-extern COMPO_SPRITE D_8006305C;
-extern COMPO_SPRITE D_80063070;
-extern COMPO_SPRITE D_80063084;
-extern COMPO_SPRITE D_80063098;
-extern COMPO_SPRITE D_800630AC;
-extern COMPO_SPRITE D_800630C0;
-extern COMPO_SPRITE D_800630D4;
-extern COMPO_SPRITE D_800630E8;
-extern COMPO_SPRITE D_800630FC;
-extern COMPO_SPRITE D_80063110;
-extern COMPO_SPRITE D_80063124;
-extern COMPO_SPRITE D_80063138;
-extern COMPO_SPRITE D_8006314C;
-extern COMPO_SPRITE D_80063160;
-extern COMPO_SPRITE D_80063174;
-extern COMPO_SPRITE D_80063188;
-extern COMPO_SPRITE D_8006319C;
-extern COMPO_SPRITE D_800631B0;
-extern COMPO_SPRITE D_800631C4;
-extern COMPO_SPRITE D_800631D8;
-extern COMPO_SPRITE D_800631EC;
-extern COMPO_SPRITE D_80063200;
-extern COMPO_SPRITE D_80063214;
-extern COMPO_SPRITE D_80063228;
-extern COMPO_SPRITE D_8006323C;
-extern COMPO_SPRITE D_80063250;
-extern COMPO_SPRITE D_80063264;
-extern COMPO_SPRITE D_80063278;
-extern COMPO_SPRITE D_8006328C;
-extern COMPO_SPRITE D_800632A0;
-extern COMPO_SPRITE D_800632B4;
-extern COMPO_SPRITE D_800632C8;
-extern COMPO_SPRITE D_800632DC;
-extern COMPO_SPRITE D_800632F0;
-extern COMPO_SPRITE D_80063304;
-extern COMPO_SPRITE D_80063318;
-extern COMPO_SPRITE D_8006332C;
-extern COMPO_SPRITE D_80063340;
-extern COMPO_SPRITE D_80063354;
-extern COMPO_SPRITE D_80063368;
-extern COMPO_SPRITE D_8006337C;
-extern COMPO_SPRITE D_80063390;
-extern COMPO_SPRITE D_800633A4;
-extern COMPO_SPRITE D_800633B8;
-extern COMPO_SPRITE D_800633CC;
-extern COMPO_SPRITE D_800633E0;
-extern COMPO_SPRITE D_800633F4;
-extern COMPO_SPRITE D_80063408;
-extern COMPO_SPRITE D_8006341C;
-extern COMPO_SPRITE D_80063430;
-extern COMPO_SPRITE D_80063444;
-extern COMPO_SPRITE D_80063458;
-extern COMPO_SPRITE D_8006346C;
-extern COMPO_SPRITE D_80063480;
-extern COMPO_SPRITE D_80063494;
-extern COMPO_SPRITE D_800634A8;
-extern COMPO_SPRITE D_800634BC;
-extern COMPO_SPRITE D_800634D0;
-extern COMPO_SPRITE D_800634E4;
-extern COMPO_SPRITE D_800634F8;
-extern COMPO_SPRITE D_8006350C;
-extern COMPO_SPRITE D_80063520;
-extern COMPO_SPRITE D_80063534;
-extern COMPO_SPRITE D_80063548;
-extern COMPO_SPRITE D_8006355C;
-extern COMPO_SPRITE D_80063570;
-extern COMPO_SPRITE D_80063584;
-extern COMPO_SPRITE D_80063598;
-extern COMPO_SPRITE D_800635AC;
-extern COMPO_SPRITE D_800635C0;
-extern COMPO_SPRITE D_800635D4;
-extern COMPO_SPRITE D_800635E8;
-extern COMPO_SPRITE D_800635FC;
-extern COMPO_SPRITE D_80063610;
-extern COMPO_SPRITE D_80063624;
-extern COMPO_SPRITE D_80063638;
-extern COMPO_SPRITE D_8006364C;
-extern COMPO_SPRITE D_80063660;
-extern COMPO_SPRITE D_80063674;
-extern COMPO_SPRITE D_80063688;
-extern COMPO_SPRITE D_8006369C;
-extern COMPO_SPRITE D_800636B0;
-extern COMPO_SPRITE D_800636C4;
-extern COMPO_SPRITE D_800636D8;
-extern COMPO_SPRITE D_800636EC;
-extern COMPO_SPRITE D_80063700;
-extern COMPO_SPRITE D_80063714;
-extern COMPO_SPRITE D_80063728;
-extern COMPO_SPRITE D_8006373C;
-extern COMPO_SPRITE D_80063750;
-extern COMPO_SPRITE D_80063764;
-extern COMPO_SPRITE D_80063778;
-extern COMPO_SPRITE D_8006378C;
-extern COMPO_SPRITE D_800637A0;
-extern COMPO_SPRITE D_800637B4;
-extern COMPO_SPRITE D_800637C8;
-extern COMPO_SPRITE D_800637DC;
-extern COMPO_SPRITE D_800637F0;
-extern COMPO_SPRITE D_80063804;
-extern COMPO_SPRITE D_80063818;
-extern COMPO_SPRITE D_8006382C;
-extern COMPO_SPRITE D_80063840;
-extern COMPO_SPRITE D_80063854;
-extern COMPO_SPRITE D_80063868;
-extern COMPO_SPRITE D_8006387C;
-extern COMPO_SPRITE D_80063890;
-extern COMPO_SPRITE D_800638A4;
-extern COMPO_SPRITE D_800638B8;
-extern COMPO_SPRITE D_800638CC;
-extern COMPO_SPRITE D_800638E0;
-extern COMPO_SPRITE D_800638F4;
-extern COMPO_SPRITE D_80063908;
-extern COMPO_SPRITE D_8006391C;
-extern COMPO_SPRITE D_80063930;
-extern COMPO_SPRITE D_80063944;
-extern COMPO_SPRITE D_80063958;
-extern COMPO_SPRITE D_8006396C;
-extern COMPO_SPRITE D_80063980;
-extern COMPO_SPRITE D_80063994;
-extern COMPO_SPRITE D_800639A8;
-extern COMPO_SPRITE D_800639BC;
-extern COMPO_SPRITE D_800639D0;
-extern COMPO_SPRITE D_800639E4;
-extern COMPO_SPRITE D_800639F8;
-extern COMPO_SPRITE D_80063A0C;
-extern COMPO_SPRITE D_80063A20;
-extern COMPO_SPRITE D_80063A34;
-extern COMPO_SPRITE D_80063A48;
-extern COMPO_SPRITE D_80063A5C;
-extern COMPO_SPRITE D_80063A70;
-extern COMPO_SPRITE D_80063A84;
-extern COMPO_SPRITE D_80063A98;
-extern COMPO_SPRITE D_80063AAC;
-extern COMPO_SPRITE D_80063AC0;
-extern COMPO_SPRITE D_80063AD4;
-extern COMPO_SPRITE D_80063AE8;
-extern COMPO_SPRITE D_80063AFC;
-extern COMPO_SPRITE D_80063B10;
-extern COMPO_SPRITE D_80063B24;
-extern COMPO_SPRITE D_80063B38;
-extern COMPO_SPRITE D_80063B4C;
-extern COMPO_SPRITE D_80063B60;
-extern COMPO_SPRITE D_80063B74;
-extern COMPO_SPRITE D_80063B88;
-extern COMPO_SPRITE D_80063B9C;
-extern COMPO_SPRITE D_80063BB0;
-extern COMPO_SPRITE D_80063BC4;
-extern COMPO_SPRITE D_80063BD8;
-extern COMPO_SPRITE D_80063BEC;
-extern COMPO_SPRITE D_80063C00;
-extern COMPO_SPRITE D_80063C14;
-extern COMPO_SPRITE D_80063C28;
-extern COMPO_SPRITE D_80063C3C;
-extern COMPO_SPRITE D_80063C50;
-extern COMPO_SPRITE D_80063C64;
-extern COMPO_SPRITE D_80063C78;
-extern COMPO_SPRITE D_80063C8C;
-extern COMPO_SPRITE D_80063CA0;
-extern COMPO_SPRITE D_80063CB4;
-extern COMPO_SPRITE D_80063CC8;
-extern COMPO_SPRITE D_80063CDC;
-extern COMPO_SPRITE D_80063CF0;
-extern COMPO_SPRITE D_80063D04;
-extern COMPO_SPRITE D_80063D18;
-extern COMPO_SPRITE D_80063D2C;
-extern COMPO_SPRITE D_80063D40;
-extern COMPO_SPRITE D_80063D54;
-extern COMPO_SPRITE D_80063D68;
-extern COMPO_SPRITE D_80063D7C;
-extern COMPO_SPRITE D_80063D90;
-extern COMPO_SPRITE D_80063DA4;
-extern COMPO_SPRITE D_80063DB8;
-extern COMPO_SPRITE D_80063DCC;
-extern COMPO_SPRITE D_80063DE0;
-extern COMPO_SPRITE D_80063DF4;
-extern COMPO_SPRITE D_80063E08;
-extern COMPO_SPRITE D_80063E1C;
-extern COMPO_SPRITE D_80063E30;
-extern COMPO_SPRITE D_80063E44;
-extern COMPO_SPRITE D_80063E58;
-extern COMPO_SPRITE D_80063E6C;
-extern COMPO_SPRITE D_80063E80;
-extern COMPO_SPRITE D_80063E94;
-extern COMPO_SPRITE D_80063EA8;
-extern COMPO_SPRITE D_80063EBC;
-extern COMPO_SPRITE D_80063ED0;
-extern COMPO_SPRITE D_80063EE4;
-extern COMPO_SPRITE D_80063EF8;
-extern COMPO_SPRITE D_80063F0C;
-extern COMPO_SPRITE D_80063F20;
-extern COMPO_SPRITE D_80063F34;
-extern COMPO_SPRITE D_80063F48;
-extern COMPO_SPRITE D_80063F5C;
-extern COMPO_SPRITE D_80063F70;
-extern COMPO_SPRITE D_80063F84;
-extern COMPO_SPRITE D_80063F98;
-extern COMPO_SPRITE D_80063FAC;
-extern COMPO_SPRITE D_80063FC0;
-extern COMPO_SPRITE D_80063FD4;
-extern COMPO_SPRITE D_80063FE8;
-extern COMPO_SPRITE D_80063FFC;
-extern COMPO_SPRITE D_80064010;
-extern COMPO_SPRITE D_80064024;
-extern COMPO_SPRITE D_80064038;
-extern COMPO_SPRITE D_8006404C;
-extern COMPO_SPRITE D_80064060;
-extern COMPO_SPRITE D_80064074;
-extern COMPO_SPRITE D_80064088;
-extern COMPO_SPRITE D_8006409C;
-extern COMPO_SPRITE D_800640B0;
-extern COMPO_SPRITE D_800640C4;
-extern COMPO_SPRITE D_800640D8;
-extern COMPO_SPRITE D_800640EC;
-extern COMPO_SPRITE D_80064100;
-extern COMPO_SPRITE D_80064114;
-extern COMPO_SPRITE D_80064128;
-extern COMPO_SPRITE D_8006413C;
-extern COMPO_SPRITE D_80064150;
-extern COMPO_SPRITE D_80064164;
-extern COMPO_SPRITE D_80064178;
-extern COMPO_SPRITE D_8006418C;
-extern COMPO_SPRITE D_800641A0;
-extern COMPO_SPRITE D_800641B4;
-extern COMPO_SPRITE D_800641C8;
-extern COMPO_SPRITE D_800641DC;
-extern COMPO_SPRITE D_800641F0;
-extern COMPO_SPRITE D_80064204;
-extern COMPO_SPRITE D_80064218;
-extern COMPO_SPRITE D_8006422C;
-extern COMPO_SPRITE D_80064240;
-extern COMPO_SPRITE D_80064254;
-extern COMPO_SPRITE D_80064268;
-extern COMPO_SPRITE D_8006427C;
-extern COMPO_SPRITE D_80064290;
-extern COMPO_SPRITE D_800642A4;
-extern COMPO_SPRITE D_800642B8;
-extern COMPO_SPRITE D_800642CC;
-extern COMPO_SPRITE D_800642E0;
-extern COMPO_SPRITE D_800642F4;
-extern COMPO_SPRITE D_80064308;
-extern COMPO_SPRITE D_8006431C;
-extern COMPO_SPRITE D_80064330;
-extern COMPO_SPRITE D_80064344;
-extern COMPO_SPRITE D_80064358;
-extern COMPO_SPRITE D_8006436C;
-extern COMPO_SPRITE D_80064380;
-extern COMPO_SPRITE D_80064394;
-extern COMPO_SPRITE D_800643A8;
-extern COMPO_SPRITE D_800643BC;
-extern COMPO_SPRITE D_800643D0;
-extern FONT_INFO D_800643E4[];
-extern FONT_INFO D_800646E0[];
-extern FRAME_POINT D_800649DC[];
-extern FRAME_POINT D_80064FDC[];
-extern u8 D_800655DC[];
-extern u8 D_8006741C[12][16];
-extern COMPO_SPRITE *D_800674DC[4][2];
-extern u32 D_800674FC[12][2];
-extern u32 D_8006755C[12][2];
-extern u32 D_800675BC[12][2];
-extern u32 D_8006761C[12][2];
-extern u32 D_8006767C[];
-extern COMPO_SPRITE *D_800676B0[PR_TAP_NUM];
-extern s32 D_800676D4[];
-extern s32 D_800676DC[];
-extern s32 D_800676EC[];
-extern s32 D_800676F4[];
-extern COMPO_SPRITE *D_8006772C[];
-extern COMPO_SPRITE *D_80067738[];
-extern COMPO_SPRITE *D_80067744[];
-extern COMPO_SPRITE *D_80067750[];
-extern COMPO_SPRITE *D_80067770[];
-extern COMPO_SPRITE *D_80067778[];
-extern COMPO_SPRITE *D_80067780[];
-extern COMPO_SPRITE *D_80067788[];
-extern COMPO_SPRITE *D_80067790[];
-extern COMPO_SPRITE *D_80067798[];
-extern PARA_JP_TEXT D_800677A0[];
-extern COMPO_SPRITE *D_800677B8[];
-extern COMPO_SPRITE *D_800677C8[];
-extern COMPO_SPRITE *D_800677E0[];
-extern s32 D_80067834[];
-extern s32 D_80067844[];
-extern u16 D_8006787C[16];
-extern COMPO_SPRITE D_8006789C;
-extern COMPO_SPRITE D_800678B0;
-extern RECT D_800678C4[];
+
+
+extern PACKET *D_800827E0[2];
+extern PACKET D_8008C528[2][13000];
+extern GsOT D_80092AB8[2];
+extern GsOT_TAG D_80092AE0[2][16];
+extern s32 D_800827D4;
 
 
 void CompoUpdateWorkOfs(PACKET *packet) {
@@ -639,8 +282,8 @@ void CompoBox(register s32 x, register s32 y, register s32 w, register s32 h, u3
     box.w = r.w;
     box.h = r.h;
     box.r = (attr >> 0x10);
-    box.g = (attr >> 8);
-    box.b = (attr >> 0);
+    box.g = (attr >> 0x08);
+    box.b = (attr >> 0x00);
     GsSortBoxFill(&box, ot, pri);
 }
 
@@ -717,66 +360,555 @@ void CompoDrawTextJp(register PARA_JP_TEXT *text, register GsOT *ot) {
 }
 
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetScoreSprite);
+void CompoSetScoreSprite(register GsSPRITE *gspr, register COMPO_SPRITE *spr, register BOOL grayed) {
+    s32 u;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawScoreSprite);
+    gspr->attribute = spr->attr;
+    gspr->w = spr->w;
+    gspr->h = spr->h;
+    u = (spr->tx << 2);
+    gspr->tpage = GetTPage(spr->tp, 1, (u & 0xff00) >> 2, (spr->ty & 0xff00) >> 0);
+    gspr->u = u;
+    gspr->v = spr->ty;
+    gspr->cx = spr->px;
+    if (grayed != FALSE) {
+        gspr->cy = 491;
+    } else {
+        gspr->cy = spr->py;
+    }
+}
+
+void CompoDrawScoreSprite(register s16 x, register s16 y, register COMPO_SPRITE *spr, register BOOL grayed, register GsOT *ot) {
+    GsSPRITE gspr;
+
+    gspr.x = x - (320 / 2);
+    gspr.y = y - (240 / 2);
+
+    CompoSetScoreSprite(&gspr, spr, grayed);
+    GsSortFastSprite(&gspr, ot, 3);
+}
 
 
-// TODO: .sdata
-static s32 D_800823EC = 0;
-static s32 D_800823F0 = 0;
-static s32 D_800823F4 = 0;
-static s32 D_800823F8 = 0;
+s32 D_800823EC = 0;
+s32 D_800823F0 = 0;
+u32 D_800823F4 = 0;
+s32 D_800823F8 = 0;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSet);
+extern u8 D_80092B84[12][16];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameResetActive);
+void CompoFrameSet(register s32 b) {
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameResetInactive);
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 16; j++) {
+            D_80092B84[i][j] = b;
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawText);
+void CompoFrameResetActive(void) {
+    D_800823F4 = 0;
+    D_800823EC = 0;
+    D_800823F0 = 0;
+    CompoFrameSet(1);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameFinished);
+void CompoFrameResetInactive(void) {
+    D_800823F4 = 0;
+    D_800823EC = 0;
+    D_800823F0 = 0;
+    CompoFrameSet(0);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawCounterClockwiseImmediate);
+void CompoFrameDrawText(register s32 type, register s32 pri, register s32 idx) {
+    s32 i;
+    s32 j;
+    u32 sp28;
+    s32 texttype;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetAnimInactive);
+    switch (type) {
+        case COMPO_FRAME_TEXT_TYPE_4: {
+            texttype = 3;
+            break;
+        }
+        case COMPO_FRAME_TEXT_TYPE_3: {
+            texttype = 2;
+            break;
+        }
+        case COMPO_FRAME_TEXT_TYPE_2: {
+            texttype = 1;
+            break;
+        }
+        case COMPO_FRAME_TEXT_TYPE_1: 
+        default: {
+            texttype = 0;
+            break;
+        }
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetAnimActive);
+    if ((D_800823F4 % 3) == 0) {
+        if (D_800823EC > (32 - 1)) {
+            D_800823EC = 0;
+            D_800823F0++;
+        }
+        if (D_800823F0 == D_80067690[texttype].i) {
+            D_800823F0 = 0;
+            D_800823EC = 0;
+        }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawAnim);
+        sp28 = (32 - 1) - D_800823EC;
+        for (j = 0; j < 12; j++) {
+            for (i = 0; i < (16 - 1); i++) {
+                D_80092B84[j][i] = D_80092B84[j][i + 1];
+            }
+            switch (texttype) {
+                case 3: {
+                    D_80092B84[j][16 - 1] = (D_8006761C[j][D_800823F0] & (1 << sp28)) > 0;
+                    break;
+                }
+                case 2: {
+                    D_80092B84[j][16 - 1] = (D_800675BC[j][D_800823F0] & (1 << sp28)) > 0;
+                    break;
+                }
+                case 1: {
+                    D_80092B84[j][16 - 1] = (D_8006755C[j][D_800823F0] & (1 << sp28)) > 0;
+                    break;
+                }
+                case 0:
+                default: {
+                    D_80092B84[j][16 - 1] = (D_800674FC[j][D_800823F0] & (1 << sp28)) > 0;
+                    break;
+                }
+            }
+        }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDrawAnimMovie);
+        D_800823EC++;
+    }
+    D_800823F4++;
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 16; j++) {
+            if (D_80092B84[i][j] != 0) {
+                CompoBox((s16)(j * 20), (s16)(i * 20), 20, 20, D_80067690[texttype].color, pri, &D_80092AB8[idx]);
+            } else {
+                CompoFastSpr(j * 20, i * 20, D_800674DC[D_8006741C[i][j]][D_80092B84[i][j]], 0, FALSE, pri, &D_80092AB8[idx]);
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMovieGuiNoTextNoBorder);
+BOOL CompoFrameFinished(void) {
+    if (D_800823EC > 190) {
+        return FALSE;
+    } else {
+        return TRUE;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetType);
+void CompoFrameDrawCounterClockwiseImmediate(register s32 pri, register s32 n, register s32 idx) {
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMake);
+    if (D_800823EC >= 194) {
+        return;
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiMake);
+    for (i = 0; i < n; i++) {
+        if (D_800823EC < 192) {
+            D_80092B84[D_800649DC[D_800823EC].x][D_800649DC[D_800823EC].y] = 0;
+        }
+        D_800823EC++;
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMovieGuiNoText);
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 16; j++) {
+            if (D_80092B84[i][j] != 0) {
+                CompoFastSpr(j * 20, i * 20, D_800674DC[D_8006741C[i][j]][0], 0, FALSE, pri, &D_80092AB8[idx]);
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMovieGui);
+BOOL CompoFrameSetAnimInactive(register s32 type, register s32 num) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawFrameMenuGui);
+    for (i = 0; i < num; i++) {
+        if (D_800823EC < 192) {
+            CompoFrameSetAnim(type, 0);
+        }
+        D_800823EC++;
+    }
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_80022e88);
+BOOL CompoFrameSetAnimActive(register s32 num, register s32 type) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMovieTextEn);
+    for (i = 0; i < num; i++) {
+        if (D_800823EC < 192) {
+            CompoFrameSetAnim(type, 1);
+        }
+        D_800823EC++;
+    }
+    return TRUE;
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMovieTextJp);
+void CompoFrameDrawAnim(register s32 pri, register s32 idx) {
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawStageTextJp);
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 16; j++) {
+            if (D_80092B84[i][j] != 0) {
+                CompoFastSpr(j * 20, i * 20, D_800674DC[D_8006741C[i][j]][0], 0, FALSE, pri, &D_80092AB8[idx]);
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawStageTextEn);
+void CompoFrameDrawAnimMovie(register s32 pri, register s32 idx) {
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLesson);
+    for (i = 0; i < 12; i++) {
+        for (j = 0; j < 16; j++) {
+            if (D_80092B84[i][j] != 0) {
+                CompoFastSpr(j * 20, i * 20, D_800674DC[D_8006741C[i][j]][0], 0, FALSE, pri, &D_80092AB8[idx]);
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawHand);
+void CompoDrawFrameMovieGuiNoTextNoBorder(register s32 prio, register GsOT *ot) {
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawScore);
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 6; j++) {
+            CompoFastSpr(i * 40, j * 40, &D_80064204, 0, FALSE, prio, ot);
+            CompoFastSpr(20 + i * 40, j * 40, &D_80064218, 0, FALSE, prio, ot);
+            CompoFastSpr(i * 40, 20 + j * 40, &D_8006422C, 0, FALSE, prio, ot);
+            CompoFastSpr(20 + i * 40, 20 + j * 40, &D_80064240, 0, FALSE, prio, ot);
+        }
+    }
+}
+
+void CompoFrameSetType(s32 type) {
+    switch (type) {
+        case COMPO_FRAME_TYPE_2: {
+            D_800823EC = 52;
+            CompoFrameSet(0);
+            break;
+        }
+        case COMPO_FRAME_TYPE_1: {
+            D_800823EC = 0;
+            CompoFrameSet(0);
+            break;
+        }
+        case COMPO_FRAME_TYPE_3: 
+        default: {
+            D_800823EC = 0;
+            CompoFrameSet(1);
+            break;
+        }
+    }
+}
+
+void CompoFrameMake(void *data, s32 type, s32 start, s32 end) {
+    CompoFrameSetType(start);
+    do {
+        CompoFrameDraw(data, type);
+        RapPlayFrameActive(30);
+        VSync(2);
+        CompoFrameSwap(data);
+    } while (CompoFrameFinished() != FALSE);
+    CompoFrameSetType(end);
+    CompoFrameMakeLast(data, type, CompoFrameDraw, CompoFrameSwap);
+}
+
+void CompoFrameMovieGuiMake(void *data, s32 type, s32 start, s32 end) {
+    CompoFrameSetType(start);
+    do {
+        CompoFrameDraw(data, type);
+        VSync(2);
+        CompoFrameSwap(data);
+    } while (CompoFrameFinished() != FALSE);
+    CompoFrameSetType(end);
+    D_800823EC = 190;
+    CompoFrameMovieGuiMakeLast(data, type, CompoFrameDraw, CompoFrameSwap);
+}
+
+void CompoDrawFrameMovieGuiNoText(register s32 pri, register GsOT *ot) {
+    s32 i;
+
+    CompoFastSpr(20, 20, &D_8006418C, 0, FALSE, pri, ot);
+    CompoFastSpr(280, 20, &D_800641A0, 0, FALSE, pri, ot);
+    CompoFastSpr(40, 20, &D_800641B4, 0, FALSE, pri, ot);
+    CompoFastSpr(160, 20, &D_800641C8, 0, FALSE, pri, ot);
+    CompoFastSpr(40, 160, &D_800641DC, 0, FALSE, pri, ot);
+    CompoFastSpr(160, 160, &D_800641F0, 0, FALSE, pri, ot);
+    for (i = 0; i < 7; i++) {
+        CompoFastSpr(40 + i * 40, 0, &D_80064204, 0, FALSE, pri, ot);
+        CompoFastSpr(20 + i * 40, 0, &D_80064218, 0, FALSE, pri, ot);
+        CompoFastSpr(40 + i * 40, 220, &D_8006422C, 0, FALSE, pri, ot);
+        CompoFastSpr(20 + i * 40, 220, &D_80064240, 0, FALSE, pri, ot);
+    }
+    for (i = 0; i < 6; i++) {
+        CompoFastSpr(0, 20 + i * 40, &D_8006422C, 0, FALSE, pri, ot);
+        CompoFastSpr(0, 0 + i * 40, &D_80064204, 0, FALSE, pri, ot);
+        CompoFastSpr(300, 20 + i * 40, &D_80064240, 0, FALSE, pri, ot);
+        CompoFastSpr(300, 0 + i * 40, &D_80064218, 0, FALSE, pri, ot);
+        CompoFastSpr(40 + i * 40, 200, &D_80064204, 0, FALSE, pri, ot);
+        CompoFastSpr(60 + i * 40, 200, &D_80064218, 0, FALSE, pri, ot);
+        CompoFastSpr(40 + i * 40, 180, &D_8006422C, 0, FALSE, pri, ot);
+        CompoFastSpr(60 + i * 40, 180, &D_80064240, 0, FALSE, pri, ot);
+    }
+    CompoFastSpr(280, 200, &D_80064204, 0, FALSE, pri, ot);
+    CompoFastSpr(20, 200, &D_80064218, 0, FALSE, pri, ot);
+    CompoFastSpr(280, 180, &D_8006422C, 0, FALSE, pri, ot);
+    CompoFastSpr(20, 180, &D_80064240, 0, FALSE, pri, ot);
+}
+
+void CompoDrawFrameMovieGui(register s32 pri, register GsOT *ot) {
+    s32 i;
+
+    CompoFastSpr(280, 200, &D_800642A4, 0, FALSE, pri, ot);
+    CompoFastSpr(20, 200, &D_800642B8, 0, FALSE, pri, ot);
+    CompoFastSpr(280, 180, &D_800642CC, 0, FALSE, pri, ot);
+    CompoFastSpr(20, 180, &D_800642E0, 0, FALSE, pri, ot);
+    for (i = 0; i < 7; i++) {
+        CompoFastSpr(40 + i * 40, 0, &D_80064204, 0, FALSE, pri, ot);
+        CompoFastSpr(20 + i * 40, 0, &D_80064218, 0, FALSE, pri, ot);
+        CompoFastSpr(40 + i * 40, 220, &D_8006422C, 0, FALSE, pri, ot);
+        CompoFastSpr(20 + i * 40, 220, &D_80064240, 0, FALSE, pri, ot);
+    }
+    for (i = 0; i < 6; i++) {
+        CompoFastSpr(0, 20 + i * 40, &D_8006422C, 0, FALSE, pri, ot);
+        CompoFastSpr(0, 0 + i * 40, &D_80064204, 0, FALSE, pri, ot);
+        CompoFastSpr(300, 20 + i * 40, &D_80064240, 0, FALSE, pri, ot);
+        CompoFastSpr(300, 0 + i * 40, &D_80064218, 0, FALSE, pri, ot);
+        CompoFastSpr(40 + i * 40, 200, &D_8006413C, 0, FALSE, pri, ot);
+        CompoFastSpr(60 + i * 40, 200, &D_80064150, 0, FALSE, pri, ot);
+        CompoFastSpr(40 + i * 40, 180, &D_80064164, 0, FALSE, pri, ot);
+        CompoFastSpr(60 + i * 40, 180, &D_80064178, 0, FALSE, pri, ot);
+    }
+    CompoFastSpr(40, 160, &D_800641DC, 0, FALSE, pri, ot);
+    CompoFastSpr(160, 160, &D_800641F0, 0, FALSE, pri, ot);
+    CompoFastSpr(20, 20, &D_8006418C, 0, FALSE, pri, ot);
+    CompoFastSpr(280, 20, &D_800641A0, 0, FALSE, pri, ot);
+    CompoFastSpr(40, 20, &D_800641B4, 0, FALSE, pri, ot);
+    CompoFastSpr(160, 20, &D_800641C8, 0, FALSE, pri, ot);
+}
+
+void CompoDrawFrameMenuGui(register s32 pri, register s32 idx) {
+    s32 i;
+    s32 j;
+
+    CompoFastSpr(20, 20, &D_8006409C, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(20, 120, &D_800640B0, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(280, 20, &D_800640C4, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(280, 120, &D_800640D8, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(40, 20, &D_800640EC, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(160, 20, &D_80064100, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(40, 200, &D_80064114, 0, FALSE, pri, &D_80092AB8[idx]);
+    CompoFastSpr(160, 200, &D_80064128, 0, FALSE, pri, &D_80092AB8[idx]);
+    for (i = 0; i < 6; i++) {
+        for (j = 0; j < 4; j++) {
+            CompoFastSpr(40 + i * 40, 40 + j * 40, &D_80064088, 0, FALSE, pri, &D_80092AB8[idx]);
+        }
+    }
+    for (i = 0; i < 7; i++) {
+        CompoFastSpr(40 + i * 40, 0, &D_80064204, 0, FALSE, pri, &D_80092AB8[idx]);
+        CompoFastSpr(20 + i * 40, 0, &D_80064218, 0, FALSE, pri, &D_80092AB8[idx]);
+        CompoFastSpr(40 + i * 40, 220, &D_8006422C, 0, FALSE, pri, &D_80092AB8[idx]);
+        CompoFastSpr(20 + i * 40, 220, &D_80064240, 0, FALSE, pri, &D_80092AB8[idx]);
+    }
+    for (i = 0; i < 6; i++) {
+        CompoFastSpr(0, 0 + i * 40, &D_80064204, 0, FALSE, pri, &D_80092AB8[idx]);
+        CompoFastSpr(300, 0 + i * 40, &D_80064218, 0, FALSE, pri, &D_80092AB8[idx]);
+        CompoFastSpr(0, 20 + i * 40, &D_8006422C, 0, FALSE, pri, &D_80092AB8[idx]);
+        CompoFastSpr(300, 20 + i * 40, &D_80064240, 0, FALSE, pri, &D_80092AB8[idx]);
+    }
+}
+
+void func_80022e88(void) {
+    D_800823F8 = 0;
+}
+
+
+void CompoDrawMovieTextEn(register PARA_EN_TEXT *text, register GsOT *ot) {
+    D_80082748 = 0;
+    D_8008274C = 24;
+    D_80082750 = 184;
+    CompoDrawTextEn(482, text, ot);
+    CompoDrawFrameMovieGui(5, ot);
+    if (sceneInfo.dbgmsg != FALSE) {
+        if (sceneInfo.clicksound != FALSE) {
+            CompoBox(4, 15, 300, 17, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, ot);
+        } else {
+            CompoBox(4, 15, 300, 17, 0x0f0f0f, 2, ot);
+        }
+    }
+}
+
+void CompoDrawMovieTextJp(register PARA_JP_TEXT *text, register GsOT *ot) {
+    u32 unused;
+
+    dbgInfo.jptext = text;
+    CompoDrawFrameMovieGui(5, ot);
+    if (sceneInfo.dbgmsg != FALSE) {
+        if (sceneInfo.clicksound != FALSE) {
+            CompoBox(4, 15, 300, 17, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, ot);
+        } else {
+            CompoBox(4, 15, 300, 17, 0x0f0f0f, 2, ot);
+        }
+    }
+    CompoDrawTextJp(text, ot);
+}
+
+void CompoDrawStageTextJp(register PARA_JP_TEXT *text, register s32 i) {
+    dbgInfo.jptext = text;
+    CompoBox(10, 203, 8, 14, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+    CompoBox(18, 195, 284, 30, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+    CompoBox(302, 203, 8, 14, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+    CompoFastSpr(10, 195, &D_80062B20, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoFastSpr(10, 217, &D_80062B0C, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoFastSpr(302, 195, &D_80062AF8, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoFastSpr(302, 217, &D_80062AE4, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoDrawTextJp(text, &D_80092AB8[i]);
+
+    if (sceneInfo.dbgmsg != FALSE) {
+        if (sceneInfo.clicksound != FALSE) {
+            CompoBox(4, 71, 313, 120, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+        } else {
+            CompoBox(4, 71, 313, 120, 0x0f0f0f, 2, &D_80092AB8[i]);
+        }
+    }
+}
+
+void CompoDrawStageTextEn(register PARA_EN_TEXT *text, register s32 i) {
+    CompoBox(10, 203, 8, 14, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+    CompoBox(18, 195, 284, 30, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+    CompoBox(302, 203, 8, 14, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+    CompoFastSpr(10, 195, &D_80062B20, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoFastSpr(10, 217, &D_80062B0C, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoFastSpr(302, 195, &D_80062AF8, 0, FALSE, 2, &D_80092AB8[i]);
+    CompoFastSpr(302, 217, &D_80062AE4, 0, FALSE, 2, &D_80092AB8[i]);
+
+    D_80082748 = 0;
+    D_8008274C = 28;
+    D_80082750 = 196;
+    CompoDrawTextEn(483, text, &D_80092AB8[i]);
+
+    if (sceneInfo.dbgmsg != FALSE) {
+        if (sceneInfo.clicksound != FALSE) {
+            CompoBox(4, 71, 313, 120, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 2, &D_80092AB8[i]);
+        } else {
+            CompoBox(4, 71, 313, 120, 0x0f0f0f, 2, &D_80092AB8[i]);
+        }
+    }
+}
+
+void CompoDrawLesson(register s32 lesson, register s32 idx) {
+    switch (lesson) {
+        case 1: {
+            CompoFastSpr(101, 107, &D_80062D64, 0, FALSE, 2, &D_80092AB8[idx]);
+            CompoFastSpr(207, 107, &D_80062D78, 0, FALSE, 2, &D_80092AB8[idx]);
+            break;
+        }
+        case 2: {
+            CompoFastSpr(101, 107, &D_80062D64, 0, FALSE, 2, &D_80092AB8[idx]);
+            CompoFastSpr(207, 107, &D_80062D8C, 0, FALSE, 2, &D_80092AB8[idx]);
+            break;
+        }
+        case 3: {
+            CompoFastSpr(101, 107, &D_80062D64, 0, FALSE, 2, &D_80092AB8[idx]);
+            CompoFastSpr(207, 107, &D_80062DA0, 0, FALSE, 2, &D_80092AB8[idx]);
+            break;
+        }
+        case 4: {
+            CompoFastSpr(101, 107, &D_80062D64, 0, FALSE, 2, &D_80092AB8[idx]);
+            CompoFastSpr(207, 107, &D_80062DB4, 0, FALSE, 2, &D_80092AB8[idx]);
+            break;
+        }
+        case 5: {
+            CompoFastSpr(101, 107, &D_80062D64, 0, FALSE, 2, &D_80092AB8[idx]);
+            CompoFastSpr(207, 107, &D_80062DC8, 0, FALSE, 2, &D_80092AB8[idx]);
+            break;
+        }
+        case 6: {
+            CompoFastSpr(101, 107, &D_80062D64, 0, FALSE, 2, &D_80092AB8[idx]);
+            CompoFastSpr(207, 107, &D_80062DDC, 0, FALSE, 2, &D_80092AB8[idx]);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+
+void CompoDrawHand(register BOOL startover, register s32 dir, register s32 i) {
+    static s32 timer = 0;
+
+    if (startover != FALSE) {
+        timer = 20;
+    }
+
+    if (timer > 0) {
+        if (dir != PR_DIR_DOWN) {
+            if ((timer % 5) == 0) {
+                CompoFastSpr(20, 148, &D_80062E04, 0, FALSE, 3, &D_80092AB8[i]);
+            } else {
+                CompoFastSpr(20, 154, &D_80062E04, 0, FALSE, 3, &D_80092AB8[i]);
+            }
+        } else {
+            if ((timer % 5) == 0) {
+                CompoFastSpr(20, 156, &D_80062DF0, 0, FALSE, 3, &D_80092AB8[i]);
+            } else {
+                CompoFastSpr(20, 150, &D_80062DF0, 0, FALSE, 3, &D_80092AB8[i]);
+            }
+        }
+        timer--;
+    }
+}
+
+void CompoDrawScore(register BOOL flash, register s32 level, register s32 flashlvl, register s32 score, register s32 lesson, register s32 idx) {
+    s32 i;
+    s32 ch;
+    BOOL gray[4];
+    char tmp[16];
+    static s32 scorecount = 0;
+
+    CompoDrawScoreSprite(20, 182, &D_80062D28, FALSE, &D_80092AB8[idx]);
+    sprintf(tmp, "%d", score);
+
+    for (i = 0; tmp[i] != '\0'; i++) {
+        ch = tmp[i] - '0';
+        CompoFastSpr(i * 9 + 58, 182, &D_80062D3C, ch, FALSE, 3, &D_80092AB8[idx]);
+    }
+
+    // U rappin'
+    CompoDrawScoreSprite(192, 143 + level * 13, &D_80062C60, FALSE, &D_80092AB8[idx]);
+
+    gray[LEVEL_HIGH] = TRUE;
+    gray[LEVEL_NORM] = TRUE;
+    gray[LEVEL_LOW1] = TRUE;
+    gray[LEVEL_LOW2] = TRUE;
+    gray[level] = FALSE;
+    if (flash != FALSE) {
+        if ((scorecount % 2) != 0) {
+            gray[flashlvl] = FALSE;
+        } else {
+            gray[flashlvl] = TRUE;
+        }
+    }
+
+    CompoDrawScoreSprite(256, 143, &D_80062C74, gray[LEVEL_HIGH], &D_80092AB8[idx]);
+    CompoDrawScoreSprite(255, 156, &D_80062C9C, gray[LEVEL_NORM], &D_80092AB8[idx]);
+    CompoDrawScoreSprite(260, 169, &D_80062CC4, gray[LEVEL_LOW1], &D_80092AB8[idx]);
+    CompoDrawScoreSprite(251, 182, &D_80062CEC, gray[LEVEL_LOW2], &D_80092AB8[idx]);
+    scorecount++;
+}
 
 
 extern RECT D_80082774;
@@ -878,30 +1010,268 @@ void CompoRemoveLevelGrayTextBorder(void) {
 }
 
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", func_8002471c);
+extern s32 D_80092C44[36];
+extern s32 D_80092CD4[36 * 3];
+extern GsSPRITE D_80092E84;
+extern LINE_BUTTON_SCALING D_80092EA8[36];
+extern LINE_BUTTON_SCALING D_800930E8[36 + 64];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonApplyScalingTeacher);
+extern COMPO_SPRITE *D_8008277C;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonApplyScalingPara);
+void func_8002471c(LINE_BUTTON_DRAW_INFO *info, COMPO_SPRITE *spr, GsOT *ot) {
+    D_80092E84.x = info->x - (320 / 2);
+    D_80092E84.y = info->y - (240 / 2);
+    CompoSetSprScale(&D_80092E84, spr, D_80092C44[info->scaleid], D_80092CD4[info->scaleid]);
+    GsSortSprite(&D_80092E84, ot, 1);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonInitScalingTeacher);
+void CompoLineButtonApplyScalingTeacher(s32 num) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoLineButtonInitScalingPara);
+    for (i = 0; i < num; i++) {
+        if (D_80092EA8[i].stage >= 24) {
+            continue;
+        }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoResetLineButton);
+        if (D_80092EA8[i].stage < 6) {
+            D_80092C44[i] = ONE + D_80092EA8[i].newscale;
+            D_80092CD4[i] = ONE + D_80092EA8[i].newscale;
+            D_80092EA8[i].newscale += D_80092EA8[i].linscale;
+            if (D_80092EA8[i].newscale >= ONE) {
+                D_80092EA8[i].linscale = -(ONE / 4);
+            }
+        } else if (D_80092EA8[i].stage < 22) {
+            if (D_80092EA8[i].angle > (ONE * 2)) {
+                D_80092EA8[i].angle = 0;
+            }
+            D_80092C44[i] = (rsin(D_80092EA8[i].angle) * ONE) >> 12;
+            D_80092CD4[i] = ONE;
+            D_80092EA8[i].angle += (ONE / 16);
+        } else {
+            D_80092C44[i] = ONE;
+            D_80092CD4[i] = ONE;
+        }
+        D_80092EA8[i].stage++;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLineButton);
+void CompoLineButtonApplyScalingPara(s32 num) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLineDots);
+    for (i = 0; i < num; i++) {
+        if (D_800930E8[i].stage >= 24) {
+            continue;
+        }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTeacherIcon);
+        if (D_800930E8[i].stage < 5) {
+            D_800930E8[i].newscale += D_800930E8[i].linscale;
+            D_80092C44[i] = ONE + D_800930E8[i].newscale;
+            D_80092CD4[i] = ONE + D_800930E8[i].newscale;
+            if (D_800930E8[i].newscale >= ONE) {
+                D_800930E8[i].linscale = -(ONE / 4);
+            }
+        } else if (D_800930E8[i].stage < 22) {
+            if (D_800930E8[i].angle > (ONE * 2)) {
+                D_800930E8[i].angle = 0;
+            }
+            D_80092C44[i] = (rsin(D_800930E8[i].angle) * ONE) >> 12;
+            D_80092CD4[i] = ONE;
+            D_800930E8[i].angle += (ONE / 16);
+        } else {
+            D_80092C44[i] = ONE;
+            D_80092CD4[i] = ONE;
+        }
+        D_800930E8[i].stage++;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawParaIcon);
+void CompoLineButtonInitScalingTeacher(void) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetTurnIcon);
+    for (i = 0; i < 36; i++) {
+        D_80092EA8[i].angle = 0;
+        D_80092EA8[i].newscale = ONE / 2;
+        D_80092EA8[i].linscale = ONE / 2;
+        D_80092EA8[i].stage = 0;
+        D_80092C44[i] = ONE;
+        D_80092CD4[i] = ONE;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawLine);
+void CompoLineButtonInitScalingPara(void) {
+    s32 i;
 
+    for (i = 0; i < 36; i++) {
+        D_800930E8[i].angle = 0;
+        D_800930E8[i].newscale = ONE / 2;
+        D_800930E8[i].linscale = ONE / 2;
+        D_800930E8[i].stage = 0;
+        D_80092C44[i] = ONE;
+        D_80092CD4[i] = ONE;
+    }
+}
+
+void CompoResetLineButton(void) {
+    D_80092E84.attribute = D_80062B84.attr;
+    D_80092E84.rotate = 0;
+}
+
+void CompoDrawLineButton(register LINE_BUTTON_DRAW_INFO *info, register s32 idx) {
+    D_80092E84.x = info->x - (320 / 2);
+    D_80092E84.y = info->y - (240 / 2);
+    CompoSetSprScale(&D_80092E84, D_800676B0[info->keyid], D_80092C44[info->scaleid], D_80092CD4[info->scaleid]);
+    GsSortSprite(&D_80092E84, &D_80092AB8[idx], 1);
+}
+
+void CompoDrawLineDots(register s32 line, register s32 dot, register s32 idx) {
+    s32 i;
+    u32 sp24;
+    s32 sp28;
+
+    if (dot > 0) {
+        sp28 = dot * 15 + 31;
+    } else {
+        sp28 = 0;
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (sp28 < D_800676DC[i]) {
+            CompoFastSpr(D_800676DC[i], D_800676D4[line], &D_80062C24, 0, FALSE, 3, &D_80092AB8[idx]);
+        } else {
+            CompoFastSpr(D_800676DC[i], D_800676D4[line], &D_80062C38, 0, FALSE, 3, &D_80092AB8[idx]);
+        }
+    }
+    if (line > 0) {
+        i = 2;
+    } else {
+        i = 0;
+    }
+    for (i; i < 14; i++) {
+        if (sp28 < D_800676F4[i]) {
+            CompoFastSpr(D_800676F4[i], D_800676EC[line], &D_80062BFC, 0, FALSE, 3, &D_80092AB8[idx]);
+        } else {
+            CompoFastSpr(D_800676F4[i], D_800676EC[line], &D_80062C10, 0, FALSE, 3, &D_80092AB8[idx]);
+        }
+    }
+}
+
+void CompoDrawTeacherIcon(register s32 arg0, register s32 arg1, register s32 arg2, register s32 arg3, register s32 arg4, register s32 i) {
+    static s32 D_80082408 = 0;
+    static s32 D_8008240C = 0;
+
+    if (D_8008240C != arg4) {
+        D_8008240C = arg4;
+        D_80082408 = 0;
+    } else {
+        D_80082408++;
+    }
+
+    if (D_80082408 > arg3) {
+        D_80082408 = arg3;
+    }
+
+    if (arg4 > 0) {
+        CompoFastSpr(arg1 + arg4 * 15 + D_80082408 * 4, arg2 + arg0 * 20, D_8008277C, 0, FALSE, 0, &D_80092AB8[i]);
+    }
+}
+
+void CompoDrawParaIcon(register s32 linei, register s32 dot, register s32 i) {
+    static s32 D_80082410 = 0;
+    static s32 D_80082414 = 0;
+
+    if (D_80082414 != dot) {
+        D_80082414 = dot;
+        D_80082410 = 1;
+    } else {
+        D_80082410++;
+    }
+
+    if (D_80082410 > 4) {
+        D_80082410 = 4;
+    }
+
+    if (dot >= 0) {
+        CompoFastSpr(26 + dot * 15 + D_80082410 * 4, 16 + linei * 20, &D_80062ABC, 0, FALSE, 0, &D_80092AB8[i]);
+    }
+}
+
+void CompoSetTurnIcon(register s32 turntype) {
+    switch (turntype) {
+        case COMPO_TURN_ICON_1: {
+            D_8008277C = &D_80062AA8;
+            break;
+        }
+        case COMPO_TURN_ICON_2: {
+            D_8008277C = &D_80062A94;
+            break;
+        }
+        case COMPO_TURN_ICON_3: {
+            D_8008277C = &D_80062A6C;
+            break;
+        }
+        case COMPO_TURN_ICON_5: {
+            D_8008277C = &D_80062A58;
+            break;
+        }
+        case COMPO_TURN_ICON_7: {
+            D_8008277C = &D_80062A80;
+            break;
+        }
+        case COMPO_TURN_ICON_4: {
+            D_8008277C = &D_80062AD0;
+            break;
+        }
+        case COMPO_TURN_ICON_0:
+        case COMPO_TURN_ICON_8:
+        default: {
+            D_8008277C = &D_80062ABC;
+            break;
+        }
+    }
+}
+
+void CompoDrawLine(SCENE_INFO *scn, s32 idx) {
+    s32 i;
+    s32 j;
+    u32 unused[2];
+    LINE_BUTTON_DRAW_INFO info;
+
+    for (i = 0; i < scn->teacherline.num; i++) {
+        if (scn->teacherline.dot[i] >= 0) {
+            CompoLineButtonApplyScalingTeacher(scn->teacherline.dot[i] + i * 18);
+            if (scn->drawbuttons == TRUE) {
+                CompoDrawTeacherIcon(i, 26, 18, 4, scn->teacherline.dot[i], idx);
+            }
+        }
+        if (scn->parappaline.dot[i] >= 0) {
+            CompoLineButtonApplyScalingPara(scn->parappaline.dot[i] + i * 18);
+            if (scn->drawbuttons == TRUE) {
+                CompoDrawParaIcon(i, scn->parappaline.dot[i], idx);
+            }
+        }
+        if (scn->drawbuttons == TRUE) {
+            CompoDrawLineDots(i, scn->teacherline.dot[i], idx);
+        }
+
+        for (j = 0; j < 18; j++) {
+            info.x = 32 + j * 15;
+            info.y = 24 + i * 20;
+            info.scaleid = i * 17 + j;
+            info.keyid = scn->teacherline.keyid[i][j];
+            if ((scn->drawbuttons == TRUE) && (info.keyid > PR_TAP_NONE) && (info.keyid < PR_TAP_NUM)) {
+                CompoDrawLineButton(&info, idx);
+            }
+        }
+    }
+}
+
+
+static s32 D_80082418 = 0;
+static s32 D_8008241C = 0;
+
+extern SVECTOR D_80093728[1024];
+extern PARA_DAT_DATA D_80095728;
+extern PARA_DAT_OBJECT D_80095738[128];
 
 void CompoResetMime(void) {
     s32 i;
@@ -922,9 +1292,37 @@ void CompoResetMimeSpecific(register s32 i) {
     }
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoApplyDat);
+void CompoApplyDat(register PARA_DAT_DATA *data, register s32 frame, register s32 idx) {
+    s32 i;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoApplyDatForVdf);
+    if (frame < 0) {
+        frame += data->framenum;
+    }
+    MimeDatSetFrame(data, frame);
+
+    for (i = 0; i < data->objnum; i++) {
+        if (data->obj[i].num != 0) {
+            actionMimeList[idx][i] = MimeDatGetKeyFrame(data, i);
+        }
+    }
+    ActionVtxMime(idx);
+}
+
+void CompoApplyDatForVdf(register PARA_DAT_DATA *data, register s32 frame, register s32 idx, register s32 vdf) {
+    s32 i;
+
+    if (frame < 0) {
+        frame += data->framenum;
+    }
+    MimeDatSetFrame(data, frame);
+
+    for (i = 0; i < data->objnum; i++) {
+        if (data->obj[i].num != 0) {
+            actionMimeList[vdf][i] = MimeDatGetKeyFrame(data, i);
+        }
+    }
+    ActionSetVdfForTmd(idx, vdf);
+}
 
 void CompoSetModelAnim(s32 i, void *dat, void *vdf, PARA_DAT_DATA *data, PARA_DAT_OBJECT *obj, s32 *arg5) {
     *arg5 = 0;
@@ -933,13 +1331,33 @@ void CompoSetModelAnim(s32 i, void *dat, void *vdf, PARA_DAT_DATA *data, PARA_DA
     CompoResetMimeSpecific(i);
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSetMainModelAnim);
+void CompoSetMainModelAnim(void *dat, void *vdf, s32 frame, s32 framenum) {
+    D_80082418 = frame;
+    D_8008241C = (frame + framenum) - 1;
+    ActionSetVdfData(0, vdf);
+    MimeDatInit(&D_80095728, D_80095738, dat, FALSE);
+    CompoResetMimeSpecific(0);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoInitMainModelSet);
+void CompoInitMainModelSet(void *dat, void *vdf, void *tmd, s32 wrap) {
+    D_80082418 = 0;
+    D_8008241C = (0 + 1000) - 1;
+    ActionInitModel(0, tmd, vdf, D_80093728);
+    MimeDatInit(&D_80095728, D_80095738, dat, wrap);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoApplyMainDat);
+s32 CompoApplyMainDat(void) {
+    if (D_80082418 < D_8008241C) {
+        CompoApplyDat(&D_80095728, D_80082418++, 0);
+        return D_80082418;
+    } else {
+        return 0;
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoResetFirstTmdVdf);
+void CompoResetFirstTmdVdf(void) {
+    ActionResetMimeVdf(0);
+}
 
 
 void CompoFlip(BOOL flip) {
@@ -960,33 +1378,838 @@ void CompoFlip(BOOL flip) {
 }
 
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTryAgainText);
+static COMPO_SPRITE *D_80082420[2] = {
+    &D_80062F58,
+    &D_80062F44,
+};
+static COMPO_SPRITE *D_80082428[2] = {
+    &D_80062F6C,
+    &D_80062F80,
+};
+static COMPO_SPRITE *D_80082430[2] = {
+    &D_80062EF4,
+    &D_80062F08,
+};
+static COMPO_SPRITE *D_80082438[2] = {
+    &D_80062F1C,
+    &D_80062F30,
+};
+static COMPO_SPRITE *D_80082440[2] = {
+    &D_80062EA4,
+    &D_80062EB8,
+};
+static COMPO_SPRITE *D_80082448[2] = {
+    &D_80062ECC,
+    &D_80062EE0,
+};
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTitleScreen);
+void CompoDrawTryAgainText(register s32 sel) {
+    CompoFastSpr(56, 57, &D_80062E18, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    if (sel == 1) {
+        CompoFastSpr(70, 149, &D_80062E54, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(178, 152, &D_80062E40, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else if (sel == 0) {
+        CompoFastSpr(70, 149, &D_80062E68, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(178, 152, &D_80062E2C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(70, 149, &D_80062E54, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(178, 152, &D_80062E2C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawStageSelect);
+void CompoDrawTitleScreen(register s32 sel) {
+    u32 unused;
+    s32 sp24;
+    u32 unused1[10];
+    static s32 D_80082450 = 0;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawSavingText);
+    if (D_80082450 > ONE) {
+        D_80082450 = 0;
+    }
+    sp24 = (rsin(D_80082450) * ONE) >> 12;
+    D_80082450 += (ONE / 32);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawNameEnter);
+    CompoFastSpr(278, 78, &D_80064380, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(10, 214, &D_80064344, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(178, 214, &D_8006436C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    if (sel != 0) {
+        CompoFastSpr(24, 139, &D_800643BC, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(231, 139, &D_800643A8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(24, 139, &D_800643D0, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(231, 139, &D_80064394, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawSlotSelect);
+extern s32 D_80095B38[];
+extern s32 D_80095B58[];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawHighScore);
+void CompoDrawStageSelect(register void *data) {
+    struct MENU_STAGE_DEFDATA *p;
+    s32 i;
+    s32 sp28[6];
+    s32 sp40[6];
+    s32 sp58[6];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMainMenu);
+    p = (struct MENU_STAGE_DEFDATA *)data;
+    for (i = 0; i < 6; i++) {
+        D_80095B58[i] = p->icons[i + 1];
+        sp28[i] = 0;
+        sp58[i] = 0;
+    }
+    for (i = 0; i < 8; i++) {
+        D_80095B38[i] = 0;
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawSaveDialog);
+    CompoFastSpr(32, 33, &D_80063368, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    for (i = 0; i < 6; i++) {
+        switch (D_80095B58[i]) {
+            case MENU_STAGE_ICON_0: {
+                D_80095B38[i] = 0;
+                sp40[i] = 2;
+                sp58[i] = 1;
+                break;
+            }
+            case MENU_STAGE_ICON_1: {
+                D_80095B38[i] = 1;
+                sp40[i] = 0;
+                sp58[i] = 0;
+                break;
+            }
+            case MENU_STAGE_ICON_2: {
+                D_80095B38[i] = 1;
+                sp40[i] = 0;
+                sp58[i] = 0;
+                break;
+            }
+            case MENU_STAGE_ICON_3: {
+                D_80095B38[i] = 1;
+                sp40[i] = 0;
+                sp58[i] = 0;
+                break;
+            }
+        }
+    }
+    if (p->selcur == 7) {
+        if (p->selected != FALSE) {
+            CompoFastSpr(63, 100, &D_800634E4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(66, 103, &D_800634F8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(63, 98, &D_800634D0, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(66, 103, &D_800634F8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+    } else {
+        if (p->icons[7] != 0) {
+            CompoFastSpr(63, 98, &D_8006350C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(66, 103, &D_800634F8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+        if (p->selcur < 7) {
+            sp28[p->selcur + 5] = 1;
+            D_80095B38[p->selcur - 1] = 2;
+            sp28[p->selcur - 1] = 1;
+        }
+    }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawPracticeBar);
+    CompoFastSpr(43, 123, D_80067738[D_80095B38[0]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(89, 123, &D_800635C0, 46, 8, sp40[0], 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(136, 106, D_80067738[D_80095B38[1]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(182, 106, &D_800635C0, 55, 8, sp40[1], 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(224, 89, D_80067738[D_80095B38[2]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(270, 89, &D_800635C0, 64, 8, sp40[2], 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(43, 200, D_80067738[D_80095B38[3]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(89, 200, &D_800635C0, 73, 8, sp40[3], 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(136, 182, D_80067738[D_80095B38[4]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(182, 182, &D_800635C0, 82, 8, sp40[4], 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(224, 165, D_80067738[D_80095B38[5]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(270, 165, &D_800635C0, 91, 8, sp40[5], 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 67, D_8006772C[D_80095B38[0]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(130, 50, D_8006772C[D_80095B38[1]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(218, 33, D_8006772C[D_80095B38[2]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 144, D_8006772C[D_80095B38[3]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(130, 126, D_8006772C[D_80095B38[4]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(218, 109, D_8006772C[D_80095B38[5]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(45, 76, D_80067770[sp58[0]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(138, 59, D_80067778[sp58[1]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(226, 42, D_80067780[sp58[2]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(45, 153, D_80067788[sp58[3]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(138, 135, D_80067790[sp58[4]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(226, 118, D_80067798[sp58[5]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(78, 65, D_80067750[D_80095B58[0]][sp28[0]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(171, 48, D_80067750[D_80095B58[1]][sp28[1]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(259, 31, D_80067750[D_80095B58[2]][sp28[2]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(78, 142, D_80067750[D_80095B58[3]][sp28[3]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(171, 124, D_80067750[D_80095B58[4]][sp28[4]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(259, 107, D_80067750[D_80095B58[5]][sp28[5]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(78, 65, D_80067744[D_80095B38[0]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(171, 48, D_80067744[D_80095B38[1]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(259, 31, D_80067744[D_80095B38[2]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(78, 142, D_80067744[D_80095B38[3]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(171, 124, D_80067744[D_80095B38[4]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(259, 107, D_80067744[D_80095B38[5]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    
+    if (p->selcur == 8) {
+        if (p->highlight != FALSE) {
+            CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+        if (p->selected == FALSE) {
+            CompoFastSpr(234, 187, &D_80062F94, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+    } else {
+        CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(234, 187, D_80082428[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawPractice);
+void CompoDrawSavingText(s32 arg0) {
+    s32 x;
+    s32 y;
+
+    x = (s16)D_80082754;
+    y = (s16)D_80082758;
+
+    CompoSetTextBox(90, 122, 272, 480);
+    CompoSetFontJp(832, 256, 20, 21);
+    CompoDrawTextJp(D_800677A0, &D_80092AB8[D_800827D4]);
+    CompoSetTextBox(x, y, 272, 480);
+
+    CompoBox(82, 123, 8, 9, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 0, &D_80092AB8[D_800827D4]);
+    CompoBox(90, 115, 140, 25, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 0, &D_80092AB8[D_800827D4]);
+    CompoBox(230, 123, 8, 9, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(82, 115, &D_80062B20, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(82, 132, &D_80062B0C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(230, 115, &D_80062AF8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(230, 132, &D_80062AE4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+}
+
+static COMPO_SPRITE *D_80082454[2] = {
+    &D_80063B9C,
+    &D_80063BB0,
+};
+static COMPO_SPRITE *D_8008245C[2] = {
+    &D_80062FA8,
+    &D_80062FBC,
+};
+static COMPO_SPRITE *D_80082464[2] = {
+    &D_800630C0,
+    &D_800630D4,
+};
+static COMPO_SPRITE *D_8008246C[2] = {
+    &D_8006314C,
+    &D_80063160,
+};
+static COMPO_SPRITE *D_80082474[2] = {
+    &D_800631EC,
+    &D_80063200,
+};
+static COMPO_SPRITE *D_8008247C[2] = {
+    &D_8006328C,
+    &D_800632A0,
+};
 
 
-extern PACKET *D_800827E0[2];
-extern PACKET D_8008C528[2][13000];
-extern GsOT D_80092AB8[2];
-extern GsOT_TAG D_80092AE0[2][16];
+extern BOOL D_80095B70[57];
+
+void CompoDrawNameEnter(register void *data) {
+    struct CARD_MENU_NAMEENTER_INFO *p;
+    s32 i;
+
+    p = (struct CARD_MENU_NAMEENTER_INFO *)data;
+    for (i = 0; i < 57; i++) {
+        D_80095B70[i] = FALSE;
+    }
+    D_80095B70[p->letterselcur] = TRUE;
+    if (p->base.saving != FALSE) {
+        CompoDrawSavingText(0);
+    }
+    D_80082748 = 0;
+    D_8008274C = 117;
+    D_80082750 = 62;
+    CompoDrawTextSaveTitle(p->name, 1, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(36, 28, &D_80063B88, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+#define NAMEENTERHELPER(n) 0, D_80095B70[n], 0, &D_80092AB8[D_800827D4]
+    CompoSimpleFastSpr(31 + 18 * 0, 99, &D_800637DC, NAMEENTERHELPER(0));
+    CompoSimpleFastSpr(31 + 18 * 1, 99, &D_80063854, NAMEENTERHELPER(1));
+    CompoSimpleFastSpr(31 + 18 * 2, 99, &D_8006387C, NAMEENTERHELPER(2));
+    CompoSimpleFastSpr(31 + 18 * 3, 99, &D_800638B8, NAMEENTERHELPER(3));
+    CompoSimpleFastSpr(31 + 18 * 4, 99, &D_800638E0, NAMEENTERHELPER(4));
+    CompoSimpleFastSpr(31 + 18 * 5, 99, &D_8006391C, NAMEENTERHELPER(5));
+    CompoSimpleFastSpr(31 + 18 * 6, 99, &D_80063944, NAMEENTERHELPER(6));
+    CompoSimpleFastSpr(31 + 18 * 7, 99, &D_80063958, NAMEENTERHELPER(7));
+    CompoSimpleFastSpr(31 + 18 * 8, 99, &D_8006396C, NAMEENTERHELPER(8));
+    CompoSimpleFastSpr(31 + 18 * 9, 99, &D_80063980, NAMEENTERHELPER(9));
+    CompoSimpleFastSpr(31 + 18 * 10, 99, &D_80063994, NAMEENTERHELPER(10));
+    CompoSimpleFastSpr(31 + 18 * 11, 99, &D_800639A8, NAMEENTERHELPER(11));
+    CompoSimpleFastSpr(31 + 18 * 12, 99, &D_800639BC, NAMEENTERHELPER(12));
+    CompoSimpleFastSpr(31 + 18 * 13, 99, &D_80063A0C, NAMEENTERHELPER(13));
+    CompoSimpleFastSpr(31 + 18 * 0, 99 + 20 * 1, &D_80063A20, NAMEENTERHELPER(14));
+    CompoSimpleFastSpr(31 + 18 * 1, 99 + 20 * 1, &D_80063A34, NAMEENTERHELPER(15));
+    CompoSimpleFastSpr(31 + 18 * 2, 99 + 20 * 1, &D_80063A84, NAMEENTERHELPER(16));
+    CompoSimpleFastSpr(31 + 18 * 3, 99 + 20 * 1, &D_80063AAC, NAMEENTERHELPER(17));
+    CompoSimpleFastSpr(31 + 18 * 4, 99 + 20 * 1, &D_80063AC0, NAMEENTERHELPER(18));
+    CompoSimpleFastSpr(31 + 18 * 5, 99 + 20 * 1, &D_80063AE8, NAMEENTERHELPER(19));
+    CompoSimpleFastSpr(31 + 18 * 6, 99 + 20 * 1, &D_80063AFC, NAMEENTERHELPER(20));
+    CompoSimpleFastSpr(31 + 18 * 7, 99 + 20 * 1, &D_80063B10, NAMEENTERHELPER(21));
+    CompoSimpleFastSpr(31 + 18 * 8, 99 + 20 * 1, &D_80063B24, NAMEENTERHELPER(22));
+    CompoSimpleFastSpr(31 + 18 * 9, 99 + 20 * 1, &D_80063B38, NAMEENTERHELPER(23));
+    CompoSimpleFastSpr(31 + 18 * 10, 99 + 20 * 1, &D_80063B4C, NAMEENTERHELPER(24));
+    CompoSimpleFastSpr(31 + 18 * 11, 99 + 20 * 1, &D_80063B74, NAMEENTERHELPER(25));
+    CompoSimpleFastSpr(31 + 18 * 12, 99 + 20 * 1 - 1, &D_80063728, NAMEENTERHELPER(26));
+    CompoSimpleFastSpr(31 + 18 * 13, 99 + 20 * 1 - 1, &D_8006373C, NAMEENTERHELPER(27));
+    CompoSimpleFastSpr(31 + 18 * 0, 99 + 20 * 2, &D_80063750, NAMEENTERHELPER(28));
+    CompoSimpleFastSpr(31 + 18 * 1, 99 + 20 * 2, &D_80063764, NAMEENTERHELPER(29));
+    CompoSimpleFastSpr(31 + 18 * 2, 99 + 20 * 2, &D_80063778, NAMEENTERHELPER(30));
+    CompoSimpleFastSpr(31 + 18 * 3, 99 + 20 * 2, &D_8006378C, NAMEENTERHELPER(31));
+    CompoSimpleFastSpr(31 + 18 * 4, 99 + 20 * 2, &D_800637A0, NAMEENTERHELPER(32));
+    CompoSimpleFastSpr(31 + 18 * 5, 99 + 20 * 2, &D_800637B4, NAMEENTERHELPER(33));
+    CompoSimpleFastSpr(31 + 18 * 6, 99 + 20 * 2, &D_800637C8, NAMEENTERHELPER(34));
+    CompoSimpleFastSpr(31 + 18 * 7, 99 + 20 * 2, &D_80063714, NAMEENTERHELPER(35));
+    CompoSimpleFastSpr(31 + 18 * 8, 99 + 20 * 2, &D_800639E4, NAMEENTERHELPER(36));
+    CompoSimpleFastSpr(31 + 18 * 9, 99 + 20 * 2, &D_800638F4, NAMEENTERHELPER(37));
+    CompoSimpleFastSpr(31 + 18 * 10, 99 + 20 * 2, &D_80063908, NAMEENTERHELPER(38));
+    CompoSimpleFastSpr(31 + 18 * 11, 99 + 20 * 2, &D_80063840, NAMEENTERHELPER(39));
+    CompoSimpleFastSpr(31 + 18 * 12, 99 + 20 * 2, &D_80063AD4, NAMEENTERHELPER(40));
+    CompoSimpleFastSpr(31 + 18 * 13, 99 + 20 * 2, &D_800638CC, NAMEENTERHELPER(41));
+    CompoSimpleFastSpr(31 + 18 * 0, 99 + 20 * 3, &D_80063A70, NAMEENTERHELPER(42));
+    CompoSimpleFastSpr(31 + 18 * 1, 99 + 20 * 3, &D_80063890, NAMEENTERHELPER(43));
+    CompoSimpleFastSpr(31 + 18 * 2, 99 + 20 * 3, &D_80063818, NAMEENTERHELPER(44));
+    CompoSimpleFastSpr(31 + 18 * 3, 99 + 20 * 3, &D_8006382C, NAMEENTERHELPER(45));
+    CompoSimpleFastSpr(31 + 18 * 4, 99 + 20 * 3, &D_80063930, NAMEENTERHELPER(46));
+    CompoSimpleFastSpr(31 + 18 * 5, 99 + 20 * 3, &D_80063868, NAMEENTERHELPER(47));
+    CompoSimpleFastSpr(31 + 18 * 6, 99 + 20 * 3, &D_80063700, NAMEENTERHELPER(48));
+    CompoSimpleFastSpr(31 + 18 * 0, 99 + 20 * 4, &D_80063A5C, NAMEENTERHELPER(49));
+    CompoSimpleFastSpr(31 + 18 * 1, 99 + 20 * 4, &D_800638A4, NAMEENTERHELPER(50));
+    CompoSimpleFastSpr(31 + 18 * 2, 99 + 20 * 4, &D_80063A48, NAMEENTERHELPER(51));
+    CompoSimpleFastSpr(31 + 18 * 3, 99 + 20 * 4, &D_80063A98, NAMEENTERHELPER(52));
+    CompoSimpleFastSpr(31 + 18 * 4, 99 + 20 * 4, &D_800639F8, NAMEENTERHELPER(53));
+    CompoSimpleFastSpr(31 + 18 * 5, 99 + 20 * 4, &D_800639D0, NAMEENTERHELPER(54));
+    CompoSimpleFastSpr(188, 183, &D_80063B60, NAMEENTERHELPER(55));
+
+    if (p->endbutton == 1) {
+        CompoFastSpr(225, 160, D_80082454[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(234, 168, D_800677B8[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else if (p->endbutton == 2) {
+        CompoFastSpr(225, 160, D_80082454[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(234, 168, D_800677B8[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else if (D_80095B70[56] != FALSE) {
+        if (p->base.highlight != FALSE) {
+            CompoFastSpr(225, 160, D_80082454[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(225, 160, D_80082454[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+        CompoFastSpr(234, 168, D_800677B8[3], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(225, 160, D_80082454[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(234, 168, D_800677B8[2], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
+
+void CompoDrawSlotSelect(register s32 draw, register struct CARD_MENU_SLOTSELECT_INFO *data) {
+    s32 sp20[16];
+    s32 i;
+    s32 j;
+    s32 fsel;
+    s32 sp6C;
+    char *sp70;
+
+    if (data->base.saving != FALSE) {
+        CompoDrawSavingText(0);
+    }
+
+    if (draw == PR_MENU_SAVE) {
+        CompoFastSpr(37, 34, &D_80063624, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(138, 39, &D_800636B0, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(114, 30, &D_8006369C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else if (draw == PR_MENU_LOAD) {
+        CompoFastSpr(37, 34, &D_800635FC, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(138, 39, &D_80063674, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(114, 30, &D_8006369C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(37, 34, &D_80063610, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(141, 39, &D_80063688, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(123, 30, &D_8006369C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+    for (i = 0, fsel = 0; ((i < data->height) && (fsel < data->availableslotnum)); i++) {
+        for (j = 0; ((j < data->width) && (fsel < data->availableslotnum)); j++, fsel++) {
+            if (fsel == data->selcur) {
+                sp20[fsel] = 1;
+            } else if (data->available[fsel] == FALSE) {
+                sp20[fsel] = 2;
+            } else {
+                sp20[fsel] = 0;
+            }
+
+            sp70 = data->name[fsel];
+            D_80082748 = 0;
+            D_8008274C = 55 + j * 74;
+            D_80082750 = 66 + i * 21;
+            if (sp70 != NULL) {
+                if (sp20[fsel] == 1) {
+                    CompoDrawTextSaveTitle(sp70, 1, &D_80092AB8[D_800827D4]);
+                } else {
+                    CompoDrawTextSaveTitle(sp70, 0, &D_80092AB8[D_800827D4]);
+                }
+            }
+            CompoFastSpr(51 + j * 74, 63 + i * 21, D_800677C8[sp20[fsel]], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+    }
+
+    if (data->selcur == (data->height * data->width)) {
+        if (data->base.highlight != FALSE) {
+            CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+        if (data->base.sel == 0) {
+            CompoFastSpr(234, 187, &D_80062F94, 0, 0, 1, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(234, 187, D_80082428[0], 0, 0, 1, &D_80092AB8[D_800827D4]);
+        }
+    } else {
+        CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(234, 187, D_80082428[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
+
+void CompoDrawHighScore(register struct MENU_HIGHSCORE_DEFDATA *data) {
+    s32 sel;
+    s32 i;
+    s32 j;
+    s32 ij;
+    char *text;
+
+    ij = 0;
+    for (i = 0; i < data->unkC; i++) {
+        for (j = 0; j < data->unkE; j++, ij++) {
+            if (data->unk14[ij][0] == '\0') {
+                text = NULL;
+                sel = 2;
+            } else {
+                text = data->unk14[ij];
+                sel = 0;
+            }
+            D_80082748 = 0;
+            D_8008274C = 57 + j * 79;
+            D_80082750 = 70 + i * 18;
+            if (text != NULL) {
+                CompoDrawTextSaveTitle(text, 0, &D_80092AB8[D_800827D4]);
+            }
+            CompoFastSpr(55 + j * 79, 68 + i * 18, D_800677C8[3 + sel], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+        }
+    }
+
+    CompoFastSpr(37, 31, &D_80063D90, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(84, 56, &D_80063DA4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(163, 56, &D_80063DB8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(242, 56, &D_80063DCC, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 69, &D_80063E1C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 87, &D_80063E30, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 105, &D_80063E44, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 123, &D_80063E58, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 141, &D_80063E6C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(37, 159, &D_80063E80, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+
+    if (data->unk0 == 1) {
+        CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+    if (data->unk4 == 0) {
+        CompoFastSpr(234, 187, &D_80062F94, 0, 0, 1, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
+
+void CompoDrawMainMenu(register struct MENU_MAIN_DEFDATA *data) {
+    s16 *val;
+    s32 i;
+
+    if (data == NULL) {
+        CompoFastSpr(32, 36, D_8008245C[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(40, 46, D_800677E0[2], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(119, 71, D_8008247C[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(127, 79, D_800677E0[14], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(211, 37, D_80082464[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(221, 47, D_800677E0[5], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(38, 110, D_8008246C[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(47, 119, D_800677E0[8], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(161, 110, D_80082474[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(160, 123, D_800677E0[17], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        CompoFastSpr(234, 187, D_80082428[1], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+        return;
+    }
+
+    for (i = 0; i < 5; i++) {
+        val = data->selval[i];
+        switch (i) {
+            case 0: {
+                if (data->selcur == i) {
+                    if (val[0] == 0) {
+                        CompoFastSpr(40, 46, D_800677E0[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(40, 46, D_800677E0[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                    if (data->highlight == TRUE) {
+                        CompoFastSpr(32, 36, D_8008245C[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(32, 36, D_8008245C[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                } else {
+                    CompoFastSpr(32, 36, D_8008245C[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(40, 46, D_800677E0[2], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                }
+                break;
+            }
+            case 1: {
+                if (data->selcur == i) {
+                    if (val[0] == -1) {
+                        CompoFastSpr(127, 79, D_800677E0[13], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(127, 79, D_800677E0[12], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                    if (data->highlight == TRUE) {
+                        CompoFastSpr(119, 71, D_8008247C[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(119, 71, D_8008247C[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                } else {
+                    CompoFastSpr(119, 71, D_8008247C[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(127, 79, D_800677E0[14], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                }
+                break;
+            }
+            case 2: {
+                if (data->selcur == i) {
+                    if (val[0] == 0) {
+                        CompoFastSpr(221, 47, D_800677E0[4], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(221, 47, D_800677E0[3], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                    if (data->highlight == TRUE) {
+                        CompoFastSpr(211, 37, D_80082464[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(211, 37, D_80082464[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                } else {
+                    CompoFastSpr(211, 37, D_80082464[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(221, 47, D_800677E0[5], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                }
+                break;
+            }
+            case 3: {
+                if (data->selcur == i) {
+                    switch (val[0]) {
+                        case 0: {
+                            CompoFastSpr(47, 119, D_800677E0[10], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            CompoFastSpr(160, 123, D_800677E0[20], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            break;
+                        }
+                        case 1: {
+                            CompoFastSpr(47, 119, D_800677E0[9], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            CompoFastSpr(160, 123, D_800677E0[20], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            break;
+                        }
+                        case 2: {
+                            CompoFastSpr(47, 119, D_800677E0[11], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            CompoFastSpr(160, 123, D_800677E0[19], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            break;
+                        }
+                        case 3: {
+                            CompoFastSpr(47, 119, D_800677E0[11], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            CompoFastSpr(160, 123, D_800677E0[18], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            break;
+                        }
+                        default: {
+                            CompoFastSpr(47, 119, D_800677E0[11], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            CompoFastSpr(160, 123, D_800677E0[20], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                            break;
+                        }
+                    }
+                    if (data->highlight == TRUE) {
+                        CompoFastSpr(38, 110, D_8008246C[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(38, 110, D_8008246C[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                    if (data->highlight == TRUE) {
+                        CompoFastSpr(161, 110, D_80082474[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(161, 110, D_80082474[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                } else {
+                    CompoFastSpr(38, 110, D_8008246C[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(47, 119, D_800677E0[8], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(161, 110, D_80082474[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(160, 123, D_800677E0[17], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                }
+                break;
+            }
+            case 4: {
+                if (data->selcur == i) {
+                    if (data->highlight == TRUE) {
+                        CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                    if (data->selexit == FALSE) {
+                        CompoFastSpr(234, 187, &D_80062F94, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    } else {
+                        CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    }
+                } else {
+                    CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                    CompoFastSpr(234, 187, D_80082428[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+}
+
+void CompoDrawSaveDialog(register s32 draw, register struct CARD_MENU_DIALOG_INFO *data) {
+    switch (draw) {
+        case 1: {
+            // "Memory card not inserted" (Card not inserted dialog)
+            CompoFastSpr(36, 54, &D_80063C50, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(157, 62, &D_80063C8C, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            if (data->base.highlight == TRUE) {
+                CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            if (data->base.sel == 0) {
+                CompoFastSpr(234, 187, &D_80062F94, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            break;
+        }
+        case 2: {
+            // "Memory card unformatted. OK to format?" (Format card dialog)
+            CompoFastSpr(36, 54, &D_80063C64, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(133, 55, &D_80063CA0, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            if (data->base.highlight == TRUE) {
+                CompoFastSpr(224, 149, &D_80063CF0, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(224, 149, &D_80063D04, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            if (data->base.sel == 1) {
+                CompoFastSpr(234, 159, &D_80063D68, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else if (data->base.sel == 2) {
+                CompoFastSpr(234, 159, &D_80063D54, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(234, 159, &D_80063D7C, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            break;
+        }
+        case 3: {
+            // "Memory card full" (Card full dialog)
+            CompoFastSpr(36, 54, &D_80063C50, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(157, 62, &D_80063CB4, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            if (data->base.highlight == TRUE) {
+                CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            if (data->base.sel == 0) {
+                CompoFastSpr(234, 187, &D_80062F94, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            break;
+        }
+        case 4: {
+            // "Save?" (Card save dialog)
+            CompoFastSpr(28, 56, &D_80063C78, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(170, 71, &D_80063CC8, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            if (data->base.highlight == TRUE) {
+                CompoFastSpr(224, 149, &D_80063CF0, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(224, 149, &D_80063D04, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            if (data->base.sel == 1) {
+                CompoFastSpr(234, 159, &D_80063D68, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else if (data->base.sel == 2) {
+                CompoFastSpr(234, 159, &D_80063D54, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(234, 159, &D_80063D7C, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            break;
+        }
+        case 5: {
+            // "Same name" (Card same name dialog)
+            CompoFastSpr(36, 54, &D_80063C50, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            CompoFastSpr(145, 71, &D_80063CDC, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            if (data->base.highlight == TRUE) {
+                CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            if (data->base.sel == 0) {
+                CompoFastSpr(234, 187, &D_80062F94, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+            }
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    CompoFastSpr(121, 36, &D_80063C3C, 0, FALSE, 2, &D_80092AB8[D_800827D4]);
+}
+
+void CompoDrawPracticeBar(register s32 arg0) {
+    s32 i;
+    s32 sp24;
+    s32 sp28;
+
+    if (arg0 > 0) {
+        sp28 = arg0 * 15 + 31;
+    } else {
+        sp28 = 0;
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (sp28 < D_80067834[i]) {
+            CompoFastSpr(D_80067834[i], 92, &D_80062C24, 0, FALSE, 2, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(D_80067834[i], 92, &D_80062C38, 0, FALSE, 2, &D_80092AB8[D_800827D4]);
+        }
+    }
+    for (i = 0; i < 14; i++) {
+        if (sp28 < D_80067844[i]) {
+            CompoFastSpr(D_80067844[i], 96, &D_80062BFC, 0, FALSE, 2, &D_80092AB8[D_800827D4]);
+        } else {
+            CompoFastSpr(D_80067844[i], 96, &D_80062C10, 0, FALSE, 2, &D_80092AB8[D_800827D4]);
+        }
+    }
+}
+
+void CompoDrawPractice(register SCENE_INFO *scn) {
+    u32 unused;
+    s32 i;
+    u32 unused1[2];
+    LINE_BUTTON_DRAW_INFO info;
+
+    static BOOL D_80082484 = TRUE;
+
+    if (D_80082484 != FALSE) {
+        CompoResetLineButton();
+        D_80082484 = FALSE;
+    }
+    if ((scn->flags & PR_SCN_FLAG_400000) != 0) {
+        switch (scn->practdraw) {
+            case 1: {
+                CompoFastSpr(121, 137, &D_80063EE4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(240, 161, &D_80063FC0, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(225, 134, &D_80063FE8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(266, 134, &D_80063FFC, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_8006404C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(42, 180, &D_80064074, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 2: {
+                CompoFastSpr(121, 137, &D_80063EF8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(240, 161, &D_80063FC0, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(225, 134, &D_80063FE8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(266, 134, &D_80063FFC, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_8006404C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(42, 180, &D_80064074, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 3: {
+                break;
+            }
+            case 0: {
+                CompoFastSpr(123, 137, &D_80063F0C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_80064060, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 4: {
+                CompoFastSpr(127, 146, &D_80063F20, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(240, 161, &D_80063FD4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_80064038, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 5: {
+                CompoFastSpr(115, 146, &D_80063F34, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(240, 161, &D_80063FD4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_80064038, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 6: {
+                CompoFastSpr(120, 146, &D_80063F48, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(240, 161, &D_80063FD4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_80064038, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 7: {
+                CompoFastSpr(107, 137, &D_80063F5C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            case 8: {
+                CompoFastSpr(106, 137, &D_80063F70, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(240, 161, &D_80063FD4, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                CompoFastSpr(54, 196, &D_80064038, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        CompoFastSpr(101, 122, &D_80063EBC, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+
+    if (scn->teacherline.dot[0] >= 0) {
+        CompoLineButtonApplyScalingTeacher(scn->teacherline.dot[0]);
+        CompoSetTurnIcon(COMPO_TURN_ICON_4);
+        CompoDrawTeacherIcon(0, 16, 92, 3, scn->teacherline.dot[0], D_800827D4);
+    }
+    if (scn->parappaline.dot[0] >= 0) {
+        CompoLineButtonApplyScalingTeacher(scn->parappaline.dot[0]);
+        CompoSetTurnIcon(COMPO_TURN_ICON_0);
+        CompoDrawTeacherIcon(0, 16, 92, 3, scn->parappaline.dot[0], D_800827D4);
+    }
+    CompoDrawPracticeBar(-1);
+    for (i = 0; i < 18; i++) {
+        info.x = 41 + i * 14;
+        info.y = 98;
+        info.scaleid = i;
+        info.keyid = scn->teacherline.keyid[0][i];
+        if ((info.keyid > PR_TAP_NONE) && (info.keyid < PR_TAP_NUM)) {
+            CompoDrawLineButton(&info, D_800827D4);
+        }
+    }
+
+    CompoSlidingFastSpr(65 + 57 * 0, 80, &D_80063ED0, 7 * 0, 7, 0, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(65 + 57 * 1, 80, &D_80063ED0, 7 * 1, 7, 0, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(65 + 57 * 2 - 1, 80, &D_80063ED0, 7 * 2, 7, 0, 0, &D_80092AB8[D_800827D4]);
+    CompoSlidingFastSpr(65 + 57 * 3 - 2, 80, &D_80063ED0, 7 * 3, 7, 0, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(32, 34, &D_80063E94, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(112, 31, &D_80063EA8, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(211, 113, &D_80063F84, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(26, 119, &D_80064010, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+
+    if (scn->practhighlight != FALSE) {
+        CompoFastSpr(227, 178, D_80082420[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(227, 178, D_80082420[1], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+    if (scn->practend == FALSE) {
+        CompoFastSpr(234, 187, &D_80062F94, 0, FALSE, 1, &D_80092AB8[D_800827D4]);
+    } else {
+        CompoFastSpr(234, 187, D_80082428[0], 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    }
+}
+
 
 void CompoSetPacket(PACKET *p0, PACKET *p1) {
     D_800827E0[0] = p0;
@@ -1006,17 +2229,58 @@ void CompoDrawOt(s32 i) {
 }
 
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTitleScreenSel);
+void CompoDrawTitleScreenSel(s32 *sel) {
+    CompoDrawTitleScreen(*sel);
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyFade);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyDrawFade);
+extern u16 D_80095C54[32][16];
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyLoad);
+void CompoSonyFade(s32 x, s32 y) {
+    u32 unused[2];
+    s32 i;
+    s32 j;
+    u16 color;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonyDraw);
+    for (i = 0; i < 16; i++) {
+        color = D_8006787C[i];
+        for (j = 0; j < (32 - 1); j++) {
+            D_80095C54[j][i] = CompoFadeColor(color, j);
+        }
+    }
+}
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoSonySwap);
+void CompoSonyDrawFade(s32 x, s32 y, s32 t) {
+    LoadClut2((u_long *)&D_80095C54[t], x, y);
+    DrawSync(0);
+}
+
+void CompoSonyLoad(void) {
+    CompoLoadTimClut(&D_800655DC, TRUE);
+    CompoSonyFade(0, 509);
+}
+
+void CompoSonyDraw(s32 i) {
+    D_800827D4 = GsGetActiveBuff();
+    GsSetWorkBase(D_800827E0[D_800827D4]);
+    CompoClear(D_800827D4);
+
+    if (i < 30) {
+        CompoSonyDrawFade(0, 509, i);
+    }
+    if ((i >= 120) && (i < 150)) {
+        CompoSonyDrawFade(0, 509, 150 - i - 1);
+    }
+
+    CompoFastSpr(0, 100, &D_8006789C, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+    CompoFastSpr(256, 100, &D_800678B0, 0, FALSE, 0, &D_80092AB8[D_800827D4]);
+}
+
+void CompoSonySwap(void) {
+    GsSwapDispBuff();
+    GsSortClear(0, 0, 0, &D_80092AB8[D_800827D4]);
+    CompoDrawOt(D_800827D4);
+}
 
 
 void CompoInitOt(void) {
@@ -1032,81 +2296,275 @@ void CompoInitOt(void) {
 }
 
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMenu);
+// TODO: appInfo
+extern s16 D_8009F834;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawMenuOt);
+void CompoDrawMenu(s32 draw, void *data) {
+    u32 unused;
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameDraw);
+    D_800827D4 = GsGetActiveBuff();
+    GsSetWorkBase(D_800827E0[D_800827D4]);
+    GsClearOt(0, 0, &D_80092AB8[D_800827D4]);
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSwap);
+    switch (draw) {
+        case PR_MENU_START: {
+            if (D_80082810 != 0) {
+                if (D_80082810 == 1) {
+                    CompoBox(0, 0, 320, 240, 0x0f0f0f | PARA_SPRITE_TRANS_ON, 0, &D_80092AB8[D_800827D4]);
+                    D_80082810++;
+                } else {
+                    CompoFlip(FALSE);
+                    D_80082810 = 0;
+                }
+            } else {
+                CompoDrawTryAgainText(*((s32 *)data));
+            }
+            break;
+        }
+        case PR_MENU_HIGHSCORE: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawHighScore((struct MENU_HIGHSCORE_DEFDATA *)data);
+            break;
+        }
+        case PR_MENU_NAMEENTER: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawNameEnter(data);
+            break;
+        }
+        case PR_MENU_STAGE: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawStageSelect(data);
+            break;
+        }
+        case PR_MENU_DEBUG: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            // Possibly CompoDrawDebugMenu(data); here 
+            break;
+        }
+        case PR_MENU_LOADING: {
+            CompoFrameDrawText(D_8009F834, 0, D_800827D4);
+            break;
+        }
+        case PR_MENU_MAIN: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawMainMenu((struct MENU_MAIN_DEFDATA *)data);
+            break;
+        }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiDraw);
+        case PR_MENU_CARDNOTINSERT: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawSaveDialog(1, (struct CARD_MENU_DIALOG_INFO *)data);
+            break;
+        }
+        case PR_MENU_CARDFORMAT: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawSaveDialog(2, (struct CARD_MENU_DIALOG_INFO *)data);
+            break;
+        }
+        case PR_MENU_CARDFULL: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawSaveDialog(3, (struct CARD_MENU_DIALOG_INFO *)data);
+            break;
+        }
+        case PR_MENU_CARDSAVE: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawSaveDialog(4, (struct CARD_MENU_DIALOG_INFO *)data);
+            break;
+        }
+        case PR_MENU_CARDSAMENAME: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawSaveDialog(5, (struct CARD_MENU_DIALOG_INFO *)data);
+            break;
+        }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiSwap);
+        case PR_MENU_SAVE:
+        case PR_MENU_LOAD:
+        case PR_MENU_REPLAY: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawSlotSelect(draw, (struct CARD_MENU_SLOTSELECT_INFO *)data);
+            break;
+        }
 
+        case PR_MENU_PRACTICE: {
+            CompoDrawFrameMenuGui(3, D_800827D4);
+            CompoDrawPractice((SCENE_INFO *)data);
+            break;
+        }
 
-void CompoInit(void) {
-    CompoInitGs();
-    CompoInitOt();
-}
-
-void func_8002f83c(s32 r, s32 g, s32 b) {
-    RECT rect;
-
-    rect.x = rect.y = 0;
-    rect.w = 320;
-    rect.h = 480;
-    ClearImage(&rect, r, g, b);
-}
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawThoughtBubble);
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawOtThoughtBubble);
-
-void func_8002fa2c(void) {
-    u32 i;
-
-    for (i = 0; i < 2; i++) {
-        ClearImage(&D_800678C4[i], 0, 0, 0);
-        DrawSync(0);
+        default: {
+            break;
+        }
     }
 }
 
-// TODO: Uses gp. Split
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTextSaveTitle);
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoDrawTextEn);
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameSetAnim);
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMakeLast);
-
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prcompo", CompoFrameMovieGuiMakeLast);
-
-u16 CompoFadeColor(register u16 color, register s32 i) {
-    u32 sp0;
-    u32 sp4;
-    u32 sp8;
-    u32 spC;
-    u32 sp10;
-    u32 sp14;
-    u32 sp18;
-    u16 sp1C;
-
-    if ((color & 0xffff) == 0) {
-        return color;
+void CompoDrawMenuOt(s32 menu, void *data) {
+    GsSwapDispBuff();
+    if ((menu != PR_MENU_START) && (menu != PR_MENU_1) && (menu != PR_MENU_LOADING)) {
+        GsClearDispArea(0, 0, 0x46);
     }
+    GsDrawOt(&D_80092AB8[D_800827D4]);
+    FntFlush(-1);
+}
 
-    sp0 = ((color >> 0) & 0x1f);
-    sp4 = ((color >> 5) & 0x1f);
-    sp8 = ((color >> 10) & 0x1f);
+extern BOOL D_80082780;
 
-    spC = 0x8000;
-    sp10 = (sp0 * i) / 30;
-    sp14 = (sp4 * i) / 30;
-    sp18 = (sp8 * i) / 30;
+void CompoFrameDraw(void *data, s32 type) {
+    D_800827D4 = GsGetActiveBuff();
+    D_80082780 = TRUE;
+    GsSetWorkBase(D_800827E0[D_800827D4]);
+    GsClearOt(0, 0, &D_80092AB8[D_800827D4]);
 
-    sp1C = spC | (sp18 << 10) | (sp14 << 5) | (sp10 << 0);
-    return sp1C;
+    switch (type) {
+        case PR_FRAME_1: {
+            CompoDrawFrameMovieGui(5, &D_80092AB8[D_800827D4]);
+            CompoFrameDrawCounterClockwiseImmediate(0, 8, D_800827D4);
+            break;
+        }
+        case PR_FRAME_2: {
+            D_80082780 = FALSE;
+            CompoFrameDrawCounterClockwiseImmediate(0, 8, D_800827D4);
+            break;
+        }
+        case PR_FRAME_3: {
+            CompoFrameDrawCounterClockwiseImmediate(0, 8, D_800827D4);
+            break;
+        }
+
+        case PR_FRAME_6: {
+            CompoDrawSaveDialog(4, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawFrameMenuGui(5, D_800827D4);
+            CompoFrameSetAnimInactive(COMPO_FRAME_ANIM_TYPE_4, 8);
+            CompoFrameDrawAnim(0, D_800827D4);
+            break;
+        }
+        case PR_FRAME_7: {
+            CompoDrawMainMenu(NULL);
+            CompoDrawFrameMenuGui(5, D_800827D4);
+            CompoFrameSetAnimInactive(COMPO_FRAME_ANIM_TYPE_4, 8);
+            CompoFrameDrawAnim(0, D_800827D4);
+            break;
+        }
+
+        case PR_FRAME_4: {
+            D_80082780 = FALSE;
+            CompoFrameSetAnimActive(8, COMPO_FRAME_ANIM_TYPE_4);
+            CompoFrameDrawAnim(0, D_800827D4);
+            break;
+        }
+
+        case PR_FRAME_9: {
+            if (D_800823EC == 0) {
+                RapPlayFrameMovieGuiActive(1);
+            }
+            if (D_800823EC == 15) {
+                RapPlayFrameMovieGuiActive(0);
+            }
+
+            if (D_800823EC < 15) {
+                CompoDrawFrameMovieGuiNoText(5, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoDrawFrameMovieGui(5, &D_80092AB8[D_800827D4]);
+            }
+            D_800823EC++;
+            if (D_800823EC > 30) {
+                D_800823EC = 192;
+            }
+            break;
+        }
+        case PR_FRAME_8: {
+            if (D_800823EC == 0) {
+                RapPlayFrameMovieGuiActive(0);
+            }
+            if (D_800823EC == 15) {
+                RapPlayFrameMovieGuiActive(1);
+            }
+
+            if (D_800823EC < 15) {
+                D_80082780 = FALSE;
+                CompoDrawFrameMovieGuiNoText(5, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoDrawFrameMovieGuiNoTextNoBorder(0, &D_80092AB8[D_800827D4]);
+            }
+            D_800823EC++;
+            if (D_800823EC > 30) {
+                D_800823EC = 192;
+            }
+            break;
+        }
+
+        case PR_FRAME_5: 
+        default: {
+            if (data != NULL) {
+                CompoFrameDrawText(D_8009F834, 0, D_800827D4);
+            }
+            break;
+        }
+        
+    }
+}
+
+void CompoFrameSwap(void *data) {
+    GsSwapDispBuff();
+    if (D_80082780 != FALSE) {
+        GsClearDispArea(0xff, 0xff, 0xff);
+    }
+    GsDrawOt(&D_80092AB8[D_800827D4]);
+    FntFlush(-1);
+}
+
+void CompoFrameMovieGuiDraw(SCENE_INFO *scn, s32 type) {
+    RECT r;
+    u32 unused;
+
+    D_800827D4 = GsGetActiveBuff();
+    GsSetWorkBase(D_800827E0[D_800827D4]);
+    GsClearOt(0, 0, &D_80092AB8[D_800827D4]);
+    GsSwapDispBuff();
+
+    switch (type) {
+        case PR_MOVIE_1: {
+            CompoDrawFrameMovieGui(5, &D_80092AB8[D_800827D4]);
+            CompoFrameDrawCounterClockwiseImmediate(0, 8, D_800827D4);
+            break;
+        }
+        case PR_MOVIE_5: {
+            CompoFrameSetAnimActive(8, COMPO_FRAME_ANIM_TYPE_4);
+            CompoFrameDrawAnim(0, D_800827D4);
+            break;
+        }
+        case PR_MOVIE_4: {
+            CompoFrameSetAnimActive(8, COMPO_FRAME_ANIM_TYPE_0);
+            CompoFrameDrawAnim(0, D_800827D4);
+            break;
+        }
+        case PR_MOVIE_10: {
+            CompoFrameDrawAnimMovie(0, D_800827D4);
+            break;
+        }
+        case PR_MOVIE_11: {
+            r.x = 0;
+            r.y = (D_800827D4 == 0) ? 0 : 240;
+            r.w = 320;
+            r.h = 240;
+            MoveImage(&r, 0, (D_800827D4 == 0) ? 0 : 240);
+            CompoDrawFrameMovieGui(5, &D_80092AB8[D_800827D4]);
+            break;
+        }
+
+        case PR_MOVIE_12:
+        default: {
+            if (scn->drawtextlang != PARA_LANG_JP) {
+                CompoDrawMovieTextEn(scn->entext, &D_80092AB8[D_800827D4]);
+            } else {
+                CompoDrawMovieTextJp(scn->jptext, &D_80092AB8[D_800827D4]);
+            }
+            break;
+        }
+    }
+}
+
+void CompoFrameMovieGuiSwap(SCENE_INFO *scn) {
+    CompoUpdateWorkOfs(D_800827E0[D_800827D4]);
+    GsDrawOt(&D_80092AB8[D_800827D4]);
+    FntFlush(-1);
 }
