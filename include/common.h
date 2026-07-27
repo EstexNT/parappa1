@@ -108,4 +108,25 @@ typedef struct PARA_TIME {
 #define PARA_LANG_JP 0
 #define PARA_LANG_EN 1
 
+
+#define PR_MENU_0 0
+#define PR_MENU_1 1
+#define PR_MENU_STAGE 2
+#define PR_MENU_MAIN 3
+#define PR_MENU_START 4
+#define PR_MENU_NAMEENTER 5
+#define PR_MENU_HIGHSCORE 6
+#define PR_MENU_SAVE 7
+#define PR_MENU_LOAD 8
+#define PR_MENU_REPLAY 9
+#define PR_MENU_LOADING 10
+#define PR_MENU_CARDSAVE 11
+#define PR_MENU_CARDNOTINSERT 12
+#define PR_MENU_CARDFORMAT 13
+#define PR_MENU_CARDFULL 14
+#define PR_MENU_CARDSAMENAME 15
+#define PR_MENU_PRACTICE 16
+#define PR_MENU_DEBUG 17
+
+
 #endif

@@ -1614,10 +1614,10 @@ static COMPO_SPRITE *D_8008247C[2] = {
 extern BOOL D_80095B70[57];
 
 void CompoDrawNameEnter(register void *data) {
-    struct CARD_MENU_NAMEENTER_INFO *p;
+    CARD_MENU_NAMEENTER_INFO *p;
     s32 i;
 
-    p = (struct CARD_MENU_NAMEENTER_INFO *)data;
+    p = (CARD_MENU_NAMEENTER_INFO *)data;
     for (i = 0; i < 57; i++) {
         D_80095B70[i] = FALSE;
     }
@@ -1707,7 +1707,7 @@ void CompoDrawNameEnter(register void *data) {
     }
 }
 
-void CompoDrawSlotSelect(register s32 draw, register struct CARD_MENU_SLOTSELECT_INFO *data) {
+void CompoDrawSlotSelect(register s32 draw, register CARD_MENU_SLOTSELECT_INFO *data) {
     s32 sp20[16];
     s32 i;
     s32 j;
@@ -1973,7 +1973,7 @@ void CompoDrawMainMenu(register struct MENU_MAIN_DEFDATA *data) {
     }
 }
 
-void CompoDrawSaveDialog(register s32 draw, register struct CARD_MENU_DIALOG_INFO *data) {
+void CompoDrawSaveDialog(register s32 draw, register CARD_MENU_DIALOG_INFO *data) {
     switch (draw) {
         case 1: {
             // "Memory card not inserted" (Card not inserted dialog)
@@ -2353,27 +2353,27 @@ void CompoDrawMenu(s32 draw, void *data) {
 
         case PR_MENU_CARDNOTINSERT: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawSaveDialog(1, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawSaveDialog(1, (CARD_MENU_DIALOG_INFO *)data);
             break;
         }
         case PR_MENU_CARDFORMAT: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawSaveDialog(2, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawSaveDialog(2, (CARD_MENU_DIALOG_INFO *)data);
             break;
         }
         case PR_MENU_CARDFULL: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawSaveDialog(3, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawSaveDialog(3, (CARD_MENU_DIALOG_INFO *)data);
             break;
         }
         case PR_MENU_CARDSAVE: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawSaveDialog(4, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawSaveDialog(4, (CARD_MENU_DIALOG_INFO *)data);
             break;
         }
         case PR_MENU_CARDSAMENAME: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawSaveDialog(5, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawSaveDialog(5, (CARD_MENU_DIALOG_INFO *)data);
             break;
         }
 
@@ -2381,7 +2381,7 @@ void CompoDrawMenu(s32 draw, void *data) {
         case PR_MENU_LOAD:
         case PR_MENU_REPLAY: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawSlotSelect(draw, (struct CARD_MENU_SLOTSELECT_INFO *)data);
+            CompoDrawSlotSelect(draw, (CARD_MENU_SLOTSELECT_INFO *)data);
             break;
         }
 
@@ -2431,7 +2431,7 @@ void CompoFrameDraw(void *data, s32 type) {
         }
 
         case PR_FRAME_6: {
-            CompoDrawSaveDialog(4, (struct CARD_MENU_DIALOG_INFO *)data);
+            CompoDrawSaveDialog(4, (CARD_MENU_DIALOG_INFO *)data);
             CompoDrawFrameMenuGui(5, D_800827D4);
             CompoFrameSetAnimInactive(COMPO_FRAME_ANIM_TYPE_4, 8);
             CompoFrameDrawAnim(0, D_800827D4);

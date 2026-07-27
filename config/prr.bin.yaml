@@ -61,8 +61,8 @@ segments:
       - [0x800, rodata, 800]
       # - [0x800, .rodata, prapp]
       - [0x804, .rodata, prcard]
-      - [0x9F8, rodata, 9F8]
-      # - [0x9F8, .rodata, prcmenu]
+      # - [0x9F8, rodata, 9F8]
+      - [0x9F8, .rodata, prcmenu_1]
       - [0xBBC, .rodata, prcd]
       - [0xD20, .rodata, prcompo]
       - [0xE50, .rodata, prcompo_1]
@@ -81,6 +81,7 @@ segments:
       - [0x7120, c, prapp]
       - [0x86F0, c, prcard]
       - [0x9ADC, c, prcmenu]
+      - [0xAD14, c, prcmenu_1]
       - [0xDC90, c, prcd]
       - [0xF714, c, prcompo]
       - [0x20004, c, prcompo_1]
@@ -119,7 +120,7 @@ segments:
       - [0x72B88, .sdata, praction]
       - [0x72B9C, .sdata, praction_1]
       - [0x72BA8, .sdata, prcard]
-      - [0x72BB0, sdata, 72BB0]
+      - [0x72BB0, .sdata, prcmenu_1]
       - [0x72BE0, .sdata, prcd]
       - [0x72BE8, .sdata, prcompo]
       - [0x72C88, .sdata, prcompo_1]
@@ -137,7 +138,7 @@ segments:
       - { vram: 0x800826D4, type: .sbss, name: praction_1 }
       - { vram: 0x800826D8, type: sbss, name: prapp }
       - { vram: 0x800826DC, type: .sbss, name: prcard_1 }
-      - { vram: 0x80082708, type: sbss }
+      - { vram: 0x80082708, type: .sbss, name: prcmenu_1 }
       - { vram: 0x80082734, type: .sbss, name: prcd_1 }
       - { vram: 0x80082748, type: .sbss, name: prcompo_1 }
       - { vram: 0x80082784, type: sbss, name: prevent }

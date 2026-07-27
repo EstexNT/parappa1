@@ -7,6 +7,7 @@
 #include <libgs.h>
 #include "prscene.h"
 #include "prmime.h"
+#include "prcmenu.h"
 
 
 // LibGS object attribute bits
@@ -89,25 +90,6 @@
 #define PR_MOVIE_11 11
 #define PR_MOVIE_12 12
 
-#define PR_MENU_0 0
-#define PR_MENU_1 1
-#define PR_MENU_STAGE 2
-#define PR_MENU_MAIN 3
-#define PR_MENU_START 4
-#define PR_MENU_NAMEENTER 5
-#define PR_MENU_HIGHSCORE 6
-#define PR_MENU_SAVE 7
-#define PR_MENU_LOAD 8
-#define PR_MENU_REPLAY 9
-#define PR_MENU_LOADING 10
-#define PR_MENU_CARDSAVE 11
-#define PR_MENU_CARDNOTINSERT 12
-#define PR_MENU_CARDFORMAT 13
-#define PR_MENU_CARDFULL 14
-#define PR_MENU_CARDSAMENAME 15
-#define PR_MENU_PRACTICE 16
-#define PR_MENU_DEBUG 17
-
 
 typedef struct FRAME_TEXT_INFO {
     u32 color;
@@ -154,13 +136,6 @@ typedef struct LINE_BUTTON_SCALING {
 } LINE_BUTTON_SCALING;
 
 // TODO: Move to prmenu
-struct MENU_MAIN_DEFDATA {
-    BOOL highlight;
-    s32 selexit;
-    s16 selcur;
-    s16 selmax;
-    s16 selval[5][2];
-};
 #define MENU_STAGE_ICON_0 0
 #define MENU_STAGE_ICON_1 1
 #define MENU_STAGE_ICON_2 2
@@ -172,35 +147,6 @@ struct MENU_STAGE_DEFDATA {
     s16 selmax;
     s16 icons[9];
 };
-// Base information for a card menu
-struct CARD_MENU_BASE_INFO {
-    BOOL highlight; // TRUE if the selected thing needs to have a yellow highlight, FALSE for purple highlight
-    s32 sel; // The selection
-    BOOL saving; // TRUE if need to draw the "Saving..." text
-};
-struct CARD_MENU_NAMEENTER_INFO {
-    struct CARD_MENU_BASE_INFO base;
-    char *map;
-    s16 unk10;
-    s16 unk12;
-    s16 letterselmax;
-    s16 letterselcur;
-    s16 namelen;
-    s16 endbutton;
-    char name[8];
-};
-struct CARD_MENU_SLOTSELECT_INFO {
-    struct CARD_MENU_BASE_INFO base;
-    s16 height;
-    s16 width;
-    s16 selmax;
-    s16 availableslotnum;
-    s16 selcur;
-    s16 available[16];
-    u8 unk36[2];
-    char *name[16];
-    s16 stagecur[16];
-};
 struct MENU_HIGHSCORE_DEFDATA {
     s32 unk0;
     s32 unk4;
@@ -210,10 +156,6 @@ struct MENU_HIGHSCORE_DEFDATA {
     s16 unk10;
     s16 unk12;
     char unk14[19][16];
-};
-struct CARD_MENU_DIALOG_INFO {
-    struct CARD_MENU_BASE_INFO base;
-    u8 unk0C[0x24 - 0xc];
 };
 
 
@@ -302,10 +244,10 @@ void CompoDrawTitleScreen(s32 sel);
 void CompoDrawStageSelect(void *data);
 void CompoDrawSavingText(s32 arg0);
 void CompoDrawNameEnter(void *data);
-void CompoDrawSlotSelect(s32 draw, struct CARD_MENU_SLOTSELECT_INFO *data);
+void CompoDrawSlotSelect(s32 draw, CARD_MENU_SLOTSELECT_INFO *data);
 void CompoDrawHighScore(struct MENU_HIGHSCORE_DEFDATA *data);
 void CompoDrawMainMenu(struct MENU_MAIN_DEFDATA *data);
-void CompoDrawSaveDialog(s32 draw, struct CARD_MENU_DIALOG_INFO *data);
+void CompoDrawSaveDialog(s32 draw, CARD_MENU_DIALOG_INFO *data);
 void CompoDrawPracticeBar(s32 arg0);
 void CompoDrawPractice(SCENE_INFO *scn);
 void CompoSetPacket(PACKET *p0, PACKET *p1);

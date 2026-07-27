@@ -92,6 +92,45 @@ CardInitSaveDataHeader = 0x80019008;
 CardFormatAt = 0x80019048;
 CardInitHeader = 0x80019114;
 
+CardMenuDrawTimed = 0x800192dc;
+CardMenuDrawSlow = 0x8001936c;
+CardMenuHighScoreVSyncCallback = 0x800193f8;
+CardMenuResetBaseInfo = 0x80019514;
+CardMenuUpdateSaving = 0x8001955c;
+CardMenuUpdateHighlight = 0x80019624;
+CardMenuSlotSelectUpdate = 0x800196e4;
+CardMenuCacheFiles = 0x80019e08;
+CardMenuRun = 0x80019e6c;
+CardMenuSave = 0x80019f94;
+CardMenuMisc = 0x8001a04c;
+CardMenuLoad = 0x8001a10c;
+CardMenuReplay = 0x8001a1b0;
+CardMenuHighScoreMakeVisual = 0x8001a230;
+CardMenuHighScore = 0x8001a450;
+CardMenuUpdate = 0x8001a514;
+CardMenuRunDebug = 0x8001a790;
+CardMenuSaveFront = 0x8001a8a0;
+CardMenuMiscFront = 0x8001ae44;
+CardMenuSaveBack = 0x8001b0fc;
+CardMenuMiscBack = 0x8001b304;
+CardMenuCheckCachedFiles = 0x8001b4d4;
+CardMenuGetUserFileName = 0x8001b548;
+CardMenuCheckSlots = 0x8001b680;
+CardMenuCacheData = 0x8001baf0;
+CardMenuCheckSlotsAvailable = 0x8001bb44;
+CardMenuSetupSaveData = 0x8001be1c;
+CardMenuReadHighScore = 0x8001beb8;
+CardMenuResetNameEnterInfo = 0x8001c0f8;
+CardMenuResetSlotSelect = 0x8001c244;
+CardMenuLoadSlotSelectInfo = 0x8001c4d8;
+CardMenuRunDebugSlot = 0x8001c93c;
+CardMenuReadPadTrigger = 0x8001c964;
+CardMenuNameEnterUpdate = 0x8001c9d0;
+CardMenuConvertStatus = 0x8001cf9c;
+CardMenuInitName = 0x8001d03c;
+CardMenuCheckFileName = 0x8001d374;
+CardMenuGetAvailableSlotInfoIndex = 0x8001d3dc;
+
 CDInit = 0x8001d490;
 CDReadStreamCallback = 0x8001d4ec;
 func_8001d590 = 0x8001d590;
@@ -942,6 +981,7 @@ _new_card = 0x800617ac;
 srand = 0x800617bc;
 bcopy = 0x800617cc;
 bzero = 0x800617dc;
+bcmp = 0x800617ec;
 memset = 0x80061838;
 memcpy = 0x80061848;
 strcat = 0x80061858;
@@ -996,6 +1036,9 @@ GetSp = 0x80062528;
 
 
 // .data
+D_800626D8 = 0x800626D8; // size:0x28
+D_80062700 = 0x80062700; // size:0x98
+
 cdInfoData = 0x800629C8;
 
 D_80062A30 = 0x80062A30; // size:0x14
@@ -1372,6 +1415,8 @@ D_80068A3C = 0x80068A3C; // size:0x3c
 
 dbgInfo = 0x80068C0C; // size:0x194
 
+_ctype_ = 0x800822E0; // size:0x81
+
 // .sdata
 D_800825E8 = 0x800825E8;
 D_800825F4 = 0x800825F4;
@@ -1461,6 +1506,14 @@ actionTmdData = 0x80088550; // size:0x78
 actionVdfData = 0x800885C8; // size:0x78
 
 cardDirEntry = 0x8008994C; // size:0x258
+
+D_80089BC4 = 0x80089BC4; // size:0x658
+
+D_8008A21C = 0x8008A21C; // size:0x2000
+
+D_8008C284 = 0x8008C284; // size:0x20
+
+D_8008C4FC = 0x8008C4FC; // size:0x24
 
 D_8008C528 = 0x8008C528; // size:0x6590
 D_80092AB8 = 0x80092AB8; // size:0x28
