@@ -3,6 +3,7 @@
 #include "prvdbg.h"
 #include "prrap.h"
 // #include "prmemory.h"
+#include "prapp.h"
 
 void ActionBezInterpolate(s32 sf, MATRIX *refmtx, SVECTOR *ref, VECTOR *view);
 void ActionSetTmdInfo(void *tmd, PARA_TMD_DATA *data);
@@ -630,12 +631,6 @@ BOOL ActionRegisterTap(register SND_INFO *snd, register SCENE_INFO *scn, registe
     return tapok;
 }
 
-
-// TODO: appInfo
-#define SCENE_IDX_3 3
-#define SCENE_IDX_5 5
-extern s16 D_8009F820;
-
 s32 ActionCalcScoreNormal(register SCENE_INFO *scn) {
     s32 i;
     s32 actscore;
@@ -688,7 +683,7 @@ s32 ActionCalcScoreNormal(register SCENE_INFO *scn) {
             ? (-(scn->teacherinp->teacherinputnum * 3 + 1))
             : (-(scn->teacherinp->teacherinputnum * actionInfo.sub.tapoffnum));
     levellow = ((scn->level == LEVEL_LOW1) || (scn->level == LEVEL_LOW2));
-    notspecialscene = ((D_8009F820 != SCENE_IDX_3) && (D_8009F820 != SCENE_IDX_5));
+    notspecialscene = ((appInfo.scenei != SCENE_IDX_3) && (appInfo.scenei != SCENE_IDX_5));
 
     if ((actionInfo.sub.highenabled == FALSE) || (levellow == TRUE) || (notspecialscene == TRUE)) {
         if (actionInfo.sub.tapnum < scn->teacherinp->teacherinputnum) {

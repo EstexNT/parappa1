@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "prscene.h"
+#include "prinfo.h"
 
 
 // Not in cool
@@ -20,13 +21,6 @@
 #define PR_COOLSTATE_IMMGOTCOOL 7
 // Cool became normal
 #define PR_COOLSTATE_IMMNOTCOOL 8
-
-
-// Recorded input data
-typedef struct RECORD_DATA {
-    s32 time;
-    u32 pad;
-} RECORD_DATA;
 
 
 // Model texture animation

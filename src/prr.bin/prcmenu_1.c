@@ -6,6 +6,7 @@
 #include <libgpu.h>
 #include <ctype.h>
 // #include "prcompo.h"
+#include "prapp.h"
 
 extern char D_80089BA4[32];
 extern CARD_MENU_SLOT_INFO D_80089BC4;
@@ -524,7 +525,7 @@ void CardMenuCacheData(register CARD_INFO *info, register CARD_DATA *data) {
     CARD_DATA *infodata;
 
     infodata = &data->data;
-    func_8001782C(infodata);
+    AppCacheSaveData(infodata);
 }
 
 void CardMenuCheckSlotsAvailable(register CARD_INFO *info) {
@@ -571,7 +572,7 @@ void CardMenuReadHighScore(register CARD_INFO *info) {
 
     data = &D_8008A21C.data;
     data1 = data;
-    func_80017C6C();
+    AppResetHighScore();
     if (D_80089BC4.availablenum == 0) {
         return;
     }
@@ -593,7 +594,7 @@ void CardMenuReadHighScore(register CARD_INFO *info) {
             continue;
         }
         slotinfo[i].stagecur = data1->stagecur;
-        func_80017870(data1);
+        AppUpdateHighScore(data1);
     }
     VSyncCallback(NULL);
     if (D_80082728 != FALSE) {
@@ -839,7 +840,7 @@ void CardMenuInitName(register CARD_INFO *info, register char *filename, registe
     }
 
     sprintf(filename, D_800823CC, D_800823B0, name);
-    curstage = func_80017648();
+    curstage = AppGetCurrentStageNum();
     for (i = 0; (name[i] != '\0') && (i < 12); i++) {
         nameconv[i] = (isalnum(name[i]) == FALSE) ? '?' : name[i];
     }

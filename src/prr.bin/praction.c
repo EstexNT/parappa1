@@ -160,7 +160,6 @@ s32 ActionFollowBez(s32 frame) {
             actionBezRefState = 0;
         }
     }
-    // e48
     curm = actionBezCur * 3;
 
     // Pos

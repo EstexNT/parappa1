@@ -5,6 +5,7 @@
 #include "praction.h"
 #include "prrap.h"
 #include "prcompo_data.h"
+#include "prapp.h"
 
 static char rcsid[] = "@(#)prcompo.c: version 01-00 95/12/10 00:00:00";
 
@@ -2295,10 +2296,6 @@ void CompoInitOt(void) {
     CompoSetPacket(D_8008C528[0], D_8008C528[1]);
 }
 
-
-// TODO: appInfo
-extern s16 D_8009F834;
-
 void CompoDrawMenu(s32 draw, void *data) {
     u32 unused;
 
@@ -2342,7 +2339,7 @@ void CompoDrawMenu(s32 draw, void *data) {
             break;
         }
         case PR_MENU_LOADING: {
-            CompoFrameDrawText(D_8009F834, 0, D_800827D4);
+            CompoFrameDrawText(appInfo.frametext, 0, D_800827D4);
             break;
         }
         case PR_MENU_MAIN: {
@@ -2495,7 +2492,7 @@ void CompoFrameDraw(void *data, s32 type) {
         case PR_FRAME_5: 
         default: {
             if (data != NULL) {
-                CompoFrameDrawText(D_8009F834, 0, D_800827D4);
+                CompoFrameDrawText(appInfo.frametext, 0, D_800827D4);
             }
             break;
         }

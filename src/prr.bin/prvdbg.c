@@ -11,6 +11,7 @@
 #include "prscene.h"
 #include "praction.h"
 // #include "prcompo.h"
+#include "prapp.h"
 
 // DBG_INFO dbgInfo = {0};
 
@@ -118,9 +119,6 @@ void DbgPrintMovie(void) {
     FntPrint(D_80010D44, dbgInfo.workoffs, dbgInfo.workoffsmax);
 }
 
-// TODO: appInfo
-extern s16 D_8009F832;
-
 void DbgPrintMsgInfo(void) {
     u8 unused[0x10];
     MEM_INFO meminfo;
@@ -139,7 +137,7 @@ void DbgPrintMsgInfo(void) {
     MemoryGetInfo(&meminfo);
     FntPrint(D_80010F54, meminfo.left, meminfo.used, StrmGetSize());
     FntPrint(D_80010F64, eventInfo.controlstage, eventInfo.controldelay);
-    switch (D_8009F832) {
+    switch (appInfo.printmode) {
         case 0: {
             DbgPrintMsgDraw();
             break;

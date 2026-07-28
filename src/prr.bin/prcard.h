@@ -24,23 +24,6 @@ typedef struct CARD_HEADER {
     u8 icon3[128];
 } CARD_HEADER;
 
-typedef struct SAVE_DATA {
-    u8 unk0;
-    char name[8];
-    u8 unk9;
-    u8 unkA;
-    u8 unkB;
-    u8 unkC;
-    u8 stageclear[6];
-    s32 stagescore[6];
-    s32 stagecur;
-    s32 stageprevclear;
-    s32 allhigh;
-    s32 recorddatanum;
-    u8 unk3C[0x4C - 0x3c];
-    RECORD_DATA recorddata[600];
-} SAVE_DATA;
-
 typedef struct CARD_DATA {
     CARD_HEADER header;
     SAVE_DATA data;

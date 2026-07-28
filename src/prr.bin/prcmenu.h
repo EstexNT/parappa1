@@ -66,11 +66,6 @@ typedef struct CARD_MENU_DIALOG_INFO {
     u8 unk0C[0x24 - 0xc];
 } CARD_MENU_DIALOG_INFO;
 
-typedef struct HIGHSCORE_INFO {
-    char name[12];
-    s32 score;
-} HIGHSCORE_INFO;
-
 typedef struct HIGH_SCORE_VISUAL {
     s32 unk0;
     char text[8];
@@ -81,11 +76,6 @@ typedef struct HIGH_SCORE_VISUAL {
 typedef struct HIGH_SCORE_VISUAL_LIST {
     HIGH_SCORE_VISUAL vis[20];
 } HIGH_SCORE_VISUAL_LIST;
-
-typedef struct CARD_INFO {
-    SAVE_DATA save;
-    HIGHSCORE_INFO highscore[6][4];
-} CARD_INFO;
 
 typedef struct SLOT_INFO {
     char fname[92];

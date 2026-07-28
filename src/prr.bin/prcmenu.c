@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <libetc.h>
 // #include "prcompo.h"
+#include "prapp.h"
 
 
 // static char rcsid[] = "@(#)prcmenu.c: version 01-00 96/08/01 00:00:00";
@@ -192,9 +193,6 @@ void CardMenuCacheFiles(void) {
     bcopy(files, D_8008C2A4, sizeof(D_8008C2A4));
 }
 
-// TODO: appInfo
-extern s16 D_8009F828;
-
 void CardMenuRun(CARD_INFO *info, s32 (*update)(s32 state, CARD_INFO *info, void **data), s32 (*front)(s32 state, CARD_INFO *info), s32 (*back)(s32 state, CARD_INFO *info), s32 initstate) {
     s32 state;
     s32 draw;
@@ -211,7 +209,7 @@ void CardMenuRun(CARD_INFO *info, s32 (*update)(s32 state, CARD_INFO *info, void
             draw = PR_MENU_MAIN;
         }
         CompoDrawMenu(draw, data);
-        if (D_8009F828 == TRUE) {
+        if (appInfo.testmode == TRUE) {
             CardMenuRunDebug(state, draw, &time, info);
         }
         VSync(0);

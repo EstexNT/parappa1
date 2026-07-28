@@ -66,6 +66,38 @@ ActionRecordTap = 0x80016590;
 ActionCalcActScore = 0x80016654;
 ActionGetOnInput = 0x8001685c;
 
+AppFrameLoadingRunner = 0x80016920;
+AppFrameLoadingStart = 0x800169ac;
+AppFrameLoadingEnd = 0x80016a00;
+AppReadMod = 0x80016a54;
+AppInit = 0x80016a98;
+AppReadZCompo = 0x80016b34;
+AppReadS0YCompo = 0x80016bbc;
+AppReadCompo = 0x80016c04;
+AppReplaySaveDataSave = 0x80016ca4;
+AppReplaySaveDataLoad = 0x80016ce8;
+AppRunMainMenu = 0x80016d2c;
+AppScreenSonyIn = 0x80016f58;
+AppScreenSonyOut = 0x80016fe4;
+AppMain = 0x80017070;
+AppSortHighScoreInfo = 0x80017318;
+AppIndexToStageIndex = 0x8001747c;
+AppStageIndexToStageNum = 0x800174cc;
+AppStageAllHigh = 0x8001751c;
+AppUnlockStage = 0x800175b8;
+AppGetCurrentStageNum = 0x80017648;
+AppSaveStageStats = 0x80017690;
+AppCacheSaveData = 0x8001782c;
+AppUpdateHighScore = 0x80017870;
+AppGetStageClear = 0x80017a28;
+AppStageCleared = 0x80017a8c;
+AppPrevStageCleared = 0x80017ad8;
+func_80017b28 = 0x80017b28;
+AppGetReplayRecordData = 0x80017ba0;
+AppResetHighScore = 0x80017c6c;
+AppCheckScoreCheat = 0x80017d70;
+AppSwapHighScoreInfo = 0x80017e54;
+
 CardTestEvent = 0x80017ef0;
 CardTestEventOnce = 0x80017fd4;
 CardClearEvent = 0x800180a8;
@@ -1411,6 +1443,8 @@ D_800678C4 = 0x800678C4;
 
 strmInitInfo = 0x80067D68;
 
+D_80067E90 = 0x80067E90; // size:0xbac
+
 D_80068A3C = 0x80068A3C; // size:0x3c
 
 dbgInfo = 0x80068C0C; // size:0x194
@@ -1534,6 +1568,8 @@ eventRecordInfo = 0x8009D1E0; // size:0x113c
 
 actionMimeList = 0x8009E394; // size:0x1400
 
+appInfo = 0x8009F81C; // size:0x20
+
 eventInfo = 0x8009F920; // size:0xc4
 
 memoryPos = 0x8009FA0C;
@@ -1541,6 +1577,8 @@ memoryPos = 0x8009FA0C;
 actionInfo = 0x800A02C0; // size:0x62c
 
 sceneInitInfo = 0x800A08EC; // size:0x84
+
+D_800A2174 = 0x800A2174; // size:0x148c
 
 actionView = 0x800A3620; // size:0x20
 
