@@ -6,21 +6,6 @@
 static char rcsid[] = "@(#)praction.c: version 01-00 95/10/10 00:00:00";
 
 void ActionBezInterpolate(s32 sf, MATRIX *refmtx, SVECTOR *ref, VECTOR *view);
-void ActionSetTmdInfo(void *tmd, PARA_TMD_DATA *data);
-void ActionSaveOriginalVtx(PARA_TMD_DATA *tmd, SVECTOR *orgvtx);
-void ActionSetVdf(void *vdf, PARA_VDF_DATA *data);
-void ActionResetMimeVtx(PARA_TMD_DATA *data);
-void ActionSetMimeVtx(PARA_TMD_DATA *tmd, PARA_VDF_DATA *vdf);
-s32 ActionCalcOrigScore(ON_INPUT_INFO *oninp, s32 start, s32 end);
-u32 ActionRemapLR(u32 pad);
-BOOL ActionCalcTapStats(s32 taptime, s32 window, s32 *nth);
-BOOL ActionRegisterTap(SND_INFO *snd, SCENE_INFO *scn, s32 nth, BOOL on);
-s32 ActionCalcScoreNormal(SCENE_INFO *scn);
-s32 ActionCalcScoreHigh(SCENE_INFO *scn);
-void ActionRecordTap(u32 pad, s32 nth, s32 time);
-s32 ActionCalcActScore(ON_INPUT_INFO *oninp[], s32 type, u32 validpad);
-void ActionGetOnInput(ON_INPUT_INFO *oninp[], s32 type, u32 ncall);
-
 
 extern SVECTOR *actionViewSubframe;
 
@@ -29,10 +14,6 @@ extern MATRIX actionBezRefMtx;
 extern SVECTOR actionBezPos[110];
 extern SVECTOR actionBezRef[110];
 extern s32 actionBezInt[110];
-extern PARA_TMD_OBJECT actionTmdObj[10][4];
-extern PARA_VDF_OBJECT actionVdfObj[10][128];
-extern PARA_TMD_DATA actionTmdData[10];
-extern PARA_VDF_DATA actionVdfData[10];
 
 
 void ActionInitView(SVECTOR *sf) {

@@ -10,7 +10,6 @@
 static char rcsid[] = "@(#)prcompo.c: version 01-00 95/12/10 00:00:00";
 
 
-
 extern PACKET *D_800827E0[2];
 extern PACKET D_8008C528[2][13000];
 extern GsOT D_80092AB8[2];

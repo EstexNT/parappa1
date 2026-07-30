@@ -6,18 +6,13 @@
 #include "prapp.h"
 
 
-// static char rcsid[] = "@(#)prcmenu.c: version 01-00 96/08/01 00:00:00";
+static char rcsid[] = "@(#)prcmenu.c: version 01-00 96/08/01 00:00:00";
 
-extern char D_80089BA4[32];
 extern CARD_MENU_SLOT_INFO D_80089BC4;
-extern CARD_DATA D_8008A21C;
 extern char D_8008C21C[32];
-extern char D_8008C23C[64 + 8];
 extern struct MENU_MAIN_DEFDATA D_8008C284;
 extern struct DIRENTRY D_8008C2A4[15];
-extern CARD_MENU_DIALOG_INFO D_8008C4FC;
 
-// extern u32 D_80082708;
 extern BOOL D_8008270C;
 extern s32 D_80082710;
 extern BOOL D_80082714;
@@ -29,18 +24,52 @@ extern BOOL D_80082728;
 extern s32 D_8008272C;
 extern s32 D_80082730;
 
-extern char D_8006269C[58];
-extern CARD_MENU_NAMEENTER_INFO D_800626D8;
-extern CARD_MENU_SLOTSELECT_INFO D_80062700;
-extern u16 D_80062798[96];
-extern HIGH_SCORE_VISUAL D_80062858[20];
+char D_8006269C[58] = {
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 
+    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 
+    'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 
+    'Y', 'Z', '1', '2', '3', '4', '5', '6', 
+    '7', '8', '9', '0', '-', '=', '!', '@', 
+    '#', '$', '%', '^', '&', '*', '(', ')', 
+    '_', '+', ',', '.', '?', '[', ']', '\x08', 
+    '\n', '\x00',
+};
+CARD_MENU_NAMEENTER_INFO D_800626D8 = {
+    {FALSE, 0, FALSE}, 
+    D_8006269C,
+    4, 14, 57, 0,
+    0, 0, {'\x00'}
+};
+CARD_MENU_SLOTSELECT_INFO D_80062700 = {
+    {FALSE, 0, FALSE},
+    5, 3, 16, 0, 0,
+    {FALSE}, {NULL}, {0}
+};
+u16 D_80062798[96] = {
+    0x8140 /* 　 */, 0x8149 /* ！ */, 0x8168 /* ” */, 0x8194 /* ＃ */, 0x8190 /* ＄ */, 0x8193 /* ％ */,
+    0x8195 /* ＆ */, 0x8166 /* ’ */, 0x8169 /* （ */, 0x816a /* ） */, 0x8196 /* ＊ */, 0x817b /* ＋ */,
+    0x8143 /* ， */, 0x817c /* − */, 0x8144 /* ． */, 0x815e /* ／ */, 0x824f /* ０ */, 0x8250 /* １ */,
+    0x8251 /* ２ */, 0x8252 /* ３ */, 0x8253 /* ４ */, 0x8254 /* ５ */, 0x8255 /* ６ */, 0x8256 /* ７ */,
+    0x8257 /* ８ */, 0x8258 /* ９ */, 0x8146 /* ： */, 0x8147 /* ； */, 0x8183 /* ＜ */, 0x8181 /* ＝ */,
+    0x8184 /* ＞ */, 0x8148 /* ？ */, 0x8197 /* ＠ */, 0x8260 /* Ａ */, 0x8261 /* Ｂ */, 0x8262 /* Ｃ */,
+    0x8263 /* Ｄ */, 0x8264 /* Ｅ */, 0x8265 /* Ｆ */, 0x8266 /* Ｇ */, 0x8267 /* Ｈ */, 0x8268 /* Ｉ */,
+    0x8269 /* Ｊ */, 0x826a /* Ｋ */, 0x826b /* Ｌ */, 0x826c /* Ｍ */, 0x826d /* Ｎ */, 0x826e /* Ｏ */,
+    0x826f /* Ｐ */, 0x8270 /* Ｑ */, 0x8271 /* Ｒ */, 0x8272 /* Ｓ */, 0x8273 /* Ｔ */, 0x8274 /* Ｕ */,
+    0x8275 /* Ｖ */, 0x8276 /* Ｗ */, 0x8277 /* Ｘ */, 0x8278 /* Ｙ */, 0x8279 /* Ｚ */, 0x816d /* ［ */,
+    0x818f /* ￥ */, 0x816e /* ］ */, 0x814f /* ＾ */, 0x8151 /* ＿ */, 0x8165 /* ‘ */, 0x8281 /* ａ */,
+    0x8282 /* ｂ */, 0x8283 /* ｃ */, 0x8284 /* ｄ */, 0x8285 /* ｅ */, 0x8286 /* ｆ */, 0x8287 /* ｇ */,
+    0x8288 /* ｈ */, 0x8289 /* ｉ */, 0x828a /* ｊ */, 0x828b /* ｋ */, 0x828c /* ｌ */, 0x828d /* ｍ */,
+    0x828e /* ｎ */, 0x828f /* ｏ */, 0x8290 /* ｐ */, 0x8291 /* ｑ */, 0x8292 /* ｒ */, 0x8293 /* ｓ */,
+    0x8294 /* ｔ */, 0x8295 /* ｕ */, 0x8296 /* ｖ */, 0x8297 /* ｗ */, 0x8298 /* ｘ */, 0x8299 /* ｙ */,
+    0x829a /* ｚ */, 0x816f /* ｛ */, 0x8162 /* ｜ */, 0x8170 /* ｝ */, 0x8150 /* ￣ */, 0x8140 /* 　 */,
+};
+HIGH_SCORE_VISUAL_LIST D_80062858 = {
+    {
+        {0, {'\x00'}, 6, 3},
+        {19, {'\x00'}, 0, 0},
+    },
+};
 
-extern const char D_80010208[];
-extern const char D_80010218[];
-extern const char D_80010238[];
-extern const char D_80010248[];
-extern const char D_8001025C[];
-extern const char D_80010278[];
 extern const char D_8001028C[];
 
 
@@ -107,7 +136,6 @@ void CardMenuUpdateHighlight(CARD_MENU_BASE_INFO *base) {
     }
 }
 
-// INCLUDE_ASM("asm/prr.bin/nonmatchings/prcmenu", CardMenuSlotSelectUpdate);
 s32 CardMenuSlotSelectUpdate(u32 pad, CARD_INFO *info) {
     CARD_MENU_SLOTSELECT_INFO *slotselectinfo;
     s32 sel;
@@ -277,8 +305,8 @@ HIGH_SCORE_VISUAL *CardMenuHighScoreMakeVisual(CARD_INFO *info) {
     s32 j;
     s32 n;
     s32 sp44;
-
-    visual = D_80062858;
+    
+    visual = &D_80062858;
     sp44 = 0;
     for (i = 0, n = 0; i < visual->vis[0].height; i++) {
         for (j = 0; j < visual->vis[0].width; j++, n++) {
@@ -294,6 +322,7 @@ HIGH_SCORE_VISUAL *CardMenuHighScoreMakeVisual(CARD_INFO *info) {
         }
     }
     return visual;
+    
 }
 #endif
 

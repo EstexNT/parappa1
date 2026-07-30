@@ -70,8 +70,9 @@ segments:
       - [0xE7C, rodata, E7C]
       - [0xFCC, .rodata, prrap]
       - [0xFF4, .rodata, prstrm]
-      - [0x1090, rodata, 1090]
-      # - [0x1090, .rodata, prvdatal]
+      # - [0x1090, rodata, 1090]
+      - [0x1090, .rodata, prvdatal]
+      - [0x14D8, rodata, 14D8]
       # - [0x14D8, .rodata, prvdbg]
       - [0x17C0, .rodata, prmime]
       - [0x17E8, rodata, 17E8] # psy-q
@@ -101,7 +102,7 @@ segments:
       - [0x52D38, .data, praction]
       - [0x52D68, data, prapp]
       - [0x52E3C, .data, prcard]
-      - [0x52E6C, data, prcmenu]
+      - [0x52E6C, .data, prcmenu]
       - [0x5319C, .data, prcd]
       - [0x53200, .data, prcompo]
       - [0x53230, .data, prcompo_data]
@@ -111,9 +112,9 @@ segments:
       - [0x58188, data, prmenu]
       - [0x584FC, .data, prrap]
       - [0x58538, .data, prstrm]
-      - [0x585B0, data, prvdatal]
+      - [0x585B0, .data, prvdatal]
       - [0x59278, data, prpract]
-      - [0x593AC, data, prvtext]
+      - [0x593AC, .data, prvtext]
       - [0x593DC, data, prvdbg]
       - [0x595E8, data, 595E8] # psy-q
 
@@ -129,7 +130,8 @@ segments:
       - [0x72D30, .sdata, prrap]
       - [0x72D4C, .sdata, prstrm]
       - [0x72D50, .sdata, prstrm_1]
-      - [0x72D54, sdata, 72D54]
+      - [0x72D54, .sdata, prvdatal]
+      - [0x72DC0, sdata, 72DC0]
       - [0x72EB0, .sdata, prmime]
 
       - [0x72EBC, pad]

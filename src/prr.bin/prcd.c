@@ -89,7 +89,7 @@ CdlFILE *CDSearch(CdlFILE *file, char *fname) {
 }
 
 s32 CDFileSearch(CD_FILE *cdf) {
-    if (cdf->search == 1) {
+    if (cdf->search == TRUE) {
         return 0;
     }
     if (cdf->fname == NULL) {
@@ -101,7 +101,7 @@ s32 CDFileSearch(CD_FILE *cdf) {
     }
     cdf->pos = CdPosToInt(&cdf->cdl.pos);
     cdf->end = cdf->pos + (cdf->cdl.size / 2048);
-    cdf->search = 1;
+    cdf->search = TRUE;
     return 0;
 }
 

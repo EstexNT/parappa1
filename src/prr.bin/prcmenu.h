@@ -44,6 +44,7 @@ typedef struct CARD_MENU_NAMEENTER_INFO {
     s16 namelen;
     s16 endbutton;
     char name[8];
+    s32 unk24;
 } CARD_MENU_NAMEENTER_INFO;
 
 typedef struct CARD_MENU_SLOTSELECT_INFO {
@@ -75,6 +76,7 @@ typedef struct HIGH_SCORE_VISUAL {
 
 typedef struct HIGH_SCORE_VISUAL_LIST {
     HIGH_SCORE_VISUAL vis[20];
+    s32 unk140;
 } HIGH_SCORE_VISUAL_LIST;
 
 typedef struct SLOT_INFO {

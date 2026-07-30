@@ -4,9 +4,7 @@
 
 
 extern PACKET *D_800827E0[2];
-extern PACKET D_8008C528[2][13000];
 extern GsOT D_80092AB8[2];
-extern GsOT_TAG D_80092AE0[2][16];
 extern s32 D_800827D4;
 
 extern u8 D_80096054[32];
