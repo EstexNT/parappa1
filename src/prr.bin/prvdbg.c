@@ -30,81 +30,79 @@ void DbgPrintOnInput(void);
 void DbgPrintWork(void);
 
 
-// TODO: .rodata
-extern char D_80010CD8[]; // "STRING:\n"
-extern char D_80010CE4[]; // "Sctr:%6d END:%6d NCALL:%6d\n"
-extern char D_80010D00[]; // "TC:%02d:%02d:%02d "
-extern char D_80010D14[]; // " DC %6d "
-extern char D_80010D20[]; // "nf %4d fe%4d\n"
-extern char D_80010D30[]; // "SECTOR:%d/%d/%d "
-extern char D_80010D44[]; // "PACKET:%d/%d"
-extern char D_80010D54[]; // "ParaCurs:%2d  PNTH:%2d NUMEXLN:%d\n"
-extern char D_80010D78[]; // "PARFACE:%3d: "
-extern char D_80010D88[]; // "TEAFACE: "
-extern char D_80010D94[]; // "MCFACE: "
-extern char D_80010DA0[]; // "P:%d/%d "
-extern char D_80010DAC[]; // "ERROR:%x\n"
-extern char D_80010DB8[]; // "GO: %d SC: %d "
-extern char D_80010DC8[]; // "CAM:%3d\n"
-extern char D_80010DD4[]; // "PARA: TOD:%3d VDF:%3d WAV:%3d\n"
-extern char D_80010DF4[]; // "TCHR: TOD:%3d VDF:%3d WAV:%3d\n"
-extern char D_80010E14[]; // "NTAP:%2d ON:%2d OFF:%2d "
-extern char D_80010E30[]; // "Key: %08x\n"
-extern char D_80010E3C[]; // "PRS: %2d:%2d:%2d  "
-extern char D_80010E50[]; // "DIF:%3d "
-extern char D_80010E5C[]; // "EXCL: %d  \n"
-extern char D_80010E68[]; // "1ST:%2d COR:%2d ACT:%3d ORG:%3d MNU:%3d\n"
-extern char D_80010E94[]; // "PM:%3d DF:%d Tr:%d 1SP:%d "
-extern char D_80010EB0[]; // "\nKEY:%2d "
-extern char D_80010EBC[]; // "NTH: %2d "
-extern char D_80010EC8[]; // "Eval:%d Evnt:%d\n"
-extern char D_80010EDC[]; // "  Ap.pm:%d  Ap.tm:%d"
-extern char D_80010EF4[]; // "\nNFAL:%2d HEVL:%2d CSTT:%2d NEVL:%d ESTT:%d\n"
-extern char D_80010F24[]; // "\n\n\n\n\n\n\n\n\n"
-extern char D_80010F30[]; // "TD:%2d/%2d/%2d "
-extern char D_80010F40[]; // "MS:%02d:%02d:%02d "
-extern char D_80010F54[]; // "F:%d U:%d S:%d "
-extern char D_80010F64[]; // "ST:%2d DY:%2d\n"
-extern char D_80010F74[]; // "\n\n\nError: "
-extern char D_80010F80[]; // "\n\nHit Any Key To EXIT\n"
-extern char D_80010F98[]; // "Stack check %x\n"
-extern char D_80010FA8[]; // "STACK CHECK ERROR %x\n"
+const char D_80010CD8[] = "STRING:\n";
+const char D_80010CE4[] = "Sctr:%6d END:%6d NCALL:%6d\n";
+const char D_80010D00[] = "TC:%02d:%02d:%02d ";
+const char D_80010D14[] = " DC %6d ";
+const char D_80010D20[] = "nf %4d fe%4d\n";
+const char D_80010D30[] = "SECTOR:%d/%d/%d ";
+const char D_80010D44[] = "PACKET:%d/%d";
+const char D_80010D54[] = "ParaCurs:%2d  PNTH:%2d NUMEXLN:%d\n";
+const char D_80010D78[] = "PARFACE:%3d: ";
+const char D_80010D88[] = "TEAFACE: ";
+const char D_80010D94[] = "MCFACE: ";
+const char D_80010DA0[] = "P:%d/%d ";
+const char D_80010DAC[] = "ERROR:%x\n";
+const char D_80010DB8[] = "GO: %d SC: %d ";
+const char D_80010DC8[] = "CAM:%3d\n";
+const char D_80010DD4[] = "PARA: TOD:%3d VDF:%3d WAV:%3d\n";
+const char D_80010DF4[] = "TCHR: TOD:%3d VDF:%3d WAV:%3d\n";
+const char D_80010E14[] = "NTAP:%2d ON:%2d OFF:%2d ";
+const char D_80010E30[] = "Key: %08x\n";
+const char D_80010E3C[] = "PRS: %2d:%2d:%2d  ";
+const char D_80010E50[] = "DIF:%3d ";
+const char D_80010E5C[] = "EXCL: %d  \n";
+const char D_80010E68[] = "1ST:%2d COR:%2d ACT:%3d ORG:%3d MNU:%3d\n";
+const char D_80010E94[] = "PM:%3d DF:%d Tr:%d 1SP:%d ";
+const char D_80010EB0[] = "\nKEY:%2d ";
+const char D_80010EBC[] = "NTH: %2d ";
+const char D_80010EC8[] = "Eval:%d Evnt:%d\n";
+const char D_80010EDC[] = "  Ap.pm:%d  Ap.tm:%d";
+const char D_80010EF4[] = "\nNFAL:%2d HEVL:%2d CSTT:%2d NEVL:%d ESTT:%d\n";
+const char D_80010F24[] = "\n\n\n\n\n\n\n\n\n";
+const char D_80010F30[] = "TD:%2d/%2d/%2d ";
+const char D_80010F40[] = "MS:%02d:%02d:%02d ";
+const char D_80010F54[] = "F:%d U:%d S:%d ";
+const char D_80010F64[] = "ST:%2d DY:%2d\n";
+const char D_80010F74[] = "\n\n\nError: ";
+const char D_80010F80[] = "\n\nHit Any Key To EXIT\n";
+const char D_80010F98[] = "Stack check %x\n";
+const char D_80010FA8[] = "STACK CHECK ERROR %x\n";
 
-// TODO: .sdata
-extern char D_800825E8[]; // "%s\n"
-extern char D_800825EC[]; // "NULL\n"
-extern char D_800825F4[]; // "SI:%d\n"
-extern char D_800825FC[]; // "VD%4d\n"
-extern char D_80082604[]; // "  "
-extern char D_80082608[]; // "R "
-extern char D_8008260C[]; // "L "
-extern char D_80082610[]; // "# "
-extern char D_80082614[]; // "X "
-extern char D_80082618[]; // "O "
-extern char D_8008261C[]; // "A "
-extern char D_80082620[]; // "- "
-extern char D_80082624[]; // "BAR:"
-extern char D_8008262C[]; // "*"
-extern char D_80082630[]; // "\n"
-extern char D_80082634[]; // "%3d "
-extern char D_8008263C[]; // "%2d"
-extern char D_80082640[]; // " %c"
-extern char D_80082644[]; // "LOW2"
-extern char D_8008264C[]; // "LOW1"
-extern char D_80082654[]; // "NORM"
-extern char D_8008265C[]; // "HIGH"
-extern char D_80082664[]; // "LVL:%s "
-extern char D_8008266C[]; // "VC:%d "
-extern char D_80082674[]; // "OK"
-extern char D_80082678[]; // "--"
-extern char D_8008267C[]; // "KCTRL:"
-extern char D_80082684[]; // "%c"
-extern char D_80082688[]; // "TAP:%s "
-extern char D_80082690[]; // "CLR: "
-extern char D_80082698[]; // "%d"
-extern char D_8008269C[]; // "VD:%4d "
-extern char D_800826A4[]; // "SD:%d "
-extern char D_800826AC[]; // "%d\n"
+const char D_800825E8[] = "%s\n";
+const char D_800825EC[] = "NULL\n";
+const char D_800825F4[] = "SI:%d\n";
+const char D_800825FC[] = "VD%4d\n";
+const char D_80082604[] = "  ";
+const char D_80082608[] = "R ";
+const char D_8008260C[] = "L ";
+const char D_80082610[] = "# ";
+const char D_80082614[] = "X ";
+const char D_80082618[] = "O ";
+const char D_8008261C[] = "A ";
+const char D_80082620[] = "- ";
+const char D_80082624[] = "BAR:";
+const char D_8008262C[] = "*";
+const char D_80082630[] = "\n";
+const char D_80082634[] = "%3d ";
+const char D_8008263C[] = "%2d";
+const char D_80082640[] = " %c";
+const char D_80082644[] = "LOW2";
+const char D_8008264C[] = "LOW1";
+const char D_80082654[] = "NORM";
+const char D_8008265C[] = "HIGH";
+const char D_80082664[] = "LVL:%s ";
+const char D_8008266C[] = "VC:%d ";
+const char D_80082674[] = "OK";
+const char D_80082678[] = "--";
+const char D_8008267C[] = "KCTRL:";
+const char D_80082684[] = "%c";
+const char D_80082688[] = "TAP:%s ";
+const char D_80082690[] = "CLR: ";
+const char D_80082698[] = "%d";
+const char D_8008269C[] = "VD:%4d ";
+const char D_800826A4[] = "SD:%d ";
+const char D_800826AC[] = "%d\n";
 
 
 void DbgInit(void) {

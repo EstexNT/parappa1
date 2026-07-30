@@ -379,6 +379,20 @@ StrmEnd = 0x80036250;
 func_800362b4 = 0x800362B4;
 StrmNext = 0x800362E4;
 
+PracticeMainVSyncCallback = 0x80036438;
+func_80036468 = 0x80036468;
+func_800364d4 = 0x800364d4;
+PracticePlaySound = 0x800364f8;
+PracticeRun = 0x800365d0;
+PracticeRunMain = 0x8003662c;
+PracticeRunMainLoop = 0x800366f8;
+PracticeRunMainTryAgain = 0x80036950;
+PracticeResetLine = 0x80036b20;
+PracticeReadPadTrigger = 0x80036b78;
+PracticeRunMainLoopStage = 0x80036bec;
+PracticeEvalTap = 0x80036fac;
+PracticeSetVisualLineInfo = 0x80037030;
+
 DbgInit = 0x800372BC;
 DbgDrawMenu = 0x80037334;
 DbgDrawMenuOt = 0x80037370;
@@ -1446,6 +1460,12 @@ strmInitInfo = 0x80067D68;
 D_80067E90 = 0x80067E90; // size:0xbac
 
 D_80068A3C = 0x80068A3C; // size:0x3c
+
+practInputTime = 0x80068AA8; // size:0x10
+practSndInput = 0x80068AB8; // size:0x18
+practSndTeacherStageStart = 0x80068AD0; // size:0x18
+practSndTeacherResponse = 0x80068AE8; // size:0x12
+practVisualLineInfo = 0x80068AFC; // size:0xb0
 
 dbgInfo = 0x80068C0C; // size:0x194
 

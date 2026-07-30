@@ -87,20 +87,12 @@ void DbgDrawMenuOt(void);
 void DbgReset(void);
 void DbgResetRun(void);
 void DbgPrintMovie(void);
-// void DbgPrintMsgInfo(void);
 void DbgPrintMsg(void);
-// void DbgDrawMenuTextWait(s32 n);
 void DbgDrawMenuText(char *text, s32 n);
 void DbgError(char *msg);
 void DbgWaitPad(void);
 void DbgStackInit(u8 *ptr);
 void DbgStackCheck(void);
-// void DbgPrintMsgDraw(void);
-// void DbgPrintMsgEval(void);
-// void DbgPrintMsgApp(void);
-// void DbgPrintMsgDrawFace(void);
-// void DbgPrintOnInput(void);
-// void DbgPrintWork(void);
 
 
 #endif

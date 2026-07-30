@@ -199,7 +199,7 @@ typedef struct SCENE_INFO {
     u32 unk3C;
     INPUT_INFO_SET *teacherinp;
     INPUT_INFO_SET *parappainp;
-    s32 practend;
+    BOOL practend;
     s16 practhighlight;
     s16 level;
     s16 lvlhigh;

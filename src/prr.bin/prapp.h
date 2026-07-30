@@ -62,7 +62,7 @@ void AppFrameLoadingEnd(void);
 void AppReadMod(CD_FILE *comod, s32 arg1);
 void AppInit(void);
 void AppReadZCompo(s32 i);
-void AppReadS0YCompo(SCENE_INFO *scn);
+void AppReadS0YCompo(s32 i);
 void AppReadCompo(s32 i, s32 frametext, BOOL snd);
 void AppReplaySaveDataSave(SAVE_DATA *data);
 void AppReplaySaveDataLoad(SAVE_DATA *data);

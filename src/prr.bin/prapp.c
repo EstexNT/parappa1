@@ -78,7 +78,7 @@ void AppReadZCompo(s32 i) {
     AppFrameLoadingEnd();
 }
 
-void AppReadS0YCompo(SCENE_INFO *scn) {
+void AppReadS0YCompo(s32 i) {
     MemoryClear();
     CDFileRead(&D_80067E38, TRUE);
 }
@@ -123,7 +123,7 @@ s32 AppRunMainMenu(SCENE_INFO *scn, s32 i) {
                 return AppStageIndexToStageNum(stageindex);
             }
         } else if (menuret == 3) {
-            func_800365D0(&sceneInfo, i);
+            PracticeRun(&sceneInfo, i);
         } else if (menuret == 4) {
             menuret = func_80034DC0(PR_MENU_STAGE, &stageindex);
             if (menuret == 1) {
