@@ -58,10 +58,8 @@ segments:
     bss_size: 0x149B60
     align: 4
     subsegments:
-      - [0x800, rodata, 800]
-      # - [0x800, .rodata, prapp]
+      - [0x800, .rodata, address]
       - [0x804, .rodata, prcard]
-      # - [0x9F8, rodata, 9F8]
       - [0x9F8, .rodata, prcmenu_1]
       - [0xBBC, .rodata, prcd]
       - [0xD20, .rodata, prcompo]
@@ -70,7 +68,6 @@ segments:
       - [0xE7C, rodata, E7C]
       - [0xFCC, .rodata, prrap]
       - [0xFF4, .rodata, prstrm]
-      # - [0x1090, rodata, 1090]
       - [0x1090, .rodata, prvdatal]
       - [0x14D8, rodata, 14D8]
       # - [0x14D8, .rodata, prvdbg]
@@ -115,7 +112,7 @@ segments:
       - [0x585B0, .data, prvdatal]
       - [0x59278, data, prpract]
       - [0x593AC, .data, prvtext]
-      - [0x593DC, data, prvdbg]
+      - [0x593DC, .data, prvdbg]
       - [0x595E8, data, 595E8] # psy-q
 
       - [0x72B88, .sdata, praction]

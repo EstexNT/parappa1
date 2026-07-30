@@ -226,7 +226,12 @@ typedef struct SCENE_INFO {
     u8 pad7A[0x88 - 0x7a];
     LINE_INFO teacherline;
     LINE_INFO parappaline;
-    u8 padA8[0xf8 - 0xa8];
+    u32 unkA8;
+    s16 *parappaface;
+    s16 *teacherface;
+    s16 *unkB4;
+    s16 *mcface;
+    u8 padBC[0xf8 - 0xbc];
     PARA_JP_TEXT *jptext;
     PARA_EN_TEXT *entext;
     u8 unk100[0x17e - 0x100];

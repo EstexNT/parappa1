@@ -53,6 +53,7 @@ typedef struct APP_INFO {
 
 
 extern APP_INFO appInfo;
+extern CARD_INFO D_800A2174;
 
 
 void AppFrameLoadingRunner(void);

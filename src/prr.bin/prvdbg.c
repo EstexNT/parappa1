@@ -13,8 +13,9 @@
 // #include "prcompo.h"
 #include "prapp.h"
 
-// DBG_INFO dbgInfo = {0};
+static char rcsid[] = "@(#)prvdbg.c: version 01-00 95/10/10 00:00:00";
 
+DBG_INFO dbgInfo = {0};
 
 extern u8 *dbgStackPtr;
 
@@ -30,40 +31,80 @@ void DbgPrintWork(void);
 
 
 // TODO: .rodata
+extern char D_80010CD8[]; // "STRING:\n"
 extern char D_80010CE4[]; // "Sctr:%6d END:%6d NCALL:%6d\n"
 extern char D_80010D00[]; // "TC:%02d:%02d:%02d "
 extern char D_80010D14[]; // " DC %6d "
 extern char D_80010D20[]; // "nf %4d fe%4d\n"
 extern char D_80010D30[]; // "SECTOR:%d/%d/%d "
 extern char D_80010D44[]; // "PACKET:%d/%d"
-extern char D_80010F74[]; // "\n\n\nError: "
-extern char D_80010F80[]; // "\n\nHit Any Key To EXIT\n"
+extern char D_80010D54[]; // "ParaCurs:%2d  PNTH:%2d NUMEXLN:%d\n"
+extern char D_80010D78[]; // "PARFACE:%3d: "
+extern char D_80010D88[]; // "TEAFACE: "
+extern char D_80010D94[]; // "MCFACE: "
 extern char D_80010DA0[]; // "P:%d/%d "
 extern char D_80010DAC[]; // "ERROR:%x\n"
-extern char D_80010DB8[]; //
-extern char D_80010DC8[]; // 
-extern char D_80010DD4[]; // 
-extern char D_80010DF4[]; // 
-extern char D_80010F24[]; // 
-extern char D_80010F30[]; // 
-extern char D_80010F40[]; //
-extern char D_80010F54[]; // 
-extern char D_80010F64[]; // 
+extern char D_80010DB8[]; // "GO: %d SC: %d "
+extern char D_80010DC8[]; // "CAM:%3d\n"
+extern char D_80010DD4[]; // "PARA: TOD:%3d VDF:%3d WAV:%3d\n"
+extern char D_80010DF4[]; // "TCHR: TOD:%3d VDF:%3d WAV:%3d\n"
+extern char D_80010E14[]; // "NTAP:%2d ON:%2d OFF:%2d "
+extern char D_80010E30[]; // "Key: %08x\n"
+extern char D_80010E3C[]; // "PRS: %2d:%2d:%2d  "
+extern char D_80010E50[]; // "DIF:%3d "
+extern char D_80010E5C[]; // "EXCL: %d  \n"
+extern char D_80010E68[]; // "1ST:%2d COR:%2d ACT:%3d ORG:%3d MNU:%3d\n"
+extern char D_80010E94[]; // "PM:%3d DF:%d Tr:%d 1SP:%d "
+extern char D_80010EB0[]; // "\nKEY:%2d "
+extern char D_80010EBC[]; // "NTH: %2d "
+extern char D_80010EC8[]; // "Eval:%d Evnt:%d\n"
+extern char D_80010EDC[]; // "  Ap.pm:%d  Ap.tm:%d"
+extern char D_80010EF4[]; // "\nNFAL:%2d HEVL:%2d CSTT:%2d NEVL:%d ESTT:%d\n"
+extern char D_80010F24[]; // "\n\n\n\n\n\n\n\n\n"
+extern char D_80010F30[]; // "TD:%2d/%2d/%2d "
+extern char D_80010F40[]; // "MS:%02d:%02d:%02d "
+extern char D_80010F54[]; // "F:%d U:%d S:%d "
+extern char D_80010F64[]; // "ST:%2d DY:%2d\n"
+extern char D_80010F74[]; // "\n\n\nError: "
+extern char D_80010F80[]; // "\n\nHit Any Key To EXIT\n"
 extern char D_80010F98[]; // "Stack check %x\n"
 extern char D_80010FA8[]; // "STACK CHECK ERROR %x\n"
 
 // TODO: .sdata
 extern char D_800825E8[]; // "%s\n"
+extern char D_800825EC[]; // "NULL\n"
 extern char D_800825F4[]; // "SI:%d\n"
 extern char D_800825FC[]; // "VD%4d\n"
-extern char D_80082630[]; // 
-extern char D_8008263C[]; // 
-extern char D_80082640[]; // 
-extern char D_80082664[]; // 
-extern char D_8008266C[]; // 
-extern char D_8008269C[]; // 
-extern char D_800826A4[]; // 
-extern char D_800826AC[]; // 
+extern char D_80082604[]; // "  "
+extern char D_80082608[]; // "R "
+extern char D_8008260C[]; // "L "
+extern char D_80082610[]; // "# "
+extern char D_80082614[]; // "X "
+extern char D_80082618[]; // "O "
+extern char D_8008261C[]; // "A "
+extern char D_80082620[]; // "- "
+extern char D_80082624[]; // "BAR:"
+extern char D_8008262C[]; // "*"
+extern char D_80082630[]; // "\n"
+extern char D_80082634[]; // "%3d "
+extern char D_8008263C[]; // "%2d"
+extern char D_80082640[]; // " %c"
+extern char D_80082644[]; // "LOW2"
+extern char D_8008264C[]; // "LOW1"
+extern char D_80082654[]; // "NORM"
+extern char D_8008265C[]; // "HIGH"
+extern char D_80082664[]; // "LVL:%s "
+extern char D_8008266C[]; // "VC:%d "
+extern char D_80082674[]; // "OK"
+extern char D_80082678[]; // "--"
+extern char D_8008267C[]; // "KCTRL:"
+extern char D_80082684[]; // "%c"
+extern char D_80082688[]; // "TAP:%s "
+extern char D_80082690[]; // "CLR: "
+extern char D_80082698[]; // "%d"
+extern char D_8008269C[]; // "VD:%4d "
+extern char D_800826A4[]; // "SD:%d "
+extern char D_800826AC[]; // "%d\n"
 
 
 void DbgInit(void) {
@@ -230,7 +271,28 @@ void DbgStackCheck(void) {
     }
 }
 
-extern char *D_80068DC8[];
+char *D_80068DA0[] = {
+    [PR_TAP_NONE] = D_80082620,
+    [PR_TAP_TRIANGLE] = D_8008261C,
+    [PR_TAP_CIRCLE] = D_80082618,
+    [PR_TAP_CROSS] = D_80082614,
+    [PR_TAP_SQUARE] = D_80082610,
+    [PR_TAP_L1] = D_8008260C,
+    [PR_TAP_L2] = D_8008260C,
+    [PR_TAP_R1] = D_80082608,
+    [PR_TAP_R2] = D_80082608,
+    [PR_TAP_NUM] = D_80082604,
+};
+char *D_80068DC8[] = {
+    [LEVEL_HIGH] = D_8008265C,
+    [LEVEL_NORM] = D_80082654,
+    [LEVEL_LOW1] = D_8008264C,
+    [LEVEL_LOW2] = D_80082644,
+};
+char *D_80068DD8[] = {
+    D_80082678, D_80082674,
+    D_80082678, D_80082674,
+};
 
 void DbgPrintMsgDraw(void) {
     SCENE_INFO *info;
@@ -252,13 +314,73 @@ void DbgPrintMsgDraw(void) {
     DbgPrintOnInput();
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", DbgPrintMsgEval);
+void DbgPrintMsgEval(void) {
+    SCENE_INFO *info;
+    s32 i;
+    u32 pad;
+    u32 ctrlid;
+    u32 keyctrl;
+    u32 ctrlid1;
+    s32 j;
 
-void DbgPrintMsgApp(void) {
-    
+    info = &sceneInfo;
+    ctrlid = info->parappainp->sub[info->lvlhigh].ctrlid;
+    FntPrint(D_8008267C);
+    for (i = 0; i < 8; i++) {
+        keyctrl = sceneInitInfo.keyctrl[ctrlid].ctrl[i];
+        FntPrint(D_80082684, (keyctrl != 0) ? '1': '-');
+    }
+    FntPrint(D_80082630);
+    FntPrint(D_80010E14, dbgInfo.ntap, dbgInfo.tapon, dbgInfo.tapoff);
+    pad = info->pad;
+    FntPrint(D_80010E30, pad);
+    FntPrint(D_80082688, D_80068DD8[dbgInfo.tapok]);
+    FntPrint(D_80010E3C, info->prs.min, info->prs.sec, info->prs.frame);
+    FntPrint(D_80010E50, dbgInfo.dif);
+    FntPrint(D_80010E5C, EventInputsInactive(info));
+    FntPrint(D_80010E68, dbgInfo.firstpressed, dbgInfo.coreinputs, dbgInfo.actscore, dbgInfo.origscore, dbgInfo.offpenalty);
+    FntPrint(D_80010E94, dbgInfo.scorediff, dbgInfo.decsize_lvlscorediff, dbgInfo.tr, dbgInfo.err);
+    FntPrint(D_80010EB0, dbgInfo.key);
+    ctrlid1 = info->parappainp->sub[info->lvlhigh].ctrlid;
+    FntPrint(D_80010EBC, dbgInfo.nth);
+    FntPrint(D_80010EC8, actionInfo.sub.highenabled, eventInfo.flashhigh);
+    FntPrint(D_80082690);
+    for (j = 0; j < 6; j++) {
+        FntPrint(D_80082698, D_800A2174.save.stageclear[j]);
+    }
+    FntPrint(D_80010EDC, appInfo.playmode, appInfo.testmode);
+    FntPrint(D_80010EF4, actionInfo.sub.highfailcount, actionInfo.sub.highended, eventInfo.coolstate, eventInfo.normaleval, eventInfo.lvlestimate);
+    DbgPrintOnInput();
 }
 
-INCLUDE_ASM("asm/prr.bin/nonmatchings/prvdbg", DbgPrintMsgDrawFace);
+void DbgPrintMsgApp(void) {
+
+}
+
+void DbgPrintMsgDrawFace(void) {
+    SCENE_INFO *info;
+    u32 unused;
+    s32 i;
+    
+    info = &sceneInfo;
+
+    FntPrint(D_80010D78, dbgInfo.paraface);
+    for (i = 0; info->parappaface[i] != 0; i++) {
+        FntPrint(D_80082634, info->parappaface[i]);
+    }
+    FntPrint(D_80082630);
+
+    FntPrint(D_80010D88);
+    for (i = 0; info->teacherface[i] != 0; i++) {
+        FntPrint(D_80082634, info->teacherface[i]);
+    }
+    FntPrint(D_80082630);
+    
+    FntPrint(D_80010D94);
+    for (i = 0; info->mcface[i] != 0; i++) {
+        FntPrint(D_80082634, info->mcface[i]);
+    }
+}
 
 void DbgPrintOnInput(void) {
     s32 i;
