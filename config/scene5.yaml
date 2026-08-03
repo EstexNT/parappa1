@@ -1,0 +1,62 @@
+name: Scene 5 Comod
+sha1: e8efefb1143f84dd753e77cc99144c8bb984a36e
+options:
+  basename: scene5
+  target_path: disc/S5/COMOD5.BIN
+  base_path: ../
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm/scene5
+  src_path: src/scene5
+  build_path: build/
+
+  ld_script_path: linker/scene5.ld
+
+  find_file_boundaries: False
+  global_vram_start: 0x80010000
+
+  o_as_suffix: False
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - config/symbol_addrs.scene5.txt
+    - config/symbol_addrs.prr.bin.txt
+  reloc_addrs_path:
+    - configs/reloc_addrs.scene5.txt
+
+  undefined_funcs_auto_path: linker/undefined_funcs_auto.scene5.txt
+  undefined_syms_auto_path: linker/undefined_syms_auto.scene5.txt
+
+  extensions_path: tools/splat_ext
+
+  subalign: 4
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  ld_bss_is_noload: False
+segments:
+  - name: scene5
+    type: code
+    start: 0x0
+    vram: 0x801CC21C
+    bss_size: 0x20000 # TODO: More proper size here
+    align: 4
+    subalign: 4
+    subsegments:
+      - [0x0, rodata, 0] # prsqevs5
+      - [0xD7C, rodata, D7C] # prscn5
+      
+      - [0xDB4, c, prscn5]
+      - [0xA568, data, prscn5]
+      - [0xA5B0, data, prsqevs5]
+      - { vram: 0x801E28FC, type: bss }
+  - [0x2020C]

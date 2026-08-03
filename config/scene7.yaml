@@ -1,0 +1,62 @@
+name: Scene 7 Comod
+sha1: 351200b89bcccf83237129e7234dbc8d40e6df94
+options:
+  basename: scene7
+  target_path: disc/S7/COMOD7.BIN
+  base_path: ../
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm/scene7
+  src_path: src/scene7
+  build_path: build/
+
+  ld_script_path: linker/scene7.ld
+
+  find_file_boundaries: False
+  global_vram_start: 0x80010000
+
+  o_as_suffix: False
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - config/symbol_addrs.scene7.txt
+    - config/symbol_addrs.prr.bin.txt
+  reloc_addrs_path:
+    - configs/reloc_addrs.scene7.txt
+
+  undefined_funcs_auto_path: linker/undefined_funcs_auto.scene7.txt
+  undefined_syms_auto_path: linker/undefined_syms_auto.scene7.txt
+
+  extensions_path: tools/splat_ext
+
+  subalign: 4
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  ld_bss_is_noload: False
+segments:
+  - name: scene7
+    type: code
+    start: 0x0
+    vram: 0x801CC21C
+    bss_size: 0x20000 # TODO: More proper size here
+    align: 4
+    subalign: 4
+    subsegments:
+      - [0x0, rodata, 0] # prsqevs7
+      - [0x9EC, rodata, 9EC] # prscn7
+      
+      - [0xA24, c, prscn7]
+      - [0xC35C, data, prscn7]
+      - [0xC3D8, data, prsqevs7]
+      - { vram: 0x801E5D40, type: bss }
+  - [0x267B4]

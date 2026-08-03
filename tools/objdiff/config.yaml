@@ -7,6 +7,43 @@ categories:
     name: Main Executable
     paths:
       - prr
+  - id: scene0
+    name: Scene 0
+    paths:
+      - scene0
+  - id: scene1
+    name: Scene 1
+    paths:
+      - scene1
+  - id: scene2
+    name: Scene 2
+    paths:
+      - scene2
+  - id: scene3
+    name: Scene 3
+    paths:
+      - scene3
+  - id: scene5
+    name: Scene 5
+    paths:
+      - scene5
+  - id: scene6
+    name: Scene 6
+    paths:
+      - scene6
+  - id: scene7
+    name: Scene 7
+    paths:
+      - scene7
+  - id: scene8
+    name: Scene 8
+    paths:
+      - scene8
+  - id: scene9
+    name: Scene 9
+    paths:
+      - scene9
+  
 
 expected_paths:
   asm: expected/asm

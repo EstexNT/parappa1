@@ -1,0 +1,62 @@
+name: Scene 2 Comod
+sha1: f743cf429bc4124d086becf427d5215ba746f4c7
+options:
+  basename: scene2
+  target_path: disc/S2/COMOD2.BIN
+  base_path: ../
+  platform: psx
+  compiler: PSYQ
+
+  asm_path: asm/scene2
+  src_path: src/scene2
+  build_path: build/
+
+  ld_script_path: linker/scene2.ld
+
+  find_file_boundaries: False
+  global_vram_start: 0x80010000
+
+  o_as_suffix: False
+  use_legacy_include_asm: False
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  section_order: [".rodata", ".text", ".data", ".bss"]
+
+  symbol_addrs_path:
+    - config/symbol_addrs.scene2.txt
+    - config/symbol_addrs.prr.bin.txt
+  reloc_addrs_path:
+    - configs/reloc_addrs.scene2.txt
+
+  undefined_funcs_auto_path: linker/undefined_funcs_auto.scene2.txt
+  undefined_syms_auto_path: linker/undefined_syms_auto.scene2.txt
+
+  extensions_path: tools/splat_ext
+
+  subalign: 4
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  ld_bss_is_noload: False
+segments:
+  - name: scene2
+    type: code
+    start: 0x0
+    vram: 0x801CC21C
+    bss_size: 0x20000 # TODO: More proper size here
+    align: 4
+    subalign: 4
+    subsegments:
+      - [0x0, rodata, 0] # prsqevs2
+      - [0x8E4, rodata, 8E4] # prscn2
+      
+      - [0x91C, c, prscn2]
+      - [0x9998, data, prscn2]
+      - [0x99E0, data, prsqevs2]
+      - { vram: 0x801DE8C8, type: bss }
+  - [0x16DC0]

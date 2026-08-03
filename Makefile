@@ -2,8 +2,7 @@
 # Doubly adapted from https://github.com/ladysilverberg/xenogears-decomp/
 
 # Configuration
-# todo: support overlays (comods)
-BUILD_OVERLAYS ?= 0
+BUILD_OVERLAYS ?= 1
 NON_MATCHING   ?= 0
 SKIP_ASM       ?= 0
 
@@ -50,6 +49,45 @@ DL_FLAGS := -G8
 AS_FLAGS := $(ENDIAN) $(INCLUDE_FLAGS) $(OPT_FLAGS) $(DL_FLAGS) -march=r3000 -mtune=r3000 -no-pad-sections
 CC_FLAGS := $(OPT_FLAGS) -g3 $(DL_FLAGS) -mips1 -mcpu=3000 -w -funsigned-char -fpeephole -ffunction-cse -fpcc-struct-return -fcommon -fverbose-asm -msoft-float -mgas -fgnu-linker -quiet
 MASPSX_FLAGS := --aspsx-version=2.21 --expand-div --use-comm-section --run-assembler $(AS_FLAGS)
+
+define DL_FlagsSwitch
+	$(if
+		$(or 
+			$(filter MAIN,$(patsubst build/src/scene0/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene0/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene1/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene1/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene2/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene2/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene3/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene3/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene5/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene5/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene6/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene6/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene7/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene7/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene8/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene8/%,MAIN,$(1))),
+			
+			$(filter MAIN,$(patsubst build/src/scene9/%,MAIN,$(1))), 
+			$(filter MAIN,$(patsubst build/src/scene9/%,MAIN,$(1))),
+		),
+		$(eval DL_FLAGS := -G0),
+		$(eval DL_FLAGS := -G8)
+	)
+
+	$(eval AS_FLAGS := $(ENDIAN) $(INCLUDE_FLAGS) $(OPT_FLAGS) $(DL_FLAGS) -march=r3000 -mtune=r3000 -no-pad-sections)
+	$(eval CC_FLAGS := $(OPT_FLAGS) -g3 $(DL_FLAGS) -mips1 -mcpu=3000 -w -funsigned-char -fpeephole -ffunction-cse -fpcc-struct-return -fcommon -fverbose-asm -msoft-float -mgas -fgnu-linker -quiet)
+	$(eval MASPSX_FLAGS := --aspsx-version=2.21 --expand-div --use-comm-section --run-assembler $(AS_FLAGS))
+endef
 
 ifeq ($(NON_MATCHING),1)
 	CPP_FLAGS := $(CPP_FLAGS) -DNON_MATCHING
@@ -114,7 +152,7 @@ endif
 TARGET_MAIN := prr.bin
 
 ifeq ($(BUILD_OVERLAYS), 1)
-TARGET_OVERLAYS := the comods go here
+TARGET_OVERLAYS := scene0 scene1 scene2 scene3 scene5 scene6 scene7 scene8 scene9
 endif
 
 # Source Definitions

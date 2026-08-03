@@ -1,9 +1,10 @@
-# kick punch it's all in the mind
+# PaRappa the Rapper 1 Decompilation
 
-parappa 1 decomp (september 24 prototype)
+This is a decompilation of PaRappa the Rapper (Sep 24, 1996 prototype) for the Sony PlayStation.
 
-## building is easy
+## Building instructions
 
+The following commands will install the requirements, clone the repository and setup a Python virtual environment:
 ```
 $ sudo apt update
 $ sudo apt install git make binutils-mips-linux-gnu cpp-mips-linux-gnu python3 python3-pip python3-venv
@@ -14,21 +15,17 @@ $ source .venv/bin/activate
 $ python3 -m pip install -r requirements.txt
 ```
 
-then copy your extracted disk into `disc` and run `make clean-check`
+Afterwards, copy your extracted disk into `disc` and run `make clean-check`.
+
+**Note:**
+Everytime you open a new terminal, you will have to run `source .venv/bin/activate` inside the repo directory.
 
 
-don't forget to `source .venv/bin/activate` everytime you open a new terminal
+## Make Rules 
 
+- `build` Build game 
+- `check` Build game and compare checksum
+- `clean` Clear build dir
+- `clean-build` Clear config and build game
+- `clean-check` Clear config and build game and compare checksum
 
-## makeing 
-
-- `build` build game 
-- `check` build game and compare checksum
-- `clean` clear build dir
-- `clean-build` clear config and build game
-- `clean-check` clear config and build game and compare checksum
-
-
-## hey where are the overlays
-
-later
