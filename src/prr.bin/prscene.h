@@ -171,7 +171,7 @@ typedef struct SCENE_INIT_INFO {
     SND_INFO *field21_0x54;
     SND_INFO *field22_0x58;
     SND_INFO *tryagain;
-    SND_INFO *menutriangle;
+    SND_INFO *menudpad;
     SND_INFO *menucross;
     SND_INFO *menucircle;
     SND_INFO *menuselect;

@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "prcard.h"
+#include "prmenu.h"
 
 // F - Frontend (Graphical), B - Backend (I/O interaction)
 #define CARD_STATE_BAD 0
@@ -91,15 +92,6 @@ typedef struct {
     s16 availablenum;
     s16 freenum;
 } CARD_MENU_SLOT_INFO;
-
-// TODO: Move to prmenu
-struct MENU_MAIN_DEFDATA {
-    BOOL highlight;
-    s32 selexit;
-    s16 selcur;
-    s16 selmax;
-    s16 selval[5][2];
-};
 
 
 void CardMenuDrawTimed(s32 menu, void *data, s32 time);

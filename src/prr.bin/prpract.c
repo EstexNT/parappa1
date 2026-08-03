@@ -194,13 +194,13 @@ BOOL PracticeRunMainTryAgain(register SCENE_INFO *scn) {
         pad = PracticeReadPadTrigger();
         if (pad == PR_PAD_CIRCLE) {
             choicemade = TRUE;
-            func_800330F8(PR_PAD_CIRCLE);
+            MenuPlayButtonSound(PR_PAD_CIRCLE);
             ret = TRUE;
         } else if (pad == PR_PAD_CROSS) {
             scn->practend = TRUE;
             scn->practhighlight = TRUE;
             choicemade = TRUE;
-            func_800330F8(PR_PAD_CIRCLE);
+            MenuPlayButtonSound(PR_PAD_CIRCLE);
             ret = FALSE;
         }
         if (choicemade == TRUE) {
@@ -278,7 +278,7 @@ s32 PracticeRunMainLoopStage(register SCENE_INFO *scn, register s32 stage) {
         if (pad != 0) {
             if ((dontupdate == FALSE) && (pad == PR_PAD_CROSS)) {
                 RapStopSeq();
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 i = 135;
                 pressed = TRUE;
                 dontupdate = TRUE;

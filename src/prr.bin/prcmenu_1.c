@@ -13,7 +13,7 @@ extern CARD_MENU_SLOT_INFO D_80089BC4;
 extern CARD_DATA D_8008A21C;
 extern char D_8008C21C[32];
 extern char D_8008C23C[64 + 8];
-extern struct MENU_MAIN_DEFDATA D_8008C284;
+extern MENU_MAIN_DEFDATA D_8008C284;
 extern struct DIRENTRY D_8008C2A4[15];
 extern CARD_MENU_DIALOG_INFO D_8008C4FC;
 
@@ -162,13 +162,13 @@ s32 CardMenuSaveFront(register s32 state, register CARD_INFO *info) {
     switch (state) {
         case CARD_STATE_F_SAVE: {
             if (pad == PR_PAD_CIRCLE) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_B_CHECKSTATUS;
                 D_8008C4FC.base.sel = 1;
                 CardMenuDrawTimed(PR_MENU_CARDSAVE, &D_8008C4FC, 20);
                 CardMenuResetBaseInfo(&D_8008C4FC.base);
             } else if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_END;
                 D_8008C4FC.base.sel = 2;
                 CardMenuDrawTimed(PR_MENU_CARDSAVE, &D_8008C4FC, 20);
@@ -178,7 +178,7 @@ s32 CardMenuSaveFront(register s32 state, register CARD_INFO *info) {
         }
         case CARD_STATE_F_NOTINSERTED: {
             if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_F_SAVE;
                 D_8008C4FC.base.sel = 2;
                 CardMenuDrawTimed(PR_MENU_CARDNOTINSERT, &D_8008C4FC, 20);
@@ -188,7 +188,7 @@ s32 CardMenuSaveFront(register s32 state, register CARD_INFO *info) {
         }
         case CARD_STATE_F_FULL: {
             if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_F_SAVE;
                 D_8008C4FC.base.sel = 2;
                 CardMenuDrawTimed(PR_MENU_CARDFULL, &D_8008C4FC, 20);
@@ -198,13 +198,13 @@ s32 CardMenuSaveFront(register s32 state, register CARD_INFO *info) {
         }
         case CARD_STATE_F_FORMAT: {
             if (pad == PR_PAD_CIRCLE) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_B_FORMAT;
                 D_8008C4FC.base.sel = 1;
                 CardMenuDrawTimed(PR_MENU_CARDFORMAT, &D_8008C4FC, 20);
                 CardMenuResetBaseInfo(&D_8008C4FC.base);
             } else if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_F_SAVE;
                 D_8008C4FC.base.sel = 2;
                 CardMenuDrawTimed(PR_MENU_CARDFORMAT, &D_8008C4FC, 20);
@@ -265,7 +265,7 @@ s32 CardMenuSaveFront(register s32 state, register CARD_INFO *info) {
         }
         case CARD_STATE_F_SAMENAME: {
             if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 D_8008C4FC.base.sel = 2;
                 CardMenuDrawTimed(PR_MENU_CARDSAMENAME, &D_8008C4FC, 20);
                 CardMenuResetBaseInfo(&D_8008C4FC.base);
@@ -293,24 +293,24 @@ s32 CardMenuMiscFront(register s32 state, register CARD_INFO *info) {
     switch (state) {
         case CARD_STATE_F_NOTINSERTED: {
             if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_END;
             }
             break;
         }
         case CARD_STATE_F_FULL: {
             if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_END;
             }
             break;
         }
         case CARD_STATE_F_FORMAT: {
             if (pad == PR_PAD_CIRCLE) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_B_FORMAT;
             } else if (pad == PR_PAD_CROSS) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 state = CARD_STATE_END;
             }
             break;
@@ -722,7 +722,7 @@ s32 CardMenuNameEnterUpdate(register u32 pad, register CARD_INFO *info) {
     sel = letterselcur = nameinfo->letterselcur;
     nameinfo->endbutton = 0;
     if (pad == PR_PAD_UP) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         if (letterselcur == 0) {
             sel = 56;
         } else {
@@ -738,7 +738,7 @@ s32 CardMenuNameEnterUpdate(register u32 pad, register CARD_INFO *info) {
         }
     }
     if (pad == PR_PAD_DOWN) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         if ((letterselcur >= 0) && (letterselcur < 35)) {
             sel = letterselcur + 14;
         } else if ((letterselcur >= 35) && (letterselcur < 42)) {
@@ -754,11 +754,11 @@ s32 CardMenuNameEnterUpdate(register u32 pad, register CARD_INFO *info) {
         }
     }
     if (pad == PR_PAD_RIGHT) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         sel = (letterselcur + 1) % nameinfo->letterselmax;
     }
     if (pad == PR_PAD_LEFT) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         sel = (((letterselcur - 1) < 0) ? nameinfo->letterselmax : letterselcur) - 1;
     }
     nameinfo->letterselcur = sel;
@@ -767,14 +767,14 @@ s32 CardMenuNameEnterUpdate(register u32 pad, register CARD_INFO *info) {
         namemapped = nameinfo->map[sel];
         if (namemapped == 8) {
             // Backspace
-            func_800330F8(PR_PAD_CROSS);
+            MenuPlayButtonSound(PR_PAD_CROSS);
             if (nameinfo->namelen > 0) {
                 nameinfo->namelen--;
                 nameinfo->name[nameinfo->namelen] = '\0';
             }
         } else {
             if ((namemapped == 10) && (pad == PR_PAD_CIRCLE)) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 if (nameinfo->name[0] == '\0') {
                     strcpy(name, D_800823BC);
                 } else {
@@ -784,12 +784,12 @@ s32 CardMenuNameEnterUpdate(register u32 pad, register CARD_INFO *info) {
                 nameinfo->base.sel = 1;
                 return 1;
             } else if ((namemapped == 10) && (pad == PR_PAD_CROSS)) {
-                func_800330F8(PR_PAD_CIRCLE);
+                MenuPlayButtonSound(PR_PAD_CIRCLE);
                 nameinfo->endbutton = 2;
                 nameinfo->base.sel = 2;
                 return 2;
             } else if ((namemapped >= ' ') && (nameinfo->namelen < 6)) {
-                func_800330F8(PR_PAD_SELECT);
+                MenuPlayButtonSound(PR_PAD_SELECT);
                 nameinfo->name[nameinfo->namelen] = namemapped;
                 nameinfo->namelen++;
                 nameinfo->name[nameinfo->namelen] = '\0';

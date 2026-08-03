@@ -10,7 +10,7 @@ static char rcsid[] = "@(#)prcmenu.c: version 01-00 96/08/01 00:00:00";
 
 extern CARD_MENU_SLOT_INFO D_80089BC4;
 extern char D_8008C21C[32];
-extern struct MENU_MAIN_DEFDATA D_8008C284;
+extern MENU_MAIN_DEFDATA D_8008C284;
 extern struct DIRENTRY D_8008C2A4[15];
 
 extern BOOL D_8008270C;
@@ -147,12 +147,12 @@ s32 CardMenuSlotSelectUpdate(u32 pad, CARD_INFO *info) {
     sel = slotselectinfo->selcur;
 
     if ((pad == PR_PAD_CROSS) && (sel == (slotselectinfo->selmax - 1))) {
-        func_800330F8(PR_PAD_CIRCLE);
+        MenuPlayButtonSound(PR_PAD_CIRCLE);
         return 2;
     }
 
     if ((pad == PR_PAD_CIRCLE) && (sel < (slotselectinfo->selmax - 1))) {
-        func_800330F8(PR_PAD_CIRCLE);
+        MenuPlayButtonSound(PR_PAD_CIRCLE);
         if (slotinfo[sel].fname[0] != '\0') {
             D_80082714 = TRUE;
             strcpy(D_8008C21C, slotinfo[sel].fname);
@@ -161,7 +161,7 @@ s32 CardMenuSlotSelectUpdate(u32 pad, CARD_INFO *info) {
     }
 
     if (pad == PR_PAD_UP) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         if (sel == (slotselectinfo->selmax - 1)) {
             for (i = sel - 1; (i > 0) && (slotselectinfo->available[i] == FALSE); i--) {
 
@@ -178,7 +178,7 @@ s32 CardMenuSlotSelectUpdate(u32 pad, CARD_INFO *info) {
             sel = (--sel >= 0) ? sel : (slotselectinfo->selmax - 1);
         }
     } else if (pad == PR_PAD_DOWN) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         if (sel == (slotselectinfo->selmax - 1)) {
             for (i = 0; (i < (slotselectinfo->selmax - 1)) && (slotselectinfo->available[i] == FALSE); i++) {
                 
@@ -195,13 +195,13 @@ s32 CardMenuSlotSelectUpdate(u32 pad, CARD_INFO *info) {
             }
         }
     } else if (pad == PR_PAD_RIGHT) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         sel = (sel + 1) % slotselectinfo->selmax;
         while (slotselectinfo->available[sel] != TRUE) {
             sel = (sel + 1) % slotselectinfo->selmax;
         }
     } else if (pad == PR_PAD_LEFT) {
-        func_800330F8(pad);
+        MenuPlayButtonSound(pad);
         sel = (--sel >= 0) ? sel : (slotselectinfo->selmax - 1);
         while (slotselectinfo->available[sel] != TRUE) {
             sel = (--sel >= 0) ? sel : (slotselectinfo->selmax - 1);

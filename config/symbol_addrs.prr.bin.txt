@@ -351,6 +351,32 @@ MemorySetPos = 0x80032EC8;
 MemoryGetPos = 0x80032F84;
 MemoryZero = 0x80033038;
 
+func_800330a8 = 0x800330a8;
+MenuPlayButtonSound = 0x800330f8;
+MenuRunnerHighScoreInput = 0x80033254;
+MenuRunnerStartUpdate = 0x800332dc;
+MenuRunnerStartInput = 0x800333b0;
+MenuRunnerStageInput = 0x80033460;
+MenuRunnerDebugInput = 0x8003380c;
+MenuRunnerDrawDebugMenu = 0x80033b58;
+func_80033df4 = 0x80033df4;
+func_80033f70 = 0x80033f70;
+MenuUpdateDebugOptions = 0x80033f94;
+MenuRunnerMainInput = 0x80034260;
+func_8003480c = 0x8003480c;
+MenuUpdateHighlight = 0x800348a0;
+MenuRunnerMainInit = 0x8003494c;
+MenuRunnerStartInit = 0x800349fc;
+MenuRunnerHighScoreInit = 0x80034a50;
+MenuRunnerLoadingInit = 0x80034a9c;
+MenuRunnerDebugInit = 0x80034adc;
+MenuRunnerStageInit = 0x80034b48;
+MenuRunnerProcess = 0x80034dc0;
+MenuRunnerRun = 0x80034e70;
+MenuGetRunnerDef = 0x800350cc;
+MenuRunnerVSyncCallback = 0x80035190;
+MenuRunnerDrawDebug = 0x800351c0;
+
 RapInit = 0x800352F8;
 RapFlush = 0x80035374;
 RapPlayKey = 0x800353B4;
@@ -1455,6 +1481,16 @@ D_8006789C = 0x8006789C;
 D_800678B0 = 0x800678B0;
 D_800678C4 = 0x800678C4;
 
+menuRunnerHighScoreDefData = 0x800679B8;
+menuDebugEntries = 0x80067AFC; // size:0x168
+menuRunnerMainDefData = 0x80067C64;
+menuRunnerDefStage = 0x80067C84;
+menuRunnerDefMain = 0x80067C98;
+menuRunnerDefStart = 0x80067CAC;
+menuRunnerDefHighScore = 0x80067CC0;
+menuRunnerDefLoading = 0x80067CD4;
+menuRunnerDefDebug = 0x80067CE8;
+
 strmInitInfo = 0x80067D68;
 
 D_80067E90 = 0x80067E90; // size:0xbac
@@ -1515,6 +1551,8 @@ D_80082740 = 0x80082740;
 D_80082744 = 0x80082744;
 
 D_80082774 = 0x80082774; // size:0x8
+
+menuRunnerStartDefData = 0x80082798;
 
 rapInterKey = 0x800827A0; // size:0x6
 
@@ -1583,6 +1621,9 @@ D_80095B58 = 0x80095B58; // size:0x18
 D_80095B70 = 0x80095B70; // size:0xe4
 
 D_80096054 = 0x80096054; // size:0x20
+
+menuRunnerStageDefData = 0x80096074;
+menuRunnerDebugDefData = 0x80096094;
 
 eventRecordInfo = 0x8009D1E0; // size:0x113c
 

@@ -8,6 +8,7 @@
 #include "prscene.h"
 #include "prmime.h"
 #include "prcmenu.h"
+#include "prmenu.h"
 
 
 // LibGS object attribute bits
@@ -135,29 +136,6 @@ typedef struct LINE_BUTTON_SCALING {
     s32 stage;
 } LINE_BUTTON_SCALING;
 
-// TODO: Move to prmenu
-#define MENU_STAGE_ICON_0 0
-#define MENU_STAGE_ICON_1 1
-#define MENU_STAGE_ICON_2 2
-#define MENU_STAGE_ICON_3 3
-struct MENU_STAGE_DEFDATA {
-    BOOL highlight;
-    BOOL selected;
-    s16 selcur;
-    s16 selmax;
-    s16 icons[9];
-};
-struct MENU_HIGHSCORE_DEFDATA {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s16 unkC;
-    s16 unkE;
-    s16 unk10;
-    s16 unk12;
-    char unk14[19][16];
-};
-
 
 extern s32 D_80082810;
 
@@ -245,8 +223,8 @@ void CompoDrawStageSelect(void *data);
 void CompoDrawSavingText(s32 arg0);
 void CompoDrawNameEnter(void *data);
 void CompoDrawSlotSelect(s32 draw, CARD_MENU_SLOTSELECT_INFO *data);
-void CompoDrawHighScore(struct MENU_HIGHSCORE_DEFDATA *data);
-void CompoDrawMainMenu(struct MENU_MAIN_DEFDATA *data);
+void CompoDrawHighScore(MENU_HIGHSCORE_DEFDATA *data);
+void CompoDrawMainMenu(MENU_MAIN_DEFDATA *data);
 void CompoDrawSaveDialog(s32 draw, CARD_MENU_DIALOG_INFO *data);
 void CompoDrawPracticeBar(s32 arg0);
 void CompoDrawPractice(SCENE_INFO *scn);

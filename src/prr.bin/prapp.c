@@ -25,7 +25,6 @@ extern APP_SCENEFN D_80062598[];
 extern BOOL D_800826D8;
 
 extern SAVE_DATA D_80088640;
-extern CARD_INFO D_800A2174;
 
 extern void * const D_80010000;
 
@@ -110,11 +109,11 @@ s32 AppRunMainMenu(SCENE_INFO *scn, s32 i) {
     while (TRUE) {
         // 44
         while (PadRead(1) != 0);
-        menuret = func_80034DC0(PR_MENU_MAIN, &appInfo);
+        menuret = MenuRunnerProcess(PR_MENU_MAIN, &appInfo);
         if (menuret == 1) {
             highscorevisual = CardMenuHighScore(&D_800A2174);
             if (highscorevisual != NULL) {
-                func_80034DC0(PR_MENU_HIGHSCORE, highscorevisual);
+                MenuRunnerProcess(PR_MENU_HIGHSCORE, highscorevisual);
             }
         } else if (menuret == 2) {
             AppReplaySaveDataSave(&D_800A2174.save);
@@ -125,7 +124,7 @@ s32 AppRunMainMenu(SCENE_INFO *scn, s32 i) {
         } else if (menuret == 3) {
             PracticeRun(&sceneInfo, i);
         } else if (menuret == 4) {
-            menuret = func_80034DC0(PR_MENU_STAGE, &stageindex);
+            menuret = MenuRunnerProcess(PR_MENU_STAGE, &stageindex);
             if (menuret == 1) {
                 return stageindex;
             }

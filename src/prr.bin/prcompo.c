@@ -1445,13 +1445,13 @@ extern s32 D_80095B38[];
 extern s32 D_80095B58[];
 
 void CompoDrawStageSelect(register void *data) {
-    struct MENU_STAGE_DEFDATA *p;
+    MENU_STAGE_DEFDATA *p;
     s32 i;
     s32 sp28[6];
     s32 sp40[6];
     s32 sp58[6];
 
-    p = (struct MENU_STAGE_DEFDATA *)data;
+    p = (MENU_STAGE_DEFDATA *)data;
     for (i = 0; i < 6; i++) {
         D_80095B58[i] = p->icons[i + 1];
         sp28[i] = 0;
@@ -1774,7 +1774,7 @@ void CompoDrawSlotSelect(register s32 draw, register CARD_MENU_SLOTSELECT_INFO *
     }
 }
 
-void CompoDrawHighScore(register struct MENU_HIGHSCORE_DEFDATA *data) {
+void CompoDrawHighScore(register MENU_HIGHSCORE_DEFDATA *data) {
     s32 sel;
     s32 i;
     s32 j;
@@ -1824,7 +1824,7 @@ void CompoDrawHighScore(register struct MENU_HIGHSCORE_DEFDATA *data) {
     }
 }
 
-void CompoDrawMainMenu(register struct MENU_MAIN_DEFDATA *data) {
+void CompoDrawMainMenu(register MENU_MAIN_DEFDATA *data) {
     s16 *val;
     s32 i;
 
@@ -2319,7 +2319,7 @@ void CompoDrawMenu(s32 draw, void *data) {
         }
         case PR_MENU_HIGHSCORE: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawHighScore((struct MENU_HIGHSCORE_DEFDATA *)data);
+            CompoDrawHighScore((MENU_HIGHSCORE_DEFDATA *)data);
             break;
         }
         case PR_MENU_NAMEENTER: {
@@ -2343,7 +2343,7 @@ void CompoDrawMenu(s32 draw, void *data) {
         }
         case PR_MENU_MAIN: {
             CompoDrawFrameMenuGui(3, D_800827D4);
-            CompoDrawMainMenu((struct MENU_MAIN_DEFDATA *)data);
+            CompoDrawMainMenu((MENU_MAIN_DEFDATA *)data);
             break;
         }
 
