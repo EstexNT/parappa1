@@ -102,7 +102,7 @@ segments:
       - [0x53200, .data, prcompo]
       - [0x53230, .data, prcompo_data]
       - [0x580D4, .data, prevent]
-      - [0x58128, data, prmain]
+      - [0x58128, .data, prmain]
       - [0x58158, .data, prmemory]
       - [0x58188, .data, prmenu]
       - [0x584FC, .data, prrap]
