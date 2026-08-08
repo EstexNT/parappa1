@@ -14,6 +14,7 @@
 #define SCENE_IDX_5 5
 #define SCENE_IDX_6 6
 #define SCENE_IDX_7 7
+#define SCENE_IDX_8 8
 
 #define STAGE_IDX_0 0
 #define STAGE_IDX_1 1

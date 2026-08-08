@@ -364,11 +364,11 @@ s32 MenuRunnerMainInput(u32 pad, void *defdata, void *data) {
         if (pad == PR_PAD_CIRCLE) {
             MenuPlayButtonSound(PR_PAD_CIRCLE);
             d->selval[d->selcur][0] = 0;
-            info->difficulty = 0;
+            info->difficulty = FALSE;
         } else if (pad == PR_PAD_CROSS) {
             MenuPlayButtonSound(PR_PAD_CIRCLE);
             d->selval[d->selcur][0] = 1;
-            info->difficulty = 1;
+            info->difficulty = TRUE;
         }
     } else if (d->selcur == 1) {
         if (pad == PR_PAD_CIRCLE) {

@@ -101,7 +101,7 @@ typedef struct LINE_INFO {
 // Describes an input for demo mode
 typedef struct DEMO_INPUT {
     s16 time; // In 1/4ths of a beat
-    u16 pad;
+    s16 keyid;
 } DEMO_INPUT;
 
 // Describes which input key and key control to use (In addition to some other stuff)
@@ -176,10 +176,10 @@ typedef struct SCENE_INIT_INFO {
     SND_INFO *menucircle;
     SND_INFO *menuselect;
     void (*keypressed)(struct SCENE_INFO *scn, s32 keyid);
-    void *onkeypressed;
+    void (*onkeypressed)(struct SCENE_INFO *scn, s32 arg1);
     void (*perfup)(struct SCENE_INFO *scn);
-    void *anykeypressed;
-    void *demoinit;
+    void (*anykeypressed)(struct SCENE_INFO *scn);
+    void (*demoinit)(void);
 } SCENE_INIT_INFO;
 
 typedef struct SCENE_INFO {

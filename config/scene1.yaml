@@ -55,8 +55,8 @@ segments:
       - [0x0, rodata, 0] # prsqevs1
       - [0xB2C, rodata, B2C] # prscn1
       
-      - [0xB4C, c, prscn1]
-      - [0x9B50, data, prscn1]
+      - [0xB64, c, prscn1]
+      - [0x9B50, .data, prscn1]
       - [0x9B98, data, prsqevs1]
       - { vram: 0x801DF2F8, type: bss }
   - [0x1B3D4]
