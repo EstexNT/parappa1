@@ -119,7 +119,7 @@ typedef struct INPUT_INFO_SET {
     u8 firstinput;
     u8 teacherinputnum;
     s16 highthreshold;
-    s32 validpad;
+    u32 validpad;
     INPUT_INFO_SET_SUB sub[2];
 } INPUT_INFO_SET;
 
@@ -166,10 +166,10 @@ typedef struct SCENE_INIT_INFO {
     SND_INFO *scorechange;
     SND_INFO *click;
     SND_INFO *dbgstackcheck;
-    SND_INFO *field19_0x4c;
+    SND_INFO *unk4C;
     SND_INFO *intermission;
-    SND_INFO *field21_0x54;
-    SND_INFO *field22_0x58;
+    SND_INFO *unk54;
+    SND_INFO *unk58;
     SND_INFO *tryagain;
     SND_INFO *menudpad;
     SND_INFO *menucross;
@@ -220,10 +220,13 @@ typedef struct SCENE_INFO {
     s16 threshold;
     s16 highcnt;
     s16 lownum;
-    s16 unk74;
-    s16 unk76;
+    s16 gameover;
+    s16 cancontinue;
     s16 drawbuttons;
-    u8 pad7A[0x88 - 0x7a];
+
+    s16 nintype;
+
+    u8 pad7C[0x88 - 0x7c];
     LINE_INFO teacherline;
     LINE_INFO parappaline;
     u32 unkA8;
@@ -231,10 +234,31 @@ typedef struct SCENE_INFO {
     s16 *teacherface;
     s16 *unkB4;
     s16 *mcface;
-    u8 padBC[0xf8 - 0xbc];
+    u8 padBC[0xcc - 0xbc];
+    void *padat;
+    void *teacherdat;
+    u32 unkD4;
+    void *pavdf;
+    void *teachervdf;
+    u8 padE4[0xe4 - 0xe0];
+    void *patod;
+    void *teachertod;
+    s32 tamasel; // TODO: Likely under a union (See usages in other scenes)
+    u8 padF0[0xf4 - 0xf0];
+    void *nextbez;
     PARA_JP_TEXT *jptext;
     PARA_EN_TEXT *entext;
-    u8 unk100[0x17e - 0x100];
+    u8 unk100[0x10c - 0x100];
+    
+    s16 paframe;
+    u8 pad10E[0x110 - 0x10E];
+    s16 paframenum;
+
+    u8 dojotodidx[5];
+    u8 pad117[0x124 - 0x117];
+    void *dojotod[5];
+    u8 pad138[0x17e - 0x138];
+
     s16 leveltransition;
     u8 pad180[0x1d8 - 0x180];
 } SCENE_INFO;

@@ -138,6 +138,7 @@ typedef struct LINE_BUTTON_SCALING {
 
 
 extern s32 D_80082810;
+extern s32 D_800827D4;
 
 
 void CompoUpdateWorkOfs(PACKET *packet);
@@ -152,7 +153,8 @@ void CompoSetSpr(GsSPRITE *gspr, COMPO_SPRITE *spr, s32 shift, BOOL shiftpal);
 void CompoSetSprScale(GsSPRITE *gspr, COMPO_SPRITE *spr, s32 sx, s32 sy);
 void CompoSetSprSimple(GsSPRITE *gspr, COMPO_SPRITE *spr, BOOL adj);
 void CompoSetSprSliding(GsSPRITE *gspr, COMPO_SPRITE *spr, s32 txoff, s32 w, s32 cyoff);
-void CompoFastSpr(s16 x, s16 y, COMPO_SPRITE *spr, s32 shift, BOOL shiftpal, s32 pri, GsOT *ot);
+// TODO: Needed to match scenes
+// void CompoFastSpr(s16 x, s16 y, COMPO_SPRITE *spr, s32 shift, BOOL shiftpal, s32 pri, GsOT *ot);
 void CompoSprScaled(s16 x, s16 y, s32 sx, s32 sy, COMPO_SPRITE *spr, s32 pri, GsOT *ot);
 void CompoSimpleFastSpr(s16 x, s16 y, COMPO_SPRITE *spr, u32 arg3, BOOL adj, s32 pri, GsOT *ot);
 void CompoSlidingFastSpr(s16 x, s16 y, COMPO_SPRITE *spr, s32 txoff, s32 w, s32 cyoff, s32 pri, GsOT *ot);
@@ -185,7 +187,7 @@ void CompoDrawMovieTextJp(PARA_JP_TEXT *text, GsOT *ot);
 void CompoDrawStageTextJp(PARA_JP_TEXT *text, s32 i);
 void CompoDrawStageTextEn(PARA_EN_TEXT *text, s32 i);
 void CompoDrawLesson(s32 lesson, s32 idx);
-void CompoDrawHand(s32 startover, s32 dir, s32 i);
+void CompoDrawHand(BOOL startover, s32 dir, s32 i);
 void CompoDrawScore(BOOL flash, s32 level, s32 flashlvl, s32 score, s32 lesson, s32 idx);
 void CompoClutModSetRect(s32 x, s32 y, s32 w, s32 h);
 void CompoClutModDraw(s32 n, u16 *clut);

@@ -9,7 +9,7 @@
 #endif
 
 
-typedef signed char 	   byte;
+typedef signed char        byte;
 typedef signed char        s8;
 typedef signed short       s16;
 typedef signed int         s32;
@@ -78,6 +78,7 @@ typedef struct PARA_TIME {
 #define PR_TAP_R1 7
 #define PR_TAP_R2 8
 #define PR_TAP_NUM 9
+#define PR_TAP_UNK -2
 #define PR_TAP_ICON_END -1
 
 // Key codes (Pad)

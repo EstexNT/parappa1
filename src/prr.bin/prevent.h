@@ -68,10 +68,10 @@ typedef struct EVENT_INFO {
     u32 unk30;
     BOOL hightransitioning;
     u32 unk38;
-    s32 finished;
-    s32 gameover;
-    s32 unk44;
-    s32 transitionhigh;
+    BOOL finished;
+    BOOL gameover;
+    BOOL unk44;
+    BOOL transitionhigh;
     s16 controldelay;
     s16 controlstage;
     u32 unk50;

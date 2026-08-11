@@ -50,7 +50,7 @@ Scn1UpdateTeacherAnim = 0x801d0e20;
 Scn1UpdateParaAnim = 0x801d10bc;
 Scn1UpdateFace = 0x801d1224;
 Scn1UpdateCamera = 0x801d13d8;
-Scn1UpdateDelayContrlInfo = 0x801d1500;
+Scn1UpdateDelayControlInfo = 0x801d1500;
 Scn1RunChecks = 0x801d1670;
 Scn1CheckControlInterruption = 0x801d17b4;
 Scn1SetInvalidInputNin = 0x801d1adc;
@@ -91,8 +91,6 @@ scn1SndLvlChange = 0x801d5e10;
 scn1SndClick = 0x801d5e1c;
 scn1SndDbgStackCheck = 0x801d5e24;
 scn1SndIntermission = 0x801d5e34;
-scn1SndInfoUhoh = 0x801d5e3c;
-scn1SndInfoOops = 0x801d5e44;
 scn1SndTryAgain = 0x801d5e4c;
 scn1SndMenuDpad = 0x801d5e58;
 scn1SndMenuCross = 0x801d5e60;
@@ -124,3 +122,15 @@ scn1SceneControlList = 0x801deff0; // size:0x6c
 scn1InputEffectList = 0x801df05c; // size:0x5a
 scn1DemoInput = 0x801df0b8; // size:0xd4
 scn1DemoInputLen = 0x801df18c;
+scn1EighthTimes = 0x801df190;
+
+scn1ViewSubframe = 0x801df19c;
+
+D_801DF320 = 0x801df320; // size:0x8
+
+D_801DF378 = 0x801df378; // size:0x190
+D_801DF508 = 0x801df508; // size:0x28
+
+D_801E5A6C = 0x801e5a6c; // size:0x24
+
+D_801E5A94 = 0x801E5A94; // size:0xc0

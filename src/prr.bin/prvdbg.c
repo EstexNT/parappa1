@@ -298,7 +298,7 @@ void DbgPrintMsgDraw(void) {
     info = &sceneInfo;
 
     FntPrint(D_80082664, D_80068DC8[info->level]);
-    FntPrint(D_80010DB8, info->unk74, info->unk76);
+    FntPrint(D_80010DB8, info->gameover, info->cancontinue);
     FntPrint(D_8008266C, actionInfo.sub.vcount);
     FntPrint(D_80082630);
     FntPrint(D_80010DC8, dbgInfo.bezid);

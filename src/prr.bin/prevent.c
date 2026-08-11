@@ -206,8 +206,8 @@ void EventSetFlashHigh(BOOL flashhigh) {
 }
 
 void EventCheckTextOverride(SCENE_INFO *scn) {
-    if (eventOverridenLang == 1) {
-        eventOverridenLang = 0;
+    if (eventOverridenLang == TRUE) {
+        eventOverridenLang = FALSE;
         scn->drawtextlang = eventOverridenLangPrev;
     }
 }
@@ -277,8 +277,8 @@ void EventReset(void) {
     sceneInfo.teacherline.num = 0;
     sceneInfo.teacherline.keyid[0] = sceneInitInfo.visline->first;
     sceneInfo.teacherline.keyid[1] = sceneInitInfo.visline->second;
-    sceneInfo.teacherline.enabled = FALSE;
-    sceneInfo.parappaline.enabled = FALSE;
+    sceneInfo.teacherline.enabled = 0;
+    sceneInfo.parappaline.enabled = 0;
     sceneInfo.drawtext = TRUE;
 
     EventResetEstimate(&sceneInfo);
@@ -364,12 +364,12 @@ void EventCheckGameOver(register SCENE_INFO *scn) {
 
     if ((eventInfo.inpflags & PR_INP_FLAG_10) && ((scn->level == 2) || (scn->level == 3))) {
         scn->flags |= PR_SCN_FLAG_40;
-        scn->unk74 = TRUE;
+        scn->gameover = TRUE;
         scn->drawtext = TRUE;
     } else if ((eventInfo.inpflags & PR_INP_FLAG_8) && (ActionCheckGameOver(scn) == TRUE)) {
         // PSP: "GAMEOVER at judge point"
         scn->flags |= PR_SCN_FLAG_40;
-        scn->unk74 = TRUE;
+        scn->gameover = TRUE;
         scn->drawtext = TRUE;
     }
 }

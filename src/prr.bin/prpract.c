@@ -221,9 +221,9 @@ BOOL PracticeRunMainTryAgain(register SCENE_INFO *scn) {
 void PracticeResetLine(register SCENE_INFO *scn) {
     scn->teacherline.num = 0;
     scn->teacherline.dot[0] = -1;
-    scn->teacherline.enabled = FALSE;
+    scn->teacherline.enabled = 0;
     scn->parappaline.dot[0] = -1;
-    scn->parappaline.enabled = FALSE;
+    scn->parappaline.enabled = 0;
     CompoLineButtonInitScalingTeacher();
 }
 
@@ -321,11 +321,11 @@ void PracticeSetVisualLineInfo(register SCENE_INFO *scn, register s32 i, registe
         scn->flags |= PR_SCN_FLAG_800;
         scn->teacherline.num = practVisualLineInfo[stage].linenum;
         scn->teacherline.dot[0] = practVisualLineInfo[stage].start;
-        scn->teacherline.enabled = TRUE;
+        scn->teacherline.enabled = 1;
         scn->teacherline.keyid[0] = practVisualLineInfo[stage].first;
     } else if (i == 60) {
         scn->flags |= PR_SCN_FLAG_200000;
-        scn->parappaline.enabled = TRUE;
+        scn->parappaline.enabled = 1;
         scn->parappaline.dot[0] = 0;
         scn->parappaline.keyid[0] = practVisualLineInfo[stage].first;
     }
@@ -333,22 +333,22 @@ void PracticeSetVisualLineInfo(register SCENE_INFO *scn, register s32 i, registe
     if ((i % 5) != 0) {
         return;
     }
-    if (scn->teacherline.enabled == TRUE) {
+    if (scn->teacherline.enabled == 1) {
         if ((scn->teacherline.dot[0] <= 18) && 
             (scn->teacherline.keyid[0][scn->teacherline.dot[0]] != PR_TAP_ICON_END)) {
             scn->teacherline.dot[0]++;
         } else {
-            scn->teacherline.enabled = FALSE;
+            scn->teacherline.enabled = 0;
             scn->teacherline.dot[0] = -1;
             CompoLineButtonInitScalingTeacher();
         }
     }
-    if (scn->parappaline.enabled == TRUE) {
+    if (scn->parappaline.enabled == 1) {
         if ((scn->parappaline.dot[0] <= 18) && 
             (scn->parappaline.keyid[0][scn->parappaline.dot[0]] != PR_TAP_ICON_END)) {
             scn->parappaline.dot[0]++;
         } else {
-            scn->parappaline.enabled = FALSE;
+            scn->parappaline.enabled = 0;
             scn->parappaline.dot[0] = -1;
             CompoLineButtonInitScalingTeacher();
         }

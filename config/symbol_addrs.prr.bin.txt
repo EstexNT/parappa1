@@ -1633,7 +1633,7 @@ appInfo = 0x8009F81C; // size:0x20
 
 eventInfo = 0x8009F920; // size:0xc4
 
-memoryPos = 0x8009FA0C;
+memoryPos = 0x8009FA0C; // size:0x800
 
 actionInfo = 0x800A02C0; // size:0x62c
 
