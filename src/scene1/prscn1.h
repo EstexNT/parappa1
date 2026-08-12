@@ -398,7 +398,7 @@ extern SND_INFO D_801D5E2C;
 extern SND_INFO scn1SndIntermission;
 extern SND_INFO D_801D5E3C;
 extern SND_INFO D_801D5E44;
-extern SND_INFO scn1SndTryAgain;
+extern SND_INFO scn1SndTryAgain[2];
 extern SND_INFO scn1SndMenuDpad;
 extern SND_INFO scn1SndMenuCross;
 extern SND_INFO scn1SndMenuCircle;

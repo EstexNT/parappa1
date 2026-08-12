@@ -857,7 +857,7 @@ void Scn1SetData(void) {
     sceneInitInfo.intermission = &scn1SndIntermission;
     sceneInitInfo.unk54 = &D_801D5E3C;
     sceneInitInfo.unk58 = &D_801D5E44;
-    sceneInitInfo.tryagain = &scn1SndTryAgain;
+    sceneInitInfo.tryagain = scn1SndTryAgain;
     sceneInitInfo.menudpad = &scn1SndMenuDpad;
     sceneInitInfo.menucross = &scn1SndMenuCross;
     sceneInitInfo.menucircle = &scn1SndMenuCircle;
